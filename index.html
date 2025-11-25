@@ -255,10 +255,36 @@
             { size: "50 Litros", serves: "~100 Pintas", ideal: "Fiestas, Casamientos", price: "Consultar", iconSize: 64, stock: 20 }
         ];
         const partnersData = [
-            { name: "Bar La Estación", type: "Bar", location: "Palermo Soho", address: "Honduras 1234", features: ["Tirada", "Pintas"], varieties: ["GOLDEN", "SCOTTISH", "STOUT"], lat: -34.588, lng: -58.430 },
-            { name: "Almacén de Birra", type: "Tienda", location: "Belgrano", address: "Juramento 4500", features: ["Recarga", "Latas"], varieties: ["Todas las Latas", "Recarga Growler"], lat: -34.561, lng: -58.456 },
-            { name: "Burger Joint", type: "Restaurante", location: "San Telmo", address: "Defensa 800", features: ["Tirada"], varieties: ["RED IPA", "GOLDEN"], lat: -34.618, lng: -58.373 },
-            { name: "Vinería y Lúpulo", type: "Tienda", location: "Caballito", address: "Av. La Plata 500", features: ["Latas", "Barriles"], varieties: ["Pack Degustación", "Alquiler Barril"], lat: -34.617, lng: -58.433 },
+            // BUENOS AIRES - CABA
+            { name: "Bar La Estación", type: "Bar", location: "Palermo Soho, CABA", address: "Honduras 1234", features: ["Tirada", "Pintas"], varieties: ["GOLDEN", "SCOTTISH", "STOUT"], lat: -34.588, lng: -58.430 },
+            { name: "Almacén de Birra", type: "Tienda", location: "Belgrano, CABA", address: "Juramento 4500", features: ["Recarga", "Latas"], varieties: ["Todas las Latas", "Recarga Growler"], lat: -34.561, lng: -58.456 },
+            { name: "Burger Joint", type: "Restaurante", location: "San Telmo, CABA", address: "Defensa 800", features: ["Tirada"], varieties: ["RED IPA", "GOLDEN"], lat: -34.618, lng: -58.373 },
+            { name: "Vinería y Lúpulo", type: "Tienda", location: "Caballito, CABA", address: "Av. La Plata 500", features: ["Latas", "Barriles"], varieties: ["Pack Degustación", "Alquiler Barril"], lat: -34.617, lng: -58.433 },
+            { name: "Patio Cervecero", type: "Bar", location: "Puerto Madero, CABA", address: "Alicia Moreau de Justo 1200", features: ["Tirada", "Happy Hour"], varieties: ["HONEY", "SCOTTISH"], lat: -34.608, lng: -58.365 },
+            { name: "Refugio del Lúpulo", type: "Bar", location: "Recoleta, CABA", address: "Junín 1400", features: ["Tirada", "Terraza"], varieties: ["ROCK IPA", "STOUT"], lat: -34.591, lng: -58.395 },
+            { name: "Estación Growler", type: "Tienda", location: "Colegiales, CABA", address: "Av. Elcano 3000", features: ["Recarga", "Latas"], varieties: ["Todas las Latas"], lat: -34.574, lng: -58.458 },
+            { name: "La Birrería", type: "Bar", location: "Villa Urquiza, CABA", address: "Av. Triunvirato 4200", features: ["Tirada", "Comida"], varieties: ["GOLDEN", "RED IPA"], lat: -34.578, lng: -58.482 },
+            { name: "Hops & Dreams", type: "Bar", location: "Palermo Hollywood, CABA", address: "Nicaragua 5500", features: ["Tirada", "DJ"], varieties: ["ROCK IPA", "HONEY"], lat: -34.582, lng: -58.435 },
+
+            // BUENOS AIRES - PROVINCIA
+            { name: "El Galpón del Norte", type: "Bar", location: "San Isidro, GBA", address: "Av. Libertador 15000", features: ["Jardín", "Tirada"], varieties: ["GOLDEN", "SCOTTISH"], lat: -34.471, lng: -58.528 },
+            { name: "Sur Birra", type: "Tienda", location: "Lanús, GBA", address: "25 de Mayo 400", features: ["Latas", "Barriles"], varieties: ["Todas las Latas"], lat: -34.705, lng: -58.393 },
+            { name: "Cervecería Diagonal", type: "Bar", location: "La Plata, BSAS", address: "Diagonal 74 y 10", features: ["Tirada", "Artesanal"], varieties: ["STOUT", "RED IPA"], lat: -34.914, lng: -57.951 },
+            { name: "Punto Pinta", type: "Tienda", location: "Quilmes, GBA", address: "Videla 200", features: ["Recarga"], varieties: ["Recarga Growler"], lat: -34.724, lng: -58.261 },
+            { name: "Oeste Hops", type: "Bar", location: "Morón, GBA", address: "Sarmiento 800", features: ["Tirada", "Bandas"], varieties: ["ROCK IPA", "GOLDEN"], lat: -34.650, lng: -58.620 },
+
+            // SANTA FE
+            { name: "Rosario Hops", type: "Bar", location: "Pichincha, Rosario", address: "Bv. Oroño 40", features: ["Tirada", "Patio"], varieties: ["Todas las Variedades"], lat: -32.939, lng: -60.654 },
+            { name: "La Fluvial", type: "Restaurante", location: "Costa, Rosario", address: "Av. de los Inmigrantes 410", features: ["Vista al Río", "Tirada"], varieties: ["GOLDEN", "HONEY"], lat: -32.949, lng: -60.627 },
+            { name: "Santa Fe Store", type: "Tienda", location: "Centro, Santa Fe", address: "San Martín 2000", features: ["Latas", "Merch"], varieties: ["Todas las Latas"], lat: -31.635, lng: -60.705 },
+            { name: "El Litoral Bar", type: "Bar", location: "Candioti, Santa Fe", address: "Bv. Gálvez 1500", features: ["Tirada", "Happy Hour"], varieties: ["SCOTTISH", "STOUT"], lat: -31.638, lng: -60.693 },
+
+            // CÓRDOBA
+            { name: "Güemes Birra", type: "Bar", location: "Güemes, Córdoba", address: "Belgrano 800", features: ["Tirada", "Arte"], varieties: ["ROCK IPA", "RED IPA"], lat: -31.424, lng: -64.193 },
+            { name: "Cerro Point", type: "Tienda", location: "Cerro de las Rosas, Córdoba", address: "Av. Rafael Núñez 4500", features: ["Latas", "Recarga"], varieties: ["Pack Degustación"], lat: -31.372, lng: -64.225 },
+            { name: "Lago Beer", type: "Restaurante", location: "Villa Carlos Paz, CBA", address: "Av. Costanera 100", features: ["Vista al Lago", "Tirada"], varieties: ["GOLDEN", "HONEY"], lat: -31.417, lng: -64.495 },
+            { name: "Nueva Córdoba Tap", type: "Bar", location: "Nueva Córdoba, CBA", address: "Independencia 1100", features: ["Tirada", "Universitario"], varieties: ["STOUT", "SCOTTISH"], lat: -31.428, lng: -64.189 },
+            { name: "La Cumbre Brew", type: "Tienda", location: "La Cumbre, CBA", address: "Caraffa 300", features: ["Latas", "Regionales"], varieties: ["Todas las Latas"], lat: -30.983, lng: -64.492 }
         ];
         const menuItemsData = {
             starters: [
