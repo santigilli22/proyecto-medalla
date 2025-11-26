@@ -286,24 +286,7 @@
             { name: "Nueva Córdoba Tap", type: "Bar", location: "Nueva Córdoba, CBA", address: "Independencia 1100", features: ["Tirada", "Universitario"], varieties: ["STOUT", "SCOTTISH"], lat: -31.428, lng: -64.189 },
             { name: "La Cumbre Brew", type: "Tienda", location: "La Cumbre, CBA", address: "Caraffa 300", features: ["Latas", "Regionales"], varieties: ["Todas las Latas"], lat: -30.983, lng: -64.492 }
         ];
-        const menuItemsData = {
-            starters: [
-                { name: "Papas Bravas Medalla", desc: "Con alioli de ajo negro y salsa picante de la casa.", price: "$4500", pairing: "RED IPA" },
-                { name: "Bastones de Muzza", desc: "Empanados en panko y hierbas, con salsa marinara.", price: "$5200", pairing: "GOLDEN" },
-                { name: "Nachos Completos", desc: "Cheddar fundido, guacamole, frijoles y jalapeños.", price: "$6000", pairing: "ROCK IPA" }
-            ],
-            burgers: [
-                { name: "La Campeona", desc: "Doble carne smash, cheddar, panceta, cebolla crispy y salsa BBQ.", price: "$8500", pairing: "SCOTTISH" },
-                { name: "Blue Cheese", desc: "Medallón de 180g, queso azul, rúcula y peras caramelizadas.", price: "$8900", pairing: "HONEY" },
-                { name: "Veggie Medalla", desc: "Medallón de lentejas y hongos, lechuga, tomate y mayo vegana.", price: "$7800", pairing: "GOLDEN" }
-            ],
-            pizzas: [
-                { name: "Fugazzeta Rellena", desc: "Mucha cebolla, mucho queso, base de masa madre.", price: "$9000", pairing: "GOLDEN" },
-                { name: "Pepperoni Spicy", desc: "Mozzarella, pepperoni y un toque de miel picante.", price: "$9500", pairing: "ROCK IPA" },
-                { name: "Napolitana", desc: "Tomate fresco, ajo, orégano y aceitunas negras.", price: "$8200", pairing: "RED IPA" }
-            ]
-        };
-
+        
         // --- COMPONENT: TILT CARD (Utilizado solo en MerchStore) ---
         const TiltCard = ({ children, className = "" }) => {
             const ref = useRef(null);
@@ -383,7 +366,10 @@
                 Play: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polygon points="5 3 19 12 5 21 5 3"/></svg>,
                 Pause: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>,
                 Trash: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M3 6h18"/><path d="M19 6v14c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2V6"/><path d="M8 6V4c0-1.1.9-2 2-2h4c1.1 0 2 .9 2 2v2"/></svg>,
-                Search: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                Search: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>,
+                Facebook: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>,
+                Twitter: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>,
+                Instagram: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
             };
             return icons[name] || null;
         };
@@ -646,8 +632,7 @@
                 { name: 'EL RITUAL', id: '#process' },
                 { name: 'BARRILES', id: '#kegs' },
                 { name: 'DÓNDE', id: '#locator' },
-                { name: 'CARTA', id: '#menu' },
-                { name: 'VISÍTANOS', id: '#visit' },
+                { name: 'EVENTOS', id: '#events' }, // Nueva sección agregada
             ];
 
             return (
@@ -712,7 +697,7 @@
         };
 
         const Hero = () => (
-            <section id="home" className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden content-section reveal active scroll-mt-28 py-8"> 
+            <section id="home" className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden content-section reveal active scroll-mt-28 py-12"> 
                 <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 z-0"></div>
                 <div className="absolute inset-0 opacity-20" style={{backgroundImage: 'radial-gradient(circle, #fbbf24 1px, transparent 1px)', backgroundSize: '30px 30px'}}></div>
                 <div className="relative z-10 text-center px-4 w-full flex flex-col items-center">
@@ -743,7 +728,7 @@
         );
 
         const AboutUs = () => (
-            <section id="about" className="min-h-screen flex flex-col justify-center relative overflow-hidden content-section reveal py-8 scroll-mt-28">
+            <section id="about" className="min-h-screen flex flex-col justify-center relative overflow-hidden content-section reveal py-16 scroll-mt-28">
                 {/* Imagen de Fondo con Overlay */}
                 <div className="absolute inset-0 z-0">
                     <img src="./bg_2.jpg" alt="Fábrica Medalla" className="w-full h-full object-cover" />
@@ -799,7 +784,7 @@
             };
 
             return (
-                <section id="beers" className="min-h-screen flex flex-col justify-center bg-slate-900 content-section reveal py-8">
+                <section id="beers" className="min-h-screen flex flex-col justify-center bg-slate-900 content-section reveal py-16">
                     <div className="container mx-auto px-6 2xl:w-full 2xl:max-w-[98%] 2xl:px-10 transition-all duration-500">
                         <div className="flex items-center gap-4 mb-12">
                             <div className="h-1 w-12 bg-amber-500"></div>
@@ -1052,7 +1037,7 @@
         };
 
         const KegRentals = () => (
-            <section id="kegs" className="min-h-screen flex flex-col justify-center relative overflow-hidden bg-slate-950 border-t border-slate-900 content-section reveal py-8">
+            <section id="kegs" className="min-h-screen flex flex-col justify-center relative overflow-hidden bg-slate-950 border-t border-slate-900 content-section reveal py-12">
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
                 <div className="container mx-auto px-6 relative z-10">
                      <div className="flex flex-col md:flex-row items-center justify-between gap-12 mb-16">
@@ -1070,26 +1055,6 @@
                                 <p className="text-slate-400 mb-6">Ideal para {keg.ideal}</p>
                                 <button className="text-white border-b border-amber-500 hover:text-amber-500 transition-colors text-sm uppercase tracking-wider pb-1 cursor-pointer">Consultar Disponibilidad</button>
                             </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-        );
-
-        const MerchStore = ({ addToCart }) => (
-            <section className="min-h-screen flex flex-col justify-center bg-slate-950 content-section reveal py-8">
-                <div className="container mx-auto px-6">
-                    <div className="flex items-center gap-4 mb-12"><div className="h-1 w-12 bg-amber-500"></div><h2 className="text-4xl font-bold text-white">EL ARSENAL</h2></div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {productsData.map((prod, idx) => (
-                            <TiltCard key={idx} className="group">
-                                <div className="relative overflow-hidden rounded-xl bg-slate-900 mb-4 aspect-square border border-slate-800 group-hover:border-amber-500/50 transition-all">
-                                    <img src={prod.img} alt={prod.name} width="300" height="300" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" loading="lazy" />
-                                    <div className="absolute top-2 left-2 bg-black/70 text-white text-[10px] px-2 py-1 rounded uppercase font-bold tracking-wider">{prod.tag}</div>
-                                    <button onClick={() => addToCart(prod)} className="absolute bottom-4 right-4 bg-amber-500 hover:bg-white hover:text-slate-900 text-slate-900 p-3 rounded-full shadow-lg translate-y-12 group-hover:translate-y-0 transition-all duration-300 z-20 cursor-pointer"><Icon name="ShoppingBag" size={20} /></button>
-                                </div>
-                                <h3 className="text-white font-bold text-lg">{prod.name}</h3><p className="text-amber-500 font-mono">${prod.price.toLocaleString()}</p>
-                            </TiltCard>
                         ))}
                     </div>
                 </div>
@@ -1160,7 +1125,7 @@
             }, [filteredPartners]);
 
             return (
-                <section id="locator" className="min-h-screen flex flex-col justify-center bg-slate-900 content-section reveal py-8">
+                <section id="locator" className="min-h-screen flex flex-col justify-center bg-slate-900 content-section reveal py-16">
                     <div className="container mx-auto px-6">
                         <div className="text-center mb-8 lg:mb-16">
                             <div className="inline-block p-3 rounded-full bg-slate-800 mb-4 border border-slate-700"><Icon name="Map" size={32} className="text-amber-500" /></div>
@@ -1286,61 +1251,6 @@
             );
         };
 
-        const FoodMenu = () => {
-            const [category, setCategory] = useState('burgers');
-            return (
-                <section id="menu" className="min-h-screen flex flex-col justify-center bg-slate-800 relative overflow-hidden content-section reveal py-8">
-                    <div className="absolute top-0 left-0 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-                    <div className="container mx-auto px-6 relative z-10">
-                        <div className="text-center mb-12"><div className="inline-block p-3 rounded-full bg-slate-900 mb-4 border border-slate-700"><Icon name="Utensils" size={32} className="text-amber-500" /></div><h2 className="text-4xl font-bold text-white mb-4">CARTA GASTRONÓMICA</h2><p className="text-slate-400">Sabores diseñados para acompañar nuestras cervezas.</p></div>
-                        <div className="flex justify-center gap-4 mb-12 flex-wrap">
-                            {[ { id: 'starters', label: 'Para Picar' }, { id: 'burgers', label: 'Hamburguesas' }, { id: 'pizzas', label: 'Pizzas' } ].map((tab) => (
-                                <button key={tab.id} onClick={() => setCategory(tab.id)} className={`px-6 py-2 rounded-full font-bold transition-all cursor-pointer ${category === tab.id ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/25' : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-700'}`}>{tab.label}</button>
-                            ))}
-                        </div>
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {menuItemsData[category].map((item, idx) => (
-                                <div key={idx} className="glass p-6 rounded-xl hover:border-amber-500/50 transition-colors group animate-fadeIn">
-                                    <div className="flex justify-between items-start mb-2"><h3 className="text-xl font-bold text-white">{item.name}</h3><span className="text-amber-500 font-bold">{item.price}</span></div>
-                                    <p className="text-slate-400 text-sm mb-4">{item.desc}</p>
-                                    <div className="pt-4 border-t border-slate-700/50 flex items-center gap-2 text-xs text-slate-500"><Icon name="Beer" size={14} className="text-amber-600" /><span>Ideal con: <span className="text-amber-500 group-hover:text-amber-400 transition-colors font-medium">{item.pairing}</span></span></div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            );
-        };
-
-        const LoyaltyClub = ({ onSignup }) => {
-            const handleSubmit = (e) => { e.preventDefault(); onSignup("¡Bienvenido a la Logia! Revisa tu correo."); };
-            return (
-                <section className="min-h-screen flex flex-col justify-center relative overflow-hidden content-section reveal py-8">
-                    <div className="absolute inset-0 bg-gradient-to-r from-amber-600 to-amber-700"></div>
-                    <div className="absolute inset-0 opacity-30" style={{backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '20px 20px'}}></div>
-                    <div className="container mx-auto px-6 relative z-10">
-                        <div className="glass bg-slate-900/80 p-8 md:p-12 rounded-2xl border border-amber-400/50 shadow-2xl max-w-5xl mx-auto">
-                            <div className="flex flex-col md:flex-row items-center gap-12">
-                                <div className="flex-1 text-center md:text-left">
-                                    <div className="inline-flex items-center gap-2 bg-amber-500/20 text-amber-400 px-4 py-1 rounded-full text-sm font-bold uppercase tracking-widest mb-4 border border-amber-500/30"><Icon name="Crown" size={16} /> Únete a la Logia</div>
-                                    <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 brand-font">CLUB <span className="text-amber-500">MEDALLA</span></h2>
-                                    <p className="text-slate-300 mb-8 text-lg">Bebe con honor y serás recompensado. Suma puntos por cada pinta.</p>
-                                </div>
-                                <div className="w-full md:w-96 bg-white/5 p-6 rounded-xl border border-white/10">
-                                    <h3 className="text-xl font-bold text-white mb-4 text-center">Registro Gratuito</h3>
-                                    <form className="space-y-4" onSubmit={handleSubmit}>
-                                        <input type="text" placeholder="Tu Nombre" className="w-full bg-slate-900 border border-slate-700 rounded p-3 text-white focus:border-amber-500 outline-none" />
-                                        <input type="email" placeholder="Tu Email" className="w-full bg-slate-900 border border-slate-700 rounded p-3 text-white focus:border-amber-500 outline-none" />
-                                        <button className="w-full bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold py-3 rounded transition-colors uppercase tracking-wider cursor-pointer">Quiero mi Medalla</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            );
-        };
-
         const EventsSchedule = () => {
             const events = [
                 { date: "15 NOV", title: "Noche de Jazz & Stout", desc: "Saxofón en vivo acompañado de nuestra Noche Eterna.", icon: "Music" },
@@ -1348,7 +1258,7 @@
                 { date: "10 DIC", title: "Aniversario Medalla", desc: "¡Cumplimos 5 años! Banda sorpresa y cerveza dorada ilimitada.", icon: "Award" }
             ];
             return (
-                <section id="events" className="min-h-screen flex flex-col justify-center bg-slate-900/50 content-section reveal py-8">
+                <section id="events" className="min-h-screen flex flex-col justify-center bg-slate-900/50 content-section reveal py-12">
                     <div className="container mx-auto px-6">
                         <div className="flex items-center justify-between mb-12"><div className="flex items-center gap-4"><div className="h-1 w-12 bg-amber-500"></div><h2 className="text-4xl font-bold text-white">AGENDA MEDALLA</h2></div></div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -1376,7 +1286,7 @@
                 { src: "https://image.pollinations.ai/prompt/beer%20tasting%20flight%20glasses%20wood%20table?width=600&height=600&nologo=true", title: "Torneo de Cata", desc: "Buscando el paladar más fino de la ciudad." }
             ];
             return (
-                <section id="gallery" className="min-h-screen flex flex-col justify-center bg-black relative content-section reveal py-8">
+                <section id="gallery" className="min-h-screen flex flex-col justify-center bg-black relative content-section reveal py-12">
                     <div className="absolute inset-0 opacity-10" style={{backgroundImage: 'radial-gradient(#fbbf24 1px, transparent 1px)', backgroundSize: '20px 20px'}}></div>
                     <div className="container mx-auto px-6 relative z-10">
                         <div className="text-center mb-16"><div className="inline-block p-3 rounded-full bg-slate-800 mb-4 border border-slate-700"><Icon name="Camera" size={32} className="text-amber-500" /></div><h2 className="text-4xl md:text-5xl font-bold mb-4">MOMENTOS DE <span className="gold-text">ORO</span></h2><p className="text-slate-400">Revive las mejores noches en Medalla.</p></div>
@@ -1426,7 +1336,7 @@
             };
             const reset = () => { setStep(0); setAnswers({}); setResult(null); };
             return (
-                <section id="sommelier" className="min-h-screen flex flex-col justify-center relative overflow-hidden content-section reveal py-8">
+                <section id="sommelier" className="min-h-screen flex flex-col justify-center relative overflow-hidden content-section reveal py-12">
                     <div className="absolute inset-0 bg-amber-900/20"></div>
                     <div className="container mx-auto px-6 relative z-10">
                         <div className="max-w-3xl mx-auto glass rounded-2xl p-8 md:p-12 text-center">
@@ -1452,7 +1362,7 @@
         const Testimonials = () => {
             const reviews = [ { name: "Sofía Martínez", role: "Beer Lover", text: "El mejor ambiente de Buenos Aires.", favorite: "RED IPA", stars: 5 }, { name: "Lucas D.", role: "Local Guide", text: "La atención es impecable.", favorite: "GOLDEN", stars: 5 }, { name: "Camila R.", role: "Sommelier", text: "Me sorprendió la calidad.", favorite: "STOUT", stars: 4 } ];
             return (
-                <section className="min-h-screen flex flex-col justify-center bg-slate-900 content-section reveal py-8">
+                <section className="min-h-screen flex flex-col justify-center bg-slate-900 content-section reveal py-12">
                     <div className="container mx-auto px-6"><div className="text-center mb-16"><h2 className="text-4xl font-bold text-white mb-4">VOCES DE LA <span className="gold-text">BARRA</span></h2></div>
                         <div className="grid md:grid-cols-3 gap-8">
                             {reviews.map((review, idx) => (
@@ -1473,7 +1383,7 @@
             const [openIndex, setOpenIndex] = useState(null);
             const faqs = [ { q: "¿Son Pet Friendly?", a: "¡Absolutamente! En nuestro patio exterior las mascotas son bienvenidas." }, { q: "¿Tienen opciones sin TACC?", a: "Sí, contamos con opciones gastronómicas certificadas." }, { q: "¿Tienen Happy Hour?", a: "Sí, todos los días de 18 a 20hs en pintas seleccionadas." } ];
             return (
-                <section className="min-h-screen flex flex-col justify-center bg-slate-900 border-t border-slate-800 content-section reveal py-8">
+                <section className="min-h-screen flex flex-col justify-center bg-slate-900 border-t border-slate-800 content-section reveal py-12">
                     <div className="container mx-auto px-6 max-w-3xl">
                         <div className="text-center mb-12"><Icon name="HelpCircle" size={40} className="text-amber-500 mx-auto mb-4" /><h2 className="text-3xl font-bold text-white">PREGUNTAS FRECUENTES</h2></div>
                         <div className="space-y-4">
@@ -1489,65 +1399,57 @@
             );
         };
 
-        const VisitUs = ({ onReserve }) => {
-            const [formStatus, setFormStatus] = useState('idle');
-            const [formData, setFormData] = useState({ name: '', people: '2', date: '' });
+        const Footer = () => (
+            <footer className="bg-slate-900 border-t border-slate-800 text-slate-400 text-sm reveal">
+                <div className="container mx-auto px-6 py-16">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+                        {/* Columna 1: Marca */}
+                        <div className="flex flex-col items-center md:items-start">
+                            <div className="flex items-center gap-3 mb-4 text-amber-500">
+                                <img src={logoUrl} alt="Logo Footer" className="h-10 w-10 object-contain" />
+                                <span className="font-bold tracking-widest brand-font text-xl text-white">MEDALLA</span>
+                            </div>
+                            <p className="text-center md:text-left mb-6 leading-relaxed">
+                                Artesanía, pasión y el sabor inconfundible de la victoria en cada pinta.
+                            </p>
+                        </div>
 
-            const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+                        {/* Columna 2: Enlaces */}
+                        <div className="text-center md:text-left">
+                            <h4 className="text-white font-bold uppercase tracking-wider mb-6 border-b border-amber-500/30 pb-2 inline-block md:block">Explorar</h4>
+                            <ul className="space-y-3">
+                                <li><a href="#beers" className="hover:text-amber-500 transition-colors">Nuestras Cervezas</a></li>
+                                <li><a href="#process" className="hover:text-amber-500 transition-colors">El Ritual</a></li>
+                                <li><a href="#kegs" className="hover:text-amber-500 transition-colors">Alquiler de Barriles</a></li>
+                                <li><a href="#locator" className="hover:text-amber-500 transition-colors">Dónde Encontrarnos</a></li>
+                            </ul>
+                        </div>
 
-            const handleSubmit = (e) => { 
-                e.preventDefault(); 
-                setFormStatus('submitting'); 
-                setTimeout(() => { 
-                    setFormStatus('idle'); 
-                    onReserve("¡Redirigiendo a WhatsApp!"); 
-                    const msg = `Hola Medalla! Quiero reservar mesa para ${formData.people} personas a nombre de ${formData.name} para el día ${formData.date}.`;
-                    window.open(`https://wa.me/5491112345678?text=${encodeURIComponent(msg)}`, '_blank');
-                }, 1000); 
-            };
+                        {/* Columna 3: Contacto */}
+                        <div className="text-center md:text-left">
+                            <h4 className="text-white font-bold uppercase tracking-wider mb-6 border-b border-amber-500/30 pb-2 inline-block md:block">Contacto</h4>
+                            <ul className="space-y-3">
+                                <li className="flex items-center justify-center md:justify-start gap-2"><Icon name="MapPin" size={16} className="text-amber-600" /> Av. Siempre Viva 742</li>
+                                <li className="flex items-center justify-center md:justify-start gap-2"><Icon name="Phone" size={16} className="text-amber-600" /> +54 9 11 1234-5678</li>
+                                <li className="flex items-center justify-center md:justify-start gap-2"><Icon name="CheckCircle" size={16} className="text-amber-600" /> info@medalla.com</li>
+                            </ul>
+                        </div>
 
-            return (
-                <section id="visit" className="min-h-screen flex flex-col justify-center bg-slate-950 content-section reveal py-8">
-                    <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12">
-                        <div><h2 className="text-4xl font-bold mb-6">VISITA EL TAPROOM</h2><p className="text-slate-400 mb-8">Ven a donde sucede la magia.</p><div className="space-y-6"><div className="flex items-start gap-4"><div className="p-3 bg-slate-900 rounded-lg text-amber-500"><Icon name="Clock" /></div><div><h4 className="font-bold text-lg">Horarios</h4><p className="text-slate-400">Mié - Dom: 18:00 - 02:00</p></div></div><div className="flex items-start gap-4"><div className="p-3 bg-slate-900 rounded-lg text-amber-500"><Icon name="MapPin" /></div><div><h4 className="font-bold text-lg">Ubicación</h4><p className="text-slate-400">Av. Siempre Viva 742, Buenos Aires</p></div></div></div></div>
-                        <div className="glass p-8 rounded-xl border-t-4 border-amber-500">
-                            <h3 className="text-2xl font-bold mb-6">Reserva tu Mesa</h3>
-                            <form onSubmit={handleSubmit} className="space-y-4">
-                                <div>
-                                    <label className="block text-xs uppercase tracking-wider text-slate-500 mb-1">Nombre</label>
-                                    <input name="name" type="text" required onChange={handleChange} className="w-full bg-slate-900/50 border border-slate-700 rounded p-3 text-white focus:border-amber-500 outline-none transition-colors" placeholder="Tu nombre" />
-                                </div>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label className="block text-xs uppercase tracking-wider text-slate-500 mb-1">Personas</label>
-                                        <select name="people" onChange={handleChange} className="w-full bg-slate-900/50 border border-slate-700 rounded p-3 text-white focus:border-amber-500 outline-none">
-                                            <option>2</option><option>4</option><option>6+</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label className="block text-xs uppercase tracking-wider text-slate-500 mb-1">Fecha</label>
-                                        <input name="date" type="date" required onChange={handleChange} className="w-full bg-slate-900/50 border border-slate-700 rounded p-3 text-white focus:border-amber-500 outline-none" />
-                                    </div>
-                                </div>
-                                <button type="submit" disabled={formStatus === 'submitting'} className="w-full bg-amber-600 hover:bg-amber-500 text-white font-bold py-4 rounded mt-4 transition-colors flex justify-center items-center gap-2 cursor-pointer">
-                                    {formStatus === 'submitting' ? 'Procesando...' : 'CONFIRMAR RESERVA'}
-                                    {formStatus !== 'submitting' && <Icon name="ChevronRight" size={18} />}
-                                </button>
-                            </form>
+                        {/* Columna 4: Social */}
+                        <div className="text-center md:text-left">
+                            <h4 className="text-white font-bold uppercase tracking-wider mb-6 border-b border-amber-500/30 pb-2 inline-block md:block">Síguenos</h4>
+                            <div className="flex justify-center md:justify-start gap-4">
+                                <a href="#" className="bg-slate-800 p-3 rounded-full hover:bg-amber-500 hover:text-slate-900 transition-all"><Icon name="Facebook" size={20} /></a>
+                                <a href="#" className="bg-slate-800 p-3 rounded-full hover:bg-amber-500 hover:text-slate-900 transition-all"><Icon name="Instagram" size={20} /></a>
+                                <a href="#" className="bg-slate-800 p-3 rounded-full hover:bg-amber-500 hover:text-slate-900 transition-all"><Icon name="Twitter" size={20} /></a>
+                            </div>
                         </div>
                     </div>
-                </section>
-            );
-        };
-
-        const Footer = () => (
-            <footer className="bg-slate-900 border-t border-slate-800 py-12 text-center text-slate-500 text-sm reveal">
-                <div className="mb-4 flex justify-center items-center gap-2 text-amber-600">
-                    <img src={logoUrl} alt="Logo Footer" className="h-8 w-8 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all" />
-                    <span className="font-bold tracking-widest brand-font text-lg">MEDALLA</span>
+                    
+                    <div className="border-t border-slate-800 mt-12 pt-8 text-center text-xs text-slate-600">
+                        <p>&copy; {new Date().getFullYear()} Cervecería Medalla. Todos los derechos reservados. Beber con moderación.</p>
+                    </div>
                 </div>
-                <p>&copy; 2025 Cervecería Medalla.</p>
-                <div className="flex justify-center gap-6 mt-6"><a href="#" className="hover:text-white transition-colors">Instagram</a><a href="#" className="hover:text-white transition-colors">Twitter</a></div>
             </footer>
         );
 
@@ -1652,14 +1554,13 @@
                         <KegRentals />
                         {/* <MerchStore /> ELIMINADO DEL FLUJO */} 
                         <BeerFinder />
-                        <FoodMenu />
-                        <LoyaltyClub onSignup={(msg) => addToast(msg)} />
+                        {/* <FoodMenu /> ELIMINADO DEL FLUJO */}
+                        {/* <LoyaltyClub /> ELIMINADO DEL FLUJO */}
                         <EventsSchedule />
                         <ImageGallery />
                         <Sommelier />
                         <Testimonials />
                         <FAQ />
-                        <VisitUs onReserve={(msg) => addToast(msg)} />
                         <Footer />
                     </div>
                 </div>
