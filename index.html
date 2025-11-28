@@ -45,14 +45,6 @@
         
         html {
             scroll-behavior: smooth;
-            /* IMPORTANTE: Compensación para que la barra fija no tape los títulos al navegar */
-            scroll-padding-top: 80px; 
-        }
-
-        @media (min-width: 768px) {
-            html {
-                scroll-padding-top: 100px;
-            }
         }
         
         body {
@@ -654,7 +646,8 @@
                 { name: 'EL RITUAL', id: '#process' },
                 { name: 'BARRILES', id: '#kegs' },
                 { name: 'DÓNDE', id: '#locator' },
-                { name: 'EVENTOS', id: '#events' }, // Nueva sección agregada
+                { name: 'INFO', id: '#info' }, 
+                { name: 'EVENTOS', id: '#events' },
             ];
 
             return (
@@ -719,24 +712,25 @@
         };
 
         const Hero = () => (
-            <section id="home" className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden content-section reveal active scroll-mt-28 py-12"> 
+            // pt-24 en móvil (96px) y md:pt-28 en escritorio (112px) para librar el navbar
+            <section id="home" className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden content-section reveal active pt-24 md:pt-28 pb-8"> 
                 <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 z-0"></div>
                 <div className="absolute inset-0 opacity-20" style={{backgroundImage: 'radial-gradient(circle, #fbbf24 1px, transparent 1px)', backgroundSize: '30px 30px'}}></div>
                 <div className="relative z-10 text-center px-4 w-full flex flex-col items-center">
                     
-                    {/* Logo Ajustado: Más pequeño en móvil (w-32) y grande en desktop (md:w-64) */}
-                    <div className="mb-6 md:mb-8 flex justify-center mx-auto">
+                    {/* Logo Ajustado */}
+                    <div className="mb-6 flex justify-center mx-auto">
                         <div className="p-4 md:p-6 rounded-full bg-amber-500/5 backdrop-blur-sm shadow-[0_0_50px_rgba(251,191,36,0.15)]">
                             <img src={logoUrl} alt="Logo Gigante" className="w-32 h-32 sm:w-40 sm:h-40 md:w-64 md:h-64 object-contain" />
                         </div>
                     </div>
 
-                    {/* Texto Ajustado: Tamaños responsivos */}
+                    {/* Texto Ajustado */}
                     <h1 className="text-4xl sm:text-5xl md:text-8xl font-bold mb-2 md:mb-4 tracking-tighter">
                         SABOR DE <span className="gold-text">VICTORIA</span>
                     </h1>
                     
-                    <p className="text-base sm:text-lg md:text-2xl text-slate-300 max-w-2xl mx-auto mb-6 md:mb-8 font-light px-2">
+                    <p className="text-base sm:text-lg md:text-2xl text-slate-300 max-w-2xl mx-auto mb-6 font-light px-2">
                         Artesanía pura. Ingredientes seleccionados. Una medalla en cada sorbo.
                     </p>
                     
@@ -750,7 +744,8 @@
         );
 
         const AboutUs = () => (
-            <section id="about" className="min-h-screen flex flex-col justify-center relative overflow-hidden content-section reveal py-16 scroll-mt-28">
+            // Ajuste de padding: pt para el navbar, pb reducido
+            <section id="about" className="relative overflow-hidden content-section reveal pt-24 md:pt-28 pb-8">
                 {/* Imagen de Fondo con Overlay */}
                 <div className="absolute inset-0 z-0">
                     <img src="./bg_2.jpg" alt="Fábrica Medalla" className="w-full h-full object-cover" />
@@ -760,15 +755,15 @@
 
                 <div className="container mx-auto px-6 relative z-10">
                     <div className="max-w-4xl mx-auto text-center">
-                        <div className="inline-block p-3 rounded-full bg-amber-500/10 mb-6 border border-amber-500/30 animate-float">
+                        <div className="inline-block p-3 rounded-full bg-amber-500/10 mb-4 border border-amber-500/30 animate-float">
                            <Icon name="Award" size={32} className="text-amber-500" />
                         </div>
                         
-                        <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 leading-tight brand-font tracking-wide">
+                        <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight brand-font tracking-wide">
                             CUATRO TIPOS QUE VIVEN SIMPLE Y <span className="gold-text">SUEÑAN EN GRANDE</span>
                         </h2>
                         
-                        <div className="space-y-6 text-lg md:text-xl text-slate-300 font-light leading-relaxed text-justify md:text-center">
+                        <div className="space-y-4 text-base md:text-lg text-slate-300 font-light leading-relaxed text-justify md:text-center">
                             <p>
                                 Un loco rockero con alma eterna de niño, fanático incomparable de la cerveza; comienza en el 2010 con su anhelado proyecto <strong className="text-amber-500 font-bold">MEDALLA</strong>. Tal vez no imaginó que el patio de su casa era el inicio de una eterna y refrescante gira.
                             </p>
@@ -778,12 +773,12 @@
                             <p>
                                 El cuarto integrante es el más “pequeño”, moderno, fanático del detalle y la prolijidad, de los más cautos y precavidos a la hora de largar su opinión.
                             </p>
-                            <p className="font-medium text-white text-xl py-2">
+                            <p className="font-medium text-white text-lg py-2">
                                 Cuatro socios, que junto a un gran equipo, hoy producen en su propia fábrica 6 estilos de Cerveza Medalla: Golden, Red Ipa, Rock Ipa, Honey, Stout y Scottish.
                             </p>
                             
-                            <div className="pt-8">
-                                <p className="text-amber-500 italic text-2xl md:text-3xl brand-font">
+                            <div className="pt-4">
+                                <p className="text-amber-500 italic text-xl md:text-2xl brand-font">
                                     "Que la travesía y el desafío te persigan siempre para lanzarte a un próximo vuelo… Sólo échale valentía."
                                 </p>
                             </div>
@@ -802,18 +797,18 @@
                 setTimeout(() => {
                     setSelected(null);
                     setIsClosing(false);
-                }, 300); // Duration matches animation
+                }, 300);
             };
 
             return (
-                <section id="beers" className="min-h-screen flex flex-col justify-center bg-slate-900 content-section reveal py-16">
+                <section id="beers" className="bg-slate-900 content-section reveal pt-24 md:pt-28 pb-8">
                     <div className="container mx-auto px-6 2xl:w-full 2xl:max-w-[98%] 2xl:px-10 transition-all duration-500">
-                        <div className="flex items-center gap-4 mb-12">
+                        <div className="flex items-center gap-4 mb-8">
                             <div className="h-1 w-12 bg-amber-500"></div>
                             <h2 className="text-4xl font-bold text-white">NUESTRAS CREACIONES</h2>
                         </div>
                         
-                        <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-6 gap-6 2xl:gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-8 -mx-6 px-6 md:mx-0 md:px-0 no-scrollbar">
+                        <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-6 gap-6 2xl:gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 -mx-6 px-6 md:mx-0 md:px-0 no-scrollbar">
                             {beersData.map((beer) => (
                                 <div key={beer.id} className="min-w-[85vw] sm:min-w-[350px] md:min-w-0 snap-center beer-card glass rounded-xl overflow-hidden flex flex-col h-full group border border-slate-800 hover:border-amber-500/30 relative">
                                     
@@ -881,7 +876,7 @@
         };
 
         const TheProcess = () => {
-            const [activeStep, setActiveStep] = useState(null); // Inicia colapsado (null)
+            const [activeStep, setActiveStep] = useState(null); 
 
             const steps = [
                 { 
@@ -916,29 +911,23 @@
                 }
             ];
 
-            // Lógica para escritorio: Si está colapsado (null), mostramos el primero por defecto visualmente
             const desktopIndex = activeStep === null ? 0 : activeStep;
 
             const StepDetail = ({ step, index }) => (
                 <div className="relative bg-slate-900/80 backdrop-blur-md rounded-3xl border border-slate-700 shadow-2xl overflow-hidden h-full flex flex-col">
-                    {/* Fondo decorativo sutil */}
                     <div className="absolute top-0 right-0 opacity-5 -translate-y-1/4 translate-x-1/4 pointer-events-none">
                         <Icon name={step.icon} size={400} />
                     </div>
                     
-                    {/* Grid Layout: 1 columna en móvil, 2 en escritorio */}
                     <div className="relative z-10 h-full p-8 md:p-12 animate-fadeIn" key={index}>
                         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-12 h-full">
                             
-                            {/* Columna Izquierda: Identidad y Dato Clave */}
                             <div className="flex flex-col justify-between shrink-0">
-                                {/* Cabecera del Paso */}
                                 <div className="border-b border-slate-800/50 pb-6">
                                     <span className="block text-6xl md:text-8xl font-bold text-amber-500/20 font-mono leading-none mb-4">0{index + 1}</span>
                                     <h3 className="text-4xl md:text-6xl font-bold text-white brand-font tracking-wide leading-none">{step.title}</h3>
                                 </div>
                                 
-                                {/* Dato Clave (Al pie en la columna izquierda) */}
                                 <div className="mt-6 lg:mt-0">
                                     <div className="bg-slate-950/60 p-6 rounded-2xl border-l-4 border-amber-500 w-full shadow-lg">
                                         <span className="text-slate-400 text-xs uppercase tracking-widest mb-2 flex items-center gap-2">
@@ -949,7 +938,6 @@
                                 </div>
                             </div>
 
-                            {/* Columna Derecha: Descripción Detallada */}
                             <div className="flex flex-col justify-center lg:border-l lg:border-slate-800/50 lg:pl-12 min-h-0">
                                 <div className="overflow-y-auto custom-scrollbar pr-4 max-h-full">
                                     <p className="text-lg md:text-2xl text-slate-300 leading-relaxed font-light">
@@ -961,7 +949,6 @@
                         </div>
                     </div>
                     
-                    {/* Barra de progreso inferior decorativa */}
                     <div className="absolute bottom-0 left-0 h-1.5 bg-slate-800 w-full">
                         <div className="h-full bg-gradient-to-r from-amber-600 to-amber-400 transition-all duration-500 ease-out" style={{ width: "100%" }}></div>
                     </div>
@@ -969,11 +956,10 @@
             );
 
             return (
-                <section id="process" className="min-h-screen lg:h-screen flex flex-col justify-center bg-slate-950 relative overflow-hidden content-section reveal py-16 scroll-mt-32">
+                <section id="process" className="bg-slate-950 relative overflow-hidden content-section reveal pt-24 md:pt-28 pb-8">
                     <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-slate-900 to-slate-950"></div>
                     <div className="container mx-auto px-6 relative z-10 h-full flex flex-col justify-center">
                         
-                        {/* Título Integrado */}
                         <div className="text-center mb-8 shrink-0">
                             <div className="inline-block p-4 rounded-full bg-slate-800/50 mb-4 border border-slate-700 backdrop-blur-sm animate-float">
                                 <Icon name="FlaskConical" size={40} className="text-amber-500" />
@@ -982,17 +968,13 @@
                             <p className="text-slate-400 text-xl font-light">Del grano a la copa.</p>
                         </div>
 
-                        {/* Contenido Principal */}
                         <div className="flex flex-col lg:h-[70vh]">
                             
-                            {/* --- DESKTOP VIEW (lg+) --- */}
                             <div className="hidden lg:flex flex-col h-full gap-8">
-                                {/* 1. Detalle Grande (Arriba) - Ocupa el espacio disponible */}
                                 <div className="flex-1 overflow-hidden min-h-0">
                                     <StepDetail step={steps[desktopIndex]} index={desktopIndex} />
                                 </div>
 
-                                {/* 2. Navegación Horizontal (Abajo) */}
                                 <div className="shrink-0 flex flex-row gap-4 justify-between bg-slate-900/50 p-2 rounded-2xl border border-slate-800/50">
                                     {steps.map((step, idx) => {
                                         const isActive = activeStep === idx || (activeStep === null && idx === 0);
@@ -1003,7 +985,6 @@
                                                 className={`flex-1 flex items-center justify-center gap-3 p-4 rounded-xl transition-all duration-300 group ${isActive ? 'bg-amber-500 text-slate-900 shadow-lg shadow-amber-500/20' : 'bg-slate-800/50 text-slate-400 hover:bg-slate-800 hover:text-white'}`}
                                             >
                                                 <Icon name={step.icon} size={24} className={`transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`} />
-                                                {/* Título visible solo en XL, oculto en LG */}
                                                 <span className={`font-bold uppercase tracking-wider text-sm hidden xl:block ${isActive ? '' : 'opacity-70 group-hover:opacity-100'}`}>
                                                     {step.title}
                                                 </span>
@@ -1013,11 +994,9 @@
                                 </div>
                             </div>
 
-                            {/* --- MOBILE VIEW (< lg) --- */}
                             <div className="lg:hidden flex flex-col gap-3">
                                 {steps.map((step, idx) => (
                                     <div key={idx} className={`rounded-xl overflow-hidden border transition-all duration-300 shrink-0 ${activeStep === idx ? 'border-amber-500/50 bg-slate-900' : 'border-slate-800 bg-slate-900/30 hover:bg-slate-800'}`}>
-                                        {/* Botón del Paso Mobile */}
                                         <button 
                                             onClick={() => setActiveStep(activeStep === idx ? null : idx)}
                                             className="w-full flex items-center gap-4 p-5 text-left group cursor-pointer focus:outline-none"
@@ -1033,7 +1012,6 @@
                                             </div>
                                         </button>
 
-                                        {/* Contenido Acordeón Mobile */}
                                         <div className={`grid transition-[grid-template-rows] duration-500 ease-in-out ${activeStep === idx ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
                                             <div className="overflow-hidden">
                                                 <div className="p-5 pt-0 border-t border-slate-800/50">
@@ -1059,7 +1037,7 @@
         };
 
         const KegRentals = () => (
-            <section id="kegs" className="min-h-screen flex flex-col justify-center relative overflow-hidden bg-slate-950 border-t border-slate-900 content-section reveal py-12">
+            <section id="kegs" className="relative overflow-hidden bg-slate-950 border-t border-slate-900 content-section reveal pt-24 md:pt-28 pb-8">
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
                 <div className="container mx-auto px-6 relative z-10">
                      <div className="flex flex-col md:flex-row items-center justify-between gap-12 mb-16">
@@ -1159,14 +1137,14 @@
             }, [filteredPartners]);
 
             return (
-                <section id="locator" className="min-h-screen flex flex-col justify-center bg-slate-900 content-section reveal py-16">
-                    <div className="container mx-auto px-6">
-                        <div className="text-center mb-8 lg:mb-16">
+                <section id="locator" className="bg-slate-900 content-section reveal pt-24 md:pt-28 pb-8">
+                    <div className="container mx-auto px-6 flex flex-col flex-1 h-full">
+                        <div className="text-center mb-4 lg:mb-16 shrink-0">
                             <div className="inline-block p-3 rounded-full bg-slate-800 mb-4 border border-slate-700"><Icon name="Map" size={32} className="text-amber-500" /></div>
                             <h2 className="text-4xl font-bold text-white mb-4">PUNTOS DE <span className="gold-text">ENCUENTRO</span></h2>
                         </div>
                         
-                        <div className="max-w-md mx-auto mb-8 relative z-30">
+                        <div className="max-w-md mx-auto mb-6 lg:mb-8 relative z-30 w-full shrink-0">
                             <input 
                                 type="text" 
                                 placeholder="Buscar por nombre o zona..." 
@@ -1185,7 +1163,6 @@
                                 <button 
                                     onClick={() => {
                                         setShowMobileList(false);
-                                        // Opcional: Limpiar búsqueda al cerrar? setSearchTerm(''); 
                                     }}
                                     className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white lg:hidden bg-slate-700 rounded-full p-1"
                                 >
@@ -1194,8 +1171,7 @@
                             )}
                         </div>
 
-                        {/* Contenedor Principal: Altura fija en Desktop (600px) para asegurar renderizado del mapa */}
-                        <div className="flex flex-col lg:flex-row gap-12 relative h-[500px] lg:h-[600px]">
+                        <div className="flex flex-col lg:flex-row gap-12 relative flex-1 lg:flex-none lg:h-[600px] min-h-[300px]">
                             
                             {/* Lista de Lugares (Flotante en Móvil / Columna en Desktop) */}
                             <div className={`
@@ -1285,6 +1261,162 @@
             );
         };
 
+        const InfoSection = () => {
+            // --- SOMMELIER STATE ---
+            const [step, setStep] = useState(0);
+            const [answers, setAnswers] = useState({});
+            const [result, setResult] = useState(null);
+            
+            // --- FAQ STATE ---
+            const [openIndex, setOpenIndex] = useState(null);
+
+            // Sommelier Data: 4 Preguntas para afinar el resultado
+            const questions = [ 
+                { 
+                    id: 'intensity', 
+                    text: "¿Qué buscas en tu cerveza hoy?", 
+                    options: [{label: "Suave y Refrescante", val: 'light'}, {label: "Con Cuerpo y Carácter", val: 'heavy'}] 
+                },
+                { 
+                    id: 'bitterness', 
+                    text: "¿Qué tal te llevas con el amargor?", 
+                    options: [{label: "Prefiero poco amargor", val: 'low'}, {label: "¡Amo el lúpulo amargo!", val: 'high'}] 
+                }, 
+                { 
+                    id: 'sweetness', 
+                    text: "¿Te gustan los toques dulces?", 
+                    options: [{label: "Sí, me gusta lo dulce", val: 'sweet'}, {label: "No, prefiero seco/tostado", val: 'dry'}] 
+                },
+                {
+                    id: 'color',
+                    text: "¿Qué color te atrae más visualmente?",
+                    options: [{label: "Doradas y Rubias", val: 'blonde'}, {label: "Rojas y Negras", val: 'dark'}]
+                }
+            ];
+            
+            // FAQ Data: Agregadas 2 nuevas preguntas
+            const faqs = [ 
+                { q: "¿Son Pet Friendly?", a: "¡Absolutamente! En nuestro patio exterior las mascotas son bienvenidas." }, 
+                { q: "¿Tienen opciones sin TACC?", a: "Sí, contamos con opciones gastronómicas certificadas y sidra tirada para celíacos." }, 
+                { q: "¿Tienen Happy Hour?", a: "Sí, todos los días de 18 a 20hs en pintas seleccionadas." },
+                { q: "¿Realizan recarga de Growlers?", a: "Sí, podés traer tu botellón a cualquiera de nuestras sucursales o fábricas y te lo recargamos en el momento." },
+                { q: "¿Hacen envíos a domicilio?", a: "Realizamos envíos de latas y packs a todo el país a través de nuestra tienda online oficial." }
+            ];
+
+            // Sommelier Handlers
+            const handleAnswer = (key, val) => {
+                const newAnswers = { ...answers, [key]: val };
+                setAnswers(newAnswers);
+                
+                if (step < questions.length - 1) { 
+                    setStep(step + 1); 
+                } else { 
+                    // Lógica de Decisión para las 6 Variedades
+                    let matchId = 1; // Default Golden
+
+                    // 1. IPAs (Alto Amargor)
+                    if (newAnswers.bitterness === 'high') {
+                        if (newAnswers.color === 'dark' || newAnswers.intensity === 'heavy') {
+                            matchId = 3; // RED IPA
+                        } else {
+                            matchId = 4; // ROCK IPA
+                        }
+                    } 
+                    // 2. Bajas en Amargor
+                    else {
+                        if (newAnswers.color === 'blonde') {
+                            if (newAnswers.sweetness === 'sweet') {
+                                matchId = 2; // HONEY
+                            } else {
+                                matchId = 1; // GOLDEN
+                            }
+                        } else {
+                            // Color Oscuro
+                            if (newAnswers.sweetness === 'sweet' || newAnswers.intensity === 'heavy' && newAnswers.sweetness !== 'dry') {
+                                matchId = 5; // SCOTTISH (Maltosa/Dulzona)
+                            } else {
+                                matchId = 6; // STOUT (Tostada/Seca)
+                            }
+                        }
+                    }
+                    
+                    setResult(beersData.find(b => b.id === matchId) || beersData[0]); 
+                }
+            };
+            
+            const reset = () => { setStep(0); setAnswers({}); setResult(null); };
+
+            return (
+                // Sección Unificada con ID #info y fondo compartido
+                // pt-24 en móvil y md:pt-28 en escritorio
+                <section id="info" className="flex flex-col lg:flex-row relative overflow-hidden content-section reveal scroll-mt-28 pt-24 md:pt-28">
+                    
+                    {/* Fondo Compartido para toda la sección */}
+                    <div className="absolute inset-0 bg-amber-900/20 z-0"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-transparent to-slate-900/50 z-0"></div>
+
+                    {/* COLUMNA 1: SOMMELIER */}
+                    <div className="w-full lg:w-1/2 min-h-[50vh] lg:h-auto relative flex flex-col justify-center p-8 lg:p-16 border-b lg:border-b-0 lg:border-r border-slate-700/50 z-10">
+                         <div className="max-w-lg mx-auto text-center w-full">
+                            <div className="inline-block p-3 rounded-full bg-amber-500/20 mb-4"><Icon name="BrainCircuit" size={32} className="text-amber-400" /></div>
+                            <h2 className="text-3xl font-bold mb-2 text-white">MEDALLA SOMMELIER IA</h2>
+                            <p className="text-slate-400 mb-8">Descubre tu variedad ideal en segundos.</p>
+                            
+                            {!result ? (
+                                <div className="animate-fadeIn">
+                                    <h3 className="text-2xl mb-8 font-light text-white">{questions[step].text}</h3>
+                                    <div className="flex flex-col sm:flex-row justify-center gap-4">
+                                        {questions[step].options.map((opt, idx) => (
+                                            <button key={idx} onClick={() => handleAnswer(questions[step].id, opt.val)} className="px-6 py-3 bg-slate-800 hover:bg-amber-600 border border-slate-700 hover:border-amber-500 rounded-lg transition-all transform hover:-translate-y-1 shadow-lg cursor-pointer text-white font-bold">
+                                                {opt.label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <div className="mt-8 flex justify-center gap-2">
+                                        {questions.map((_, i) => (
+                                            <span key={i} className={`h-2 w-2 rounded-full transition-colors ${step >= i ? 'bg-amber-500' : 'bg-slate-700'}`}></span>
+                                        ))}
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="animate-fadeIn bg-slate-900/80 p-6 rounded-xl border border-amber-500/30 backdrop-blur-sm">
+                                    <p className="text-amber-500 uppercase tracking-widest text-xs mb-2 font-bold">Tu Match:</p>
+                                    <h3 className="text-3xl font-bold text-white mb-4">{result.name}</h3>
+                                    <div className="flex justify-center gap-4">
+                                        <a href="#beers" className="bg-amber-600 text-white px-6 py-2 rounded font-bold hover:bg-amber-500 cursor-pointer transition-colors">Ver en Catálogo</a>
+                                        <button onClick={reset} className="text-slate-400 hover:text-white underline cursor-pointer text-sm">Reiniciar</button>
+                                    </div>
+                                </div>
+                            )}
+                         </div>
+                    </div>
+
+                    {/* COLUMNA 2: FAQ */}
+                    <div className="w-full lg:w-1/2 min-h-[50vh] lg:h-auto flex flex-col justify-center p-8 lg:p-16 z-10">
+                        <div className="max-w-lg mx-auto w-full">
+                            <div className="text-center mb-10">
+                                <div className="inline-block p-3 rounded-full bg-amber-500/20 mb-4"><Icon name="HelpCircle" size={32} className="text-amber-400" /></div>
+                                <h2 className="text-3xl font-bold text-white">PREGUNTAS FRECUENTES</h2>
+                            </div>
+                            <div className="space-y-4">
+                                {faqs.map((item, idx) => (
+                                    <div key={idx} className="border border-slate-700 rounded-lg overflow-hidden bg-slate-900/60 hover:bg-slate-900/80 transition-colors backdrop-blur-sm">
+                                        <button onClick={() => setOpenIndex(openIndex === idx ? null : idx)} className="w-full flex justify-between items-center p-5 text-left cursor-pointer">
+                                            <span className="font-bold text-white text-sm pr-4">{item.q}</span>
+                                            <span className="text-amber-500 shrink-0">{openIndex === idx ? <Icon name="Minus" size={18} /> : <Icon name="Plus" size={18} />}</span>
+                                        </button>
+                                        <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openIndex === idx ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
+                                            <p className="p-5 pt-0 text-slate-400 text-sm leading-relaxed border-t border-slate-700/50 mt-0">{item.a}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
         const EventsSchedule = () => {
             const events = [
                 { date: "15 NOV", title: "Noche de Jazz & Stout", desc: "Saxofón en vivo acompañado de nuestra Noche Eterna.", icon: "Music" },
@@ -1292,17 +1424,19 @@
                 { date: "10 DIC", title: "Aniversario Medalla", desc: "¡Cumplimos 5 años! Banda sorpresa y cerveza dorada ilimitada.", icon: "Award" }
             ];
             return (
-                <section id="events" className="min-h-screen flex flex-col justify-center bg-slate-900/50 content-section reveal py-12">
+                // pt-24 en móvil y md:pt-28 en escritorio
+                <section id="events" className="bg-slate-900/50 content-section reveal py-12 pt-24 md:pt-28 pb-8">
                     <div className="container mx-auto px-6">
                         <div className="flex items-center justify-between mb-12"><div className="flex items-center gap-4"><div className="h-1 w-12 bg-amber-500"></div><h2 className="text-4xl font-bold text-white">AGENDA MEDALLA</h2></div></div>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div className="flex md:grid md:grid-cols-3 gap-6 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-8 -mx-6 px-6 md:mx-0 md:px-0 no-scrollbar items-center">
                             {events.map((evt, idx) => (
-                                <div key={idx} className="glass p-8 rounded-xl border-l-4 border-amber-500 hover:bg-slate-800/50 transition-colors group cursor-pointer">
+                                <div key={idx} className="min-w-[80vw] sm:min-w-[350px] md:min-w-0 snap-center glass p-8 rounded-xl border-l-4 border-amber-500 hover:bg-slate-800/50 transition-colors group cursor-pointer">
                                     <div className="flex justify-between items-start mb-6">
                                         <div className="bg-slate-900 px-4 py-2 rounded text-center border border-slate-700"><span className="block text-amber-500 font-bold text-xl brand-font">{evt.date.split(' ')[0]}</span><span className="block text-slate-400 text-xs uppercase">{evt.date.split(' ')[1]}</span></div>
                                         <div className="p-2 bg-amber-500/10 rounded-full text-amber-500 group-hover:bg-amber-500 group-hover:text-white transition-colors"><Icon name={evt.icon} size={24} /></div>
                                     </div>
-                                    <h3 className="text-2xl font-bold text-white mb-3">{evt.title}</h3><p className="text-slate-400 text-sm">{evt.desc}</p>
+                                    <h3 className="text-2xl font-bold text-white mb-3 whitespace-nowrap">{evt.title}</h3>
+                                    <p className="text-slate-400 text-sm">{evt.desc}</p>
                                 </div>
                             ))}
                         </div>
@@ -1320,14 +1454,15 @@
                 { src: "https://image.pollinations.ai/prompt/beer%20tasting%20flight%20glasses%20wood%20table?width=600&height=600&nologo=true", title: "Torneo de Cata", desc: "Buscando el paladar más fino de la ciudad." }
             ];
             return (
-                <section id="gallery" className="min-h-screen flex flex-col justify-center bg-black relative content-section reveal py-12">
+                // pt-24 en móvil y md:pt-28 en escritorio
+                <section id="gallery" className="bg-black relative content-section reveal py-12 pt-24 md:pt-28 pb-8">
                     <div className="absolute inset-0 opacity-10" style={{backgroundImage: 'radial-gradient(#fbbf24 1px, transparent 1px)', backgroundSize: '20px 20px'}}></div>
                     <div className="container mx-auto px-6 relative z-10">
-                        <div className="text-center mb-16"><div className="inline-block p-3 rounded-full bg-slate-800 mb-4 border border-slate-700"><Icon name="Camera" size={32} className="text-amber-500" /></div><h2 className="text-4xl md:text-5xl font-bold mb-4">MOMENTOS DE <span className="gold-text">ORO</span></h2><p className="text-slate-400">Revive las mejores noches en Medalla.</p></div>
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[200px]">
+                        <div className="text-center mb-16"><div className="inline-block p-3 rounded-full bg-slate-800 mb-4 border border-slate-700"><Icon name="Camera" size={32} className="text-amber-500" /></div><h2 className="text-4xl md:text-5xl font-bold mb-4 whitespace-nowrap">MOMENTOS DE <span className="gold-text">ORO</span></h2><p className="text-slate-400">Revive las mejores noches en Medalla.</p></div>
+                        <div className="flex md:grid md:grid-cols-4 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-8 -mx-6 px-6 md:mx-0 md:px-0 no-scrollbar md:auto-rows-[200px]">
                             {images.map((img, idx) => (
-                                <div key={idx} onClick={() => setSelectedImage(img)} className={`relative group overflow-hidden rounded-xl cursor-pointer border border-slate-800 hover:border-amber-500/50 transition-colors ${idx === 0 ? 'md:col-span-2 md:row-span-2' : 'md:col-span-1 md:row-span-1'}`}>
-                                    <img src={img.src} alt={img.title} width="600" height="600" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
+                                <div key={idx} onClick={() => setSelectedImage(img)} className={`min-w-[80vw] sm:min-w-[350px] md:min-w-0 snap-center relative group overflow-hidden rounded-xl cursor-pointer border border-slate-800 hover:border-amber-500/50 transition-colors ${idx === 0 ? 'md:col-span-2 md:row-span-2 h-64 md:h-auto' : 'md:col-span-1 md:row-span-1 h-64'}`}>
+                                    <img src={img.src} alt={img.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4"><h3 className="text-sm font-bold text-white">{img.title}</h3></div>
                                 </div>
                             ))}
@@ -1348,87 +1483,6 @@
                             </div>
                         </ModalPortal>
                     )}
-                </section>
-            );
-        };
-
-        const Sommelier = () => {
-            const [step, setStep] = useState(0);
-            const [answers, setAnswers] = useState({});
-            const [result, setResult] = useState(null);
-            const questions = [ { id: 'bitterness', text: "¿Te gusta el sabor amargo?", options: [{label: "¡Me encanta!", val: 'high'}, {label: "Prefiero suave", val: 'low'}] }, { id: 'body', text: "¿Qué cuerpo prefieres?", options: [{label: "Ligero y fresco", val: 'light'}, {label: "Denso y cremoso", val: 'heavy'}] } ];
-            const handleAnswer = (key, val) => {
-                const newAnswers = { ...answers, [key]: val }; setAnswers(newAnswers);
-                if (step < questions.length - 1) { setStep(step + 1); } else { 
-                    let matchId = 1; 
-                    if (newAnswers.bitterness === 'high' && newAnswers.body === 'light') matchId = 4; 
-                    if (newAnswers.bitterness === 'high' && newAnswers.body === 'heavy') matchId = 3; 
-                    if (newAnswers.body === 'heavy' && newAnswers.bitterness === 'low') matchId = 6; 
-                    if (newAnswers.body === 'light' && newAnswers.bitterness === 'low') matchId = 2; 
-                    setResult(beersData.find(b => b.id === matchId) || beersData[0]); 
-                }
-            };
-            const reset = () => { setStep(0); setAnswers({}); setResult(null); };
-            return (
-                <section id="sommelier" className="min-h-screen flex flex-col justify-center relative overflow-hidden content-section reveal py-12">
-                    <div className="absolute inset-0 bg-amber-900/20"></div>
-                    <div className="container mx-auto px-6 relative z-10">
-                        <div className="max-w-3xl mx-auto glass rounded-2xl p-8 md:p-12 text-center">
-                            <div className="inline-block p-3 rounded-full bg-amber-500/20 mb-4"><Icon name="BrainCircuit" size={32} className="text-amber-400" /></div><h2 className="text-3xl md:text-4xl font-bold mb-2">MEDALLA SOMMELIER IA</h2><p className="text-slate-400 mb-8">Responde 2 preguntas y nuestra IA encontrará tu medalla perfecta.</p>
-                            {!result ? (
-                                <div className="animate-fadeIn">
-                                    <h3 className="text-2xl mb-8 font-light">{questions[step].text}</h3>
-                                    <div className="flex flex-col sm:flex-row justify-center gap-4">{questions[step].options.map((opt, idx) => (<button key={idx} onClick={() => handleAnswer(questions[step].id, opt.val)} className="px-8 py-4 bg-slate-800 hover:bg-amber-600 border border-slate-700 hover:border-amber-500 rounded-lg transition-all transform hover:-translate-y-1 shadow-lg cursor-pointer">{opt.label}</button>))}</div>
-                                    <div className="mt-8 flex justify-center gap-2"><span className={`h-2 w-2 rounded-full ${step === 0 ? 'bg-amber-500' : 'bg-slate-600'}`}></span><span className={`h-2 w-2 rounded-full ${step === 1 ? 'bg-amber-500' : 'bg-slate-600'}`}></span></div>
-                                </div>
-                            ) : (
-                                <div className="animate-fadeIn bg-slate-900/50 p-6 rounded-xl border border-amber-500/30">
-                                    <p className="text-amber-500 uppercase tracking-widest text-sm mb-2">Tu Cerveza Ideal es:</p><h3 className="text-4xl font-bold text-white mb-4">{result.name}</h3>
-                                    <div className="flex justify-center gap-4"><button className="bg-amber-600 text-white px-6 py-2 rounded font-bold hover:bg-amber-500 cursor-pointer">Probar Ahora</button><button onClick={reset} className="text-slate-400 hover:text-white underline cursor-pointer">Volver a intentar</button></div>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </section>
-            );
-        };
-
-        const Testimonials = () => {
-            const reviews = [ { name: "Sofía Martínez", role: "Beer Lover", text: "El mejor ambiente de Buenos Aires.", favorite: "RED IPA", stars: 5 }, { name: "Lucas D.", role: "Local Guide", text: "La atención es impecable.", favorite: "GOLDEN", stars: 5 }, { name: "Camila R.", role: "Sommelier", text: "Me sorprendió la calidad.", favorite: "STOUT", stars: 4 } ];
-            return (
-                <section className="min-h-screen flex flex-col justify-center bg-slate-900 content-section reveal py-12">
-                    <div className="container mx-auto px-6"><div className="text-center mb-16"><h2 className="text-4xl font-bold text-white mb-4">VOCES DE LA <span className="gold-text">BARRA</span></h2></div>
-                        <div className="grid md:grid-cols-3 gap-8">
-                            {reviews.map((review, idx) => (
-                                <div key={idx} className="glass p-8 rounded-xl relative hover:-translate-y-2 transition-transform duration-300">
-                                    <div className="absolute -top-4 -left-4 bg-amber-500 p-3 rounded-full text-slate-900"><Icon name="Quote" size={20} /></div>
-                                    <div className="flex gap-1 text-amber-500 mb-4">{[...Array(5)].map((_, i) => <Icon key={i} name="Star" size={16} className={i < review.stars ? "fill-current" : "text-slate-600"} />)}</div>
-                                    <p className="text-slate-300 mb-6 italic leading-relaxed">"{review.text}"</p>
-                                    <div className="border-t border-slate-700 pt-4 flex justify-between items-end"><div><h4 className="font-bold text-white">{review.name}</h4><span className="text-xs text-slate-500 uppercase tracking-wider">{review.role}</span></div><div className="text-right"><span className="text-[10px] text-slate-500 uppercase block">Favorita</span><span className="text-xs text-amber-500 font-bold">{review.favorite}</span></div></div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            );
-        };
-
-        const FAQ = () => {
-            const [openIndex, setOpenIndex] = useState(null);
-            const faqs = [ { q: "¿Son Pet Friendly?", a: "¡Absolutamente! En nuestro patio exterior las mascotas son bienvenidas." }, { q: "¿Tienen opciones sin TACC?", a: "Sí, contamos con opciones gastronómicas certificadas." }, { q: "¿Tienen Happy Hour?", a: "Sí, todos los días de 18 a 20hs en pintas seleccionadas." } ];
-            return (
-                <section className="min-h-screen flex flex-col justify-center bg-slate-900 border-t border-slate-800 content-section reveal py-12">
-                    <div className="container mx-auto px-6 max-w-3xl">
-                        <div className="text-center mb-12"><Icon name="HelpCircle" size={40} className="text-amber-500 mx-auto mb-4" /><h2 className="text-3xl font-bold text-white">PREGUNTAS FRECUENTES</h2></div>
-                        <div className="space-y-4">
-                            {faqs.map((item, idx) => (
-                                <div key={idx} className="border border-slate-700 rounded-lg overflow-hidden bg-slate-800/50">
-                                    <button onClick={() => setOpenIndex(openIndex === idx ? null : idx)} className="w-full flex justify-between items-center p-5 text-left hover:bg-slate-800 transition-colors cursor-pointer"><span className="font-bold text-white">{item.q}</span><span className="text-amber-500">{openIndex === idx ? <Icon name="Minus" size={20} /> : <Icon name="Plus" size={20} />}</span></button>
-                                    <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openIndex === idx ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}><p className="p-5 pt-0 text-slate-400 text-sm leading-relaxed">{item.a}</p></div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
                 </section>
             );
         };
@@ -1617,9 +1671,9 @@
                         {/* <LoyaltyClub /> ELIMINADO DEL FLUJO */}
                         <EventsSchedule />
                         <ImageGallery />
-                        <Sommelier />
-                        <Testimonials />
-                        <FAQ />
+                        <InfoSection />
+                        {/* <Testimonials /> ELIMINADO DEL FLUJO */}
+                        {/* <FAQ /> ELIMINADO DEL FLUJO - UNIDO EN INFOSECTION */}
                         <Footer />
                     </div>
                 </div>
