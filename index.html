@@ -255,6 +255,10 @@
             { size: "50 Litros", serves: "~100 Pintas", ideal: "Fiestas, Casamientos", price: "Consultar", iconSize: 64, stock: 20 }
         ];
         const partnersData = [
+            // --- CASA CENTRAL (OFICIALES) ---
+            { name: "Fábrica Medalla", type: "Fábrica", location: "Freyre, Córdoba", address: "Gral. Roca 80, X2413", features: ["Venta Latas", "Alquiler Barriles"], varieties: ["Todas las Variedades"], lat: -31.16706, lng: -62.10053, isOfficial: true },
+            { name: "Medalla Resto Bar", type: "Resto Bar", location: "Freyre, Córdoba", address: "25 de Mayo 903, X2413", features: ["Cerveza Tirada", "Recarga Growlers", "Venta Latas"], varieties: ["Todas las Variedades"], lat: -31.16679, lng: -62.10113, isOfficial: true },
+
             // BUENOS AIRES - CABA
             { name: "Bar La Estación", type: "Bar", location: "Palermo Soho, CABA", address: "Honduras 1234", features: ["Tirada", "Pintas"], varieties: ["GOLDEN", "SCOTTISH", "STOUT"], lat: -34.588, lng: -58.430 },
             { name: "Almacén de Birra", type: "Tienda", location: "Belgrano, CABA", address: "Juramento 4500", features: ["Recarga", "Latas"], varieties: ["Todas las Latas", "Recarga Growler"], lat: -34.561, lng: -58.456 },
@@ -287,6 +291,24 @@
             { name: "La Cumbre Brew", type: "Tienda", location: "La Cumbre, CBA", address: "Caraffa 300", features: ["Latas", "Regionales"], varieties: ["Todas las Latas"], lat: -30.983, lng: -64.492 }
         ];
         
+        const menuItemsData = {
+            starters: [
+                { name: "Papas Bravas Medalla", desc: "Con alioli de ajo negro y salsa picante de la casa.", price: 4500, pairing: "RED IPA" },
+                { name: "Bastones de Muzza", desc: "Empanados en panko y hierbas, con salsa marinara.", price: 5200, pairing: "GOLDEN" },
+                { name: "Nachos Completos", desc: "Cheddar fundido, guacamole, frijoles y jalapeños.", price: 6000, pairing: "ROCK IPA" }
+            ],
+            burgers: [
+                { name: "La Campeona", desc: "Doble carne smash, cheddar, panceta, cebolla crispy y salsa BBQ.", price: 8500, pairing: "SCOTTISH" },
+                { name: "Blue Cheese", desc: "Medallón de 180g, queso azul, rúcula y peras caramelizadas.", price: 8900, pairing: "HONEY" },
+                { name: "Veggie Medalla", desc: "Medallón de lentejas y hongos, lechuga, tomate y mayo vegana.", price: 7800, pairing: "GOLDEN" }
+            ],
+            pizzas: [
+                { name: "Fugazzeta Rellena", desc: "Mucha cebolla, mucho queso, base de masa madre.", price: 9000, pairing: "GOLDEN" },
+                { name: "Pepperoni Spicy", desc: "Mozzarella, pepperoni y un toque de miel picante.", price: 9500, pairing: "ROCK IPA" },
+                { name: "Napolitana", desc: "Tomate fresco, ajo, orégano y aceitunas negras.", price: 8200, pairing: "RED IPA" }
+            ]
+        };
+
         // --- COMPONENT: TILT CARD (Utilizado solo en MerchStore) ---
         const TiltCard = ({ children, className = "" }) => {
             const ref = useRef(null);
@@ -368,8 +390,8 @@
                 Trash: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M3 6h18"/><path d="M19 6v14c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2V6"/><path d="M8 6V4c0-1.1.9-2 2-2h4c1.1 0 2 .9 2 2v2"/></svg>,
                 Search: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>,
                 Facebook: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>,
-                Twitter: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>,
-                Instagram: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                Instagram: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>,
+                Twitter: <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
             };
             return icons[name] || null;
         };
@@ -1082,7 +1104,7 @@
 
             useEffect(() => {
                 if (!mapInstanceRef.current && mapContainerRef.current) {
-                    const map = L.map(mapContainerRef.current).setView([-34.6037, -58.3816], 12); 
+                    const map = L.map(mapContainerRef.current).setView([-31.3665, -64.2375], 10); // Centrado en Córdoba (Base) pero se ajustará
                     
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -1101,16 +1123,28 @@
                     const bounds = L.latLngBounds();
                     
                     filteredPartners.forEach(partner => {
+                        // Lógica de Marcadores Diferenciada
+                        const isOfficial = partner.isOfficial;
+                        const size = isOfficial ? 60 : 40;
+                        const zIndex = isOfficial ? 1000 : 1;
+                        
+                        // Estilo: Oficiales dorados, Partners oscuros
+                        const markerHtml = isOfficial 
+                            ? `<div style="background-color: #fbbf24; width: ${size}px; height: ${size}px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 0 20px rgba(251, 191, 36, 0.8); display: flex; align-items: center; justify-content: center; overflow: hidden; animation: pulse 2s infinite;">
+                                    <img src="${logoUrl}" style="width: 80%; height: 80%; object-fit: contain; filter: brightness(0);" /> 
+                               </div>`
+                            : `<div style="background-color: #0f172a; width: ${size}px; height: ${size}px; border-radius: 50%; border: 2px solid #fbbf24; box-shadow: 0 0 15px rgba(251, 191, 36, 0.5); display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                    <img src="${logoUrl}" style="width: 80%; height: 80%; object-fit: contain;" />
+                               </div>`;
+
                         const customIcon = L.divIcon({
                             className: 'custom-div-icon',
-                            html: `<div style="background-color: #0f172a; width: 40px; height: 40px; border-radius: 50%; border: 2px solid #fbbf24; box-shadow: 0 0 15px rgba(251, 191, 36, 0.5); display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                                    <img src="${logoUrl}" style="width: 80%; height: 80%; object-fit: contain;" />
-                                   </div>`,
-                            iconSize: [40, 40],
-                            iconAnchor: [20, 20]
+                            html: markerHtml,
+                            iconSize: [size, size],
+                            iconAnchor: [size/2, size/2]
                         });
 
-                        const marker = L.marker([partner.lat, partner.lng], { icon: customIcon })
+                        const marker = L.marker([partner.lat, partner.lng], { icon: customIcon, zIndexOffset: zIndex })
                             .addTo(map)
                             .on('click', () => setSelectedLocation(partner));
                         
@@ -1400,54 +1434,79 @@
         };
 
         const Footer = () => (
-            <footer className="bg-slate-900 border-t border-slate-800 text-slate-400 text-sm reveal">
-                <div className="container mx-auto px-6 py-16">
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-                        {/* Columna 1: Marca */}
-                        <div className="flex flex-col items-center md:items-start">
-                            <div className="flex items-center gap-3 mb-4 text-amber-500">
-                                <img src={logoUrl} alt="Logo Footer" className="h-10 w-10 object-contain" />
-                                <span className="font-bold tracking-widest brand-font text-xl text-white">MEDALLA</span>
-                            </div>
-                            <p className="text-center md:text-left mb-6 leading-relaxed">
-                                Artesanía, pasión y el sabor inconfundible de la victoria en cada pinta.
-                            </p>
-                        </div>
-
-                        {/* Columna 2: Enlaces */}
-                        <div className="text-center md:text-left">
-                            <h4 className="text-white font-bold uppercase tracking-wider mb-6 border-b border-amber-500/30 pb-2 inline-block md:block">Explorar</h4>
-                            <ul className="space-y-3">
-                                <li><a href="#beers" className="hover:text-amber-500 transition-colors">Nuestras Cervezas</a></li>
-                                <li><a href="#process" className="hover:text-amber-500 transition-colors">El Ritual</a></li>
-                                <li><a href="#kegs" className="hover:text-amber-500 transition-colors">Alquiler de Barriles</a></li>
-                                <li><a href="#locator" className="hover:text-amber-500 transition-colors">Dónde Encontrarnos</a></li>
-                            </ul>
-                        </div>
-
-                        {/* Columna 3: Contacto */}
-                        <div className="text-center md:text-left">
-                            <h4 className="text-white font-bold uppercase tracking-wider mb-6 border-b border-amber-500/30 pb-2 inline-block md:block">Contacto</h4>
-                            <ul className="space-y-3">
-                                <li className="flex items-center justify-center md:justify-start gap-2"><Icon name="MapPin" size={16} className="text-amber-600" /> Av. Siempre Viva 742</li>
-                                <li className="flex items-center justify-center md:justify-start gap-2"><Icon name="Phone" size={16} className="text-amber-600" /> +54 9 11 1234-5678</li>
-                                <li className="flex items-center justify-center md:justify-start gap-2"><Icon name="CheckCircle" size={16} className="text-amber-600" /> info@medalla.com</li>
-                            </ul>
-                        </div>
-
-                        {/* Columna 4: Social */}
-                        <div className="text-center md:text-left">
-                            <h4 className="text-white font-bold uppercase tracking-wider mb-6 border-b border-amber-500/30 pb-2 inline-block md:block">Síguenos</h4>
-                            <div className="flex justify-center md:justify-start gap-4">
-                                <a href="#" className="bg-slate-800 p-3 rounded-full hover:bg-amber-500 hover:text-slate-900 transition-all"><Icon name="Facebook" size={20} /></a>
-                                <a href="#" className="bg-slate-800 p-3 rounded-full hover:bg-amber-500 hover:text-slate-900 transition-all"><Icon name="Instagram" size={20} /></a>
-                                <a href="#" className="bg-slate-800 p-3 rounded-full hover:bg-amber-500 hover:text-slate-900 transition-all"><Icon name="Twitter" size={20} /></a>
-                            </div>
-                        </div>
-                    </div>
+            <footer className="bg-slate-900 border-t border-slate-800 text-slate-400 text-sm reveal relative z-10">
+                <div className="w-full max-w-7xl mx-auto px-6 md:px-12">
                     
-                    <div className="border-t border-slate-800 mt-12 pt-8 text-center text-xs text-slate-600">
-                        <p>&copy; {new Date().getFullYear()} Cervecería Medalla. Todos los derechos reservados. Beber con moderación.</p>
+                    <div className="min-h-[100dvh] md:min-h-0 flex flex-col justify-between md:block py-8 md:py-20">
+                        
+                        <div className="md:hidden"></div>
+
+                        {/* Grid Container: Contenido Principal */}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 items-start w-full">
+                            
+                            {/* 1. Marca (Izquierda) */}
+                            <div className="flex flex-col items-center md:items-start">
+                                {/* Logo y Texto lado a lado en todas las pantallas, ajustando tamaños */}
+                                <div className="flex flex-row items-center gap-4 text-amber-500 transition-all mb-4">
+                                    <img src={logoUrl} alt="Logo Footer" className="h-16 w-16 md:h-28 md:w-28 object-contain transition-all" />
+                                    <span className="font-bold tracking-[0.2em] brand-font text-3xl md:text-5xl text-white transition-all">MEDALLA</span>
+                                </div>
+                                {/* Derechos Reservados justo debajo: Más grande y visible en desktop */}
+                                <p className="text-xs md:text-sm text-slate-600 md:text-slate-400 font-light tracking-wide whitespace-nowrap transition-colors">
+                                    &copy; {new Date().getFullYear()} Cervecería Medalla. Todos los derechos reservados.
+                                </p>
+                            </div>
+
+                            {/* 2. Contacto (Centro) */}
+                            <div className="flex flex-col items-center w-full">
+                                <h4 className="text-white font-bold uppercase tracking-widest mb-6 text-sm md:text-base border-b-2 border-amber-500/20 pb-2 inline-block">Contacto</h4>
+                                <ul className="space-y-5 md:space-y-6 text-base md:text-lg w-full flex flex-col items-center">
+                                    <li className="flex items-center gap-3 hover:text-amber-500 transition-colors cursor-default group">
+                                        <div className="p-2 bg-slate-800 rounded-full group-hover:bg-amber-500/10 transition-colors shrink-0">
+                                            <Icon name="MapPin" size={20} className="text-amber-600" />
+                                        </div>
+                                        <span>Av. Siempre Viva 742</span>
+                                    </li>
+                                    <li className="flex items-center gap-3 hover:text-amber-500 transition-colors cursor-default group">
+                                        <div className="p-2 bg-slate-800 rounded-full group-hover:bg-amber-500/10 transition-colors shrink-0">
+                                            <Icon name="Phone" size={20} className="text-amber-600" />
+                                        </div>
+                                        <span>+54 9 11 1234-5678</span>
+                                    </li>
+                                    <li className="flex items-center gap-3 hover:text-amber-500 transition-colors cursor-default group">
+                                        <div className="p-2 bg-slate-800 rounded-full group-hover:bg-amber-500/10 transition-colors shrink-0">
+                                            <Icon name="CheckCircle" size={20} className="text-amber-600" />
+                                        </div>
+                                        <span>info@medalla.com</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            {/* 3. Comunidad (Derecha - Alineación corregida) */}
+                            <div className="flex flex-col items-center md:items-end w-full">
+                                <h4 className="text-white font-bold uppercase tracking-widest mb-6 text-sm md:text-base border-b-2 border-amber-500/20 pb-2 inline-block text-center md:text-right">Comunidad</h4>
+                                <div className="flex justify-center md:justify-end gap-6 w-full">
+                                    <a href="#" className="bg-slate-800 p-4 rounded-full hover:bg-amber-500 hover:text-slate-900 transition-all hover:scale-110 shadow-lg group">
+                                        <Icon name="Facebook" size={24} className="group-hover:scale-110 transition-transform" />
+                                    </a>
+                                    <a href="#" className="bg-slate-800 p-4 rounded-full hover:bg-amber-500 hover:text-slate-900 transition-all hover:scale-110 shadow-lg group">
+                                        <Icon name="Instagram" size={24} className="group-hover:scale-110 transition-transform" />
+                                    </a>
+                                    <a href="#" className="bg-slate-800 p-4 rounded-full hover:bg-amber-500 hover:text-slate-900 transition-all hover:scale-110 shadow-lg group">
+                                        <Icon name="Twitter" size={24} className="group-hover:scale-110 transition-transform" />
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                        {/* Legales (Centrado abajo) */}
+                        <div className="border-t border-slate-800 mt-8 md:mt-16 pt-8 w-full flex justify-center">
+                            <div className="text-[10px] md:text-xs font-bold text-amber-700/80 uppercase tracking-widest px-4 py-2 rounded-lg border border-amber-900/20 bg-amber-900/5 select-none text-center">
+                                Beber con moderación. Prohibida su venta a menores de 18 años.
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </footer>
