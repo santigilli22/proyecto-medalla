@@ -596,7 +596,8 @@
             const spotifyPlaylistUrl = "https://open.spotify.com/embed/playlist/37i9dQZF1DX9tPFwDMOaN1?utm_source=generator&theme=0";
 
             return (
-                <div className={`fixed bottom-24 right-4 md:bottom-4 z-[90] transition-all duration-500 ${minimized ? 'w-12 h-12 rounded-full overflow-hidden' : 'w-80 rounded-xl'} glass-strong shadow-2xl border border-slate-700`}>
+                // Ajuste: bottom-4 en móvil (antes bottom-24) para bajar el elemento
+                <div className={`fixed bottom-4 right-4 z-[90] transition-all duration-500 ${minimized ? 'w-12 h-12 rounded-full overflow-hidden' : 'w-80 rounded-xl'} glass-strong shadow-2xl border border-slate-700`}>
                     {minimized ? (
                         <button onClick={() => setMinimized(false)} className="w-full h-full flex items-center justify-center text-amber-500 hover:bg-white/10 cursor-pointer bg-slate-900">
                             <Icon name="Music" size={20} className="animate-pulse" />
@@ -646,8 +647,8 @@
                 { name: 'EL RITUAL', id: '#process' },
                 { name: 'BARRILES', id: '#kegs' },
                 { name: 'DÓNDE', id: '#locator' },
-                { name: 'INFO', id: '#info' }, 
-                { name: 'EVENTOS', id: '#events' },
+                { name: 'EVENTOS', id: '#events' }, // Intercambiado: Eventos primero
+                { name: 'INFO', id: '#info' },      // Intercambiado: Info después
             ];
 
             return (
@@ -712,32 +713,35 @@
         };
 
         const Hero = () => (
-            // pt-24 en móvil (96px) y md:pt-28 en escritorio (112px) para librar el navbar
-            <section id="home" className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden content-section reveal active pt-24 md:pt-28 pb-8"> 
+            // Ajuste: min-h-[100dvh] para móviles con py-24 para dar aire arriba y abajo.
+            // En escritorio (md) se fuerza h-screen y se quita el padding extra para un centrado puro.
+            <section id="home" className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden content-section reveal active scroll-mt-28 py-24 md:h-screen md:py-0"> 
                 <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 z-0"></div>
                 <div className="absolute inset-0 opacity-20" style={{backgroundImage: 'radial-gradient(circle, #fbbf24 1px, transparent 1px)', backgroundSize: '30px 30px'}}></div>
-                <div className="relative z-10 text-center px-4 w-full flex flex-col items-center">
+                
+                {/* Contenedor centrado (sin pt-20 forzado para dejar que flexbox centre) */}
+                <div className="relative z-10 text-center px-4 w-full flex flex-col items-center justify-center h-full">
                     
-                    {/* Logo Ajustado */}
-                    <div className="mb-6 flex justify-center mx-auto">
+                    {/* Logo Ajustado: Más compacto en escritorio (md:w-48) */}
+                    <div className="mb-6 md:mb-8 flex justify-center mx-auto">
                         <div className="p-4 md:p-6 rounded-full bg-amber-500/5 backdrop-blur-sm shadow-[0_0_50px_rgba(251,191,36,0.15)]">
-                            <img src={logoUrl} alt="Logo Gigante" className="w-32 h-32 sm:w-40 sm:h-40 md:w-64 md:h-64 object-contain" />
+                            <img src={logoUrl} alt="Logo Gigante" className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 object-contain" />
                         </div>
                     </div>
 
-                    {/* Texto Ajustado */}
-                    <h1 className="text-4xl sm:text-5xl md:text-8xl font-bold mb-2 md:mb-4 tracking-tighter">
+                    {/* Texto Ajustado: Tamaños reducidos para evitar deformación */}
+                    <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-3 md:mb-5 tracking-tighter">
                         SABOR DE <span className="gold-text">VICTORIA</span>
                     </h1>
                     
-                    <p className="text-base sm:text-lg md:text-2xl text-slate-300 max-w-2xl mx-auto mb-6 font-light px-2">
+                    <p className="text-base sm:text-lg md:text-xl text-slate-300 max-w-2xl mx-auto mb-8 md:mb-10 font-light px-2">
                         Artesanía pura. Ingredientes seleccionados. Una medalla en cada sorbo.
                     </p>
                     
                     {/* Botones Ajustados */}
-                    <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center w-full sm:w-auto px-6 sm:px-0">
-                        <a href="#beers" className="px-6 py-3 md:px-8 md:py-3 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-sm transition-all tracking-widest uppercase cursor-pointer text-sm md:text-base shadow-lg shadow-amber-900/20">Ver Catálogo</a>
-                        <a href="#locator" className="px-6 py-3 md:px-8 md:py-3 border border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-white font-bold rounded-sm transition-all tracking-widest uppercase cursor-pointer text-sm md:text-base">Donde encontrarnos</a>
+                    <div className="flex flex-col sm:flex-row gap-3 md:gap-5 justify-center w-full sm:w-auto px-6 sm:px-0">
+                        <a href="#beers" className="px-6 py-3 md:px-8 md:py-3 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-sm transition-all tracking-widest uppercase cursor-pointer text-sm md:text-base shadow-lg shadow-amber-900/20 hover:-translate-y-1">Ver Catálogo</a>
+                        <a href="#locator" className="px-6 py-3 md:px-8 md:py-3 border border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-white font-bold rounded-sm transition-all tracking-widest uppercase cursor-pointer text-sm md:text-base hover:-translate-y-1">Donde encontrarnos</a>
                     </div>
                 </div>
             </section>
@@ -1037,11 +1041,11 @@
         };
 
         const KegRentals = () => (
-            <section id="kegs" className="relative overflow-hidden bg-slate-950 border-t border-slate-900 content-section reveal pt-24 md:pt-28 pb-8">
+            <section id="kegs" className="min-h-screen flex flex-col justify-center relative overflow-hidden bg-slate-950 border-t border-slate-900 content-section reveal py-12 pt-24 md:pt-28 md:pb-16">
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
                 <div className="container mx-auto px-6 relative z-10">
                      <div className="flex flex-col md:flex-row items-center justify-between gap-12 mb-16">
-                        <div className="max-w-2xl"><h2 className="text-4xl font-bold text-white mb-4">LLEVA LA FIESTA <span className="text-amber-500">A CASA</span></h2><p className="text-slate-400 text-lg">Alquiler de choperas y barriles para eventos.</p></div>
+                        <div className="max-w-2xl"><h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 whitespace-nowrap">LLEVA LA FIESTA <span className="text-amber-500">A CASA</span></h2><p className="text-slate-400 text-lg">Alquiler de choperas y barriles para eventos.</p></div>
                         <button className="bg-green-600 hover:bg-green-500 text-white px-8 py-4 rounded-full font-bold transition-all flex items-center gap-3 shadow-lg shadow-green-900/50 hover:scale-105 cursor-pointer"><Icon name="Phone" size={24} /> Reservar por WhatsApp</button>
                     </div>
                     <div className="flex md:grid md:grid-cols-3 gap-6 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-8 -mx-6 px-6 md:mx-0 md:px-0 no-scrollbar">
@@ -1137,11 +1141,11 @@
             }, [filteredPartners]);
 
             return (
-                <section id="locator" className="bg-slate-900 content-section reveal pt-24 md:pt-28 pb-8">
-                    <div className="container mx-auto px-6 flex flex-col flex-1 h-full">
+                <section id="locator" className="min-h-screen flex flex-col justify-center bg-slate-900 content-section reveal py-8 pt-24 md:pt-28 pb-8">
+                    <div className="container mx-auto px-6 flex flex-col flex-1 h-full justify-center">
                         <div className="text-center mb-4 lg:mb-16 shrink-0">
                             <div className="inline-block p-3 rounded-full bg-slate-800 mb-4 border border-slate-700"><Icon name="Map" size={32} className="text-amber-500" /></div>
-                            <h2 className="text-4xl font-bold text-white mb-4">PUNTOS DE <span className="gold-text">ENCUENTRO</span></h2>
+                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 whitespace-nowrap">PUNTOS DE <span className="gold-text">ENCUENTRO</span></h2>
                         </div>
                         
                         <div className="max-w-md mx-auto mb-6 lg:mb-8 relative z-30 w-full shrink-0">
@@ -1356,7 +1360,7 @@
                     <div className="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-transparent to-slate-900/50 z-0"></div>
 
                     {/* COLUMNA 1: SOMMELIER */}
-                    <div className="w-full lg:w-1/2 min-h-[50vh] lg:h-auto relative flex flex-col justify-center p-8 lg:p-16 border-b lg:border-b-0 lg:border-r border-slate-700/50 z-10">
+                    <div className="w-full lg:w-1/2 min-h-[50dvh] lg:h-auto relative flex flex-col justify-center p-8 lg:p-16 border-b lg:border-b-0 lg:border-r border-slate-700/50 z-10">
                          <div className="max-w-lg mx-auto text-center w-full">
                             <div className="inline-block p-3 rounded-full bg-amber-500/20 mb-4"><Icon name="BrainCircuit" size={32} className="text-amber-400" /></div>
                             <h2 className="text-3xl font-bold mb-2 text-white">MEDALLA SOMMELIER IA</h2>
@@ -1392,7 +1396,7 @@
                     </div>
 
                     {/* COLUMNA 2: FAQ */}
-                    <div className="w-full lg:w-1/2 min-h-[50vh] lg:h-auto flex flex-col justify-center p-8 lg:p-16 z-10">
+                    <div className="w-full lg:w-1/2 min-h-[50dvh] lg:h-auto flex flex-col justify-center p-8 lg:p-16 z-10">
                         <div className="max-w-lg mx-auto w-full">
                             <div className="text-center mb-10">
                                 <div className="inline-block p-3 rounded-full bg-amber-500/20 mb-4"><Icon name="HelpCircle" size={32} className="text-amber-400" /></div>
