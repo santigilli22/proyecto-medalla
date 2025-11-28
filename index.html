@@ -1076,7 +1076,11 @@
 
             const filteredPartners = useMemo(() => {
                 return partnersData.filter(p => {
-                    const matchesType = filter === 'all' || p.type.toLowerCase().includes(filter);
+                    // FILTRO MEJORADO: Compara con minúsculas y también revisa tildes si es necesario (simple 'includes' por ahora)
+                    const typeLower = p.type.toLowerCase();
+                    const filterLower = filter.toLowerCase();
+                    
+                    const matchesType = filter === 'all' || typeLower.includes(filterLower) || (filter === 'restaurante' && typeLower.includes('resto'));
                     const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
                                           p.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
                                           p.address.toLowerCase().includes(searchTerm.toLowerCase());
@@ -1141,84 +1145,108 @@
             }, [filteredPartners]);
 
             return (
-                <section id="locator" className="min-h-screen flex flex-col justify-center bg-slate-900 content-section reveal py-8 pt-24 md:pt-28 pb-8">
-                    <div className="container mx-auto px-6 flex flex-col flex-1 h-full justify-center">
-                        <div className="text-center mb-4 lg:mb-16 shrink-0">
-                            <div className="inline-block p-3 rounded-full bg-slate-800 mb-4 border border-slate-700"><Icon name="Map" size={32} className="text-amber-500" /></div>
-                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 whitespace-nowrap">PUNTOS DE <span className="gold-text">ENCUENTRO</span></h2>
+                // Se usa h-[100dvh] para asegurar que ocupe exactamente la pantalla y el flex-1 funcione
+                <section id="locator" className="h-[100dvh] flex flex-col justify-center bg-slate-900 content-section reveal pt-24 md:pt-28 pb-4 lg:pb-8">
+                    <div className="container mx-auto px-6 flex flex-col h-full">
+                        
+                        {/* Header: Título */}
+                        <div className="text-center mb-4 lg:mb-6 shrink-0">
+                            <div className="inline-block p-2 rounded-full bg-slate-800 mb-2 border border-slate-700"><Icon name="Map" size={24} className="text-amber-500" /></div>
+                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white whitespace-nowrap">PUNTOS DE <span className="gold-text">ENCUENTRO</span></h2>
                         </div>
                         
-                        <div className="max-w-md mx-auto mb-6 lg:mb-8 relative z-30 w-full shrink-0">
-                            <input 
-                                type="text" 
-                                placeholder="Buscar por nombre o zona..." 
-                                value={searchTerm}
-                                onChange={(e) => {
-                                    setSearchTerm(e.target.value);
-                                    setShowMobileList(true); // Mostrar lista al escribir
-                                }}
-                                onFocus={() => setShowMobileList(true)} // Mostrar lista al tocar
-                                className="w-full bg-slate-800 border border-slate-700 rounded-full py-3 px-6 pl-12 text-white focus:border-amber-500 outline-none transition-colors shadow-lg"
-                            />
-                            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"><Icon name="Search" size={20} /></div>
+                        {/* Barra de Controles: Buscador + Filtros */}
+                        <div className="flex flex-col lg:flex-row items-center justify-between gap-4 mb-4 shrink-0 z-30 relative">
                             
-                            {/* Botón X para cerrar búsqueda en móvil si está abierta */}
-                            {showMobileList && (
-                                <button 
-                                    onClick={() => {
-                                        setShowMobileList(false);
+                            {/* Buscador (Izquierda en desktop) */}
+                            <div className="relative w-full lg:w-96">
+                                <input 
+                                    type="text" 
+                                    placeholder="Buscar por nombre o zona..." 
+                                    value={searchTerm}
+                                    onChange={(e) => {
+                                        setSearchTerm(e.target.value);
+                                        setShowMobileList(true); 
                                     }}
-                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white lg:hidden bg-slate-700 rounded-full p-1"
-                                >
-                                    <Icon name="X" size={14} />
-                                </button>
-                            )}
+                                    onFocus={() => setShowMobileList(true)}
+                                    className="w-full bg-slate-800 border border-slate-700 rounded-full py-2.5 px-5 pl-10 text-white text-sm focus:border-amber-500 outline-none transition-colors shadow-lg"
+                                />
+                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"><Icon name="Search" size={16} /></div>
+                                {showMobileList && (
+                                    <button 
+                                        onClick={() => setShowMobileList(false)}
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white lg:hidden bg-slate-700 rounded-full p-1"
+                                    >
+                                        <Icon name="X" size={12} />
+                                    </button>
+                                )}
+                            </div>
+
+                            {/* Filtros (Derecha en desktop) */}
+                            <div className="flex gap-2 w-full lg:w-auto overflow-x-auto no-scrollbar pb-1 lg:pb-0 justify-start lg:justify-end px-1">
+                                <button onClick={() => setFilter('all')} className={`px-4 py-2 rounded-full text-xs font-bold transition-colors cursor-pointer whitespace-nowrap ${filter === 'all' ? 'bg-amber-500 text-slate-900' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}`}>Todos</button>
+                                <button onClick={() => setFilter('fábrica')} className={`px-4 py-2 rounded-full text-xs font-bold transition-colors cursor-pointer whitespace-nowrap ${filter === 'fábrica' ? 'bg-amber-500 text-slate-900' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}`}>Fábrica</button>
+                                <button onClick={() => setFilter('bar')} className={`px-4 py-2 rounded-full text-xs font-bold transition-colors cursor-pointer whitespace-nowrap ${filter === 'bar' ? 'bg-amber-500 text-slate-900' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}`}>Bares</button>
+                                <button onClick={() => setFilter('restaurante')} className={`px-4 py-2 rounded-full text-xs font-bold transition-colors cursor-pointer whitespace-nowrap ${filter === 'restaurante' ? 'bg-amber-500 text-slate-900' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}`}>Restaurantes</button>
+                                <button onClick={() => setFilter('tienda')} className={`px-4 py-2 rounded-full text-xs font-bold transition-colors cursor-pointer whitespace-nowrap ${filter === 'tienda' ? 'bg-amber-500 text-slate-900' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}`}>Tiendas</button>
+                            </div>
                         </div>
 
-                        <div className="flex flex-col lg:flex-row gap-12 relative flex-1 lg:flex-none lg:h-[600px] min-h-[300px]">
+                        {/* Área Principal: Mapa y Lista */}
+                        <div className="flex-1 flex flex-col lg:flex-row gap-6 min-h-0 relative">
                             
-                            {/* Lista de Lugares (Flotante en Móvil / Columna en Desktop) */}
+                            {/* Lista de Lugares (Panel Izquierdo en Desktop, Flotante en Móvil) */}
                             <div className={`
-                                transition-all duration-300 ease-in-out
-                                flex flex-col
-                                lg:w-1/2 lg:static lg:bg-transparent lg:h-full lg:p-0 lg:border-none lg:flex
-                                ${showMobileList ? 'absolute inset-0 z-20 bg-slate-900/95 backdrop-blur-xl border border-slate-700 rounded-2xl p-6 flex' : 'hidden'}
+                                transition-all duration-300 ease-in-out flex flex-col
+                                absolute inset-0 z-20 lg:static lg:z-0
+                                bg-slate-900/95 lg:bg-transparent backdrop-blur-xl lg:backdrop-blur-none
+                                border border-slate-700 lg:border-none rounded-2xl lg:rounded-none p-4 lg:p-0
+                                ${showMobileList ? 'flex' : 'hidden lg:flex'}
+                                lg:w-5/12
                             `}>
-                                {/* Header Móvil de la Lista */}
-                                <div className="flex justify-between items-center lg:hidden mb-4">
-                                    <span className="text-white font-bold text-lg">Resultados ({filteredPartners.length})</span>
-                                    <button onClick={() => setShowMobileList(false)} className="text-amber-500 text-sm font-bold flex items-center gap-1">
-                                        Ver Mapa <Icon name="ChevronRight" size={14} />
+                                {/* Header Móvil */}
+                                <div className="flex justify-between items-center lg:hidden mb-4 shrink-0">
+                                    <span className="text-white font-bold text-sm">Resultados ({filteredPartners.length})</span>
+                                    <button onClick={() => setShowMobileList(false)} className="text-amber-500 text-xs font-bold flex items-center gap-1">
+                                        Ver Mapa <Icon name="ChevronRight" size={12} />
                                     </button>
                                 </div>
-
-                                <div className="flex gap-4 mb-6 justify-center lg:justify-start shrink-0">
-                                    <button onClick={() => setFilter('all')} className={`px-4 py-2 rounded text-sm font-bold transition-colors cursor-pointer ${filter === 'all' ? 'bg-amber-500 text-slate-900' : 'bg-slate-800 text-slate-400'}`}>Todos</button>
-                                    <button onClick={() => setFilter('bar')} className={`px-4 py-2 rounded text-sm font-bold transition-colors cursor-pointer ${filter === 'bar' ? 'bg-amber-500 text-slate-900' : 'bg-slate-800 text-slate-400'}`}>Bares</button>
-                                    <button onClick={() => setFilter('tienda')} className={`px-4 py-2 rounded text-sm font-bold transition-colors cursor-pointer ${filter === 'tienda' ? 'bg-amber-500 text-slate-900' : 'bg-slate-800 text-slate-400'}`}>Tiendas</button>
-                                </div>
                                 
-                                <div className="space-y-4 overflow-y-auto custom-scrollbar flex-1 pr-2 pb-2">
-                                    {filteredPartners.map((partner, idx) => (
-                                        <div key={idx} className="glass p-6 rounded-lg hover:bg-slate-800 transition-colors border-l-4 border-transparent hover:border-amber-500 cursor-pointer group" onClick={() => {
-                                            if(mapInstanceRef.current) {
-                                                mapInstanceRef.current.setView([partner.lat, partner.lng], 16);
-                                                setSelectedLocation(partner);
-                                                setShowMobileList(false); // Cerrar lista en móvil al seleccionar
-                                            }
-                                        }}>
-                                            <div className="flex justify-between items-start mb-2"><h3 className="text-xl font-bold text-white group-hover:text-amber-500 transition-colors">{partner.name}</h3><span className="text-xs font-bold uppercase tracking-wider bg-slate-950 text-slate-400 px-2 py-1 rounded">{partner.type}</span></div>
-                                            <div className="flex items-center gap-2 text-slate-400 text-sm mb-3"><Icon name="MapPin" size={14} /> {partner.address}, {partner.location}</div>
-                                            <div className="flex flex-wrap gap-2 mb-3">{partner.features.map((f, i) => <span key={i} className="text-xs bg-amber-500/10 text-amber-500 border border-amber-500/20 px-2 py-1 rounded">{f}</span>)}</div>
-                                            <p className="text-xs text-slate-500 border-t border-slate-700/50 pt-2 mt-2">Disponible: {partner.varieties.join(", ")}</p>
-                                        </div>
-                                    ))}
+                                {/* Grid de Tarjetas Compactas */}
+                                <div className="overflow-y-auto custom-scrollbar pr-2 flex-1">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                        {filteredPartners.map((partner, idx) => (
+                                            <div key={idx} className="glass p-4 rounded-lg hover:bg-slate-800 transition-all border-l-4 border-transparent hover:border-amber-500 cursor-pointer group h-32 flex flex-col justify-between" onClick={() => {
+                                                if(mapInstanceRef.current) {
+                                                    mapInstanceRef.current.setView([partner.lat, partner.lng], 16);
+                                                    setSelectedLocation(partner);
+                                                    setShowMobileList(false);
+                                                }
+                                            }}>
+                                                <div>
+                                                    <div className="flex justify-between items-start mb-1">
+                                                        <h3 className="text-sm font-bold text-white group-hover:text-amber-500 transition-colors truncate pr-2" title={partner.name}>{partner.name}</h3>
+                                                        <span className="text-[10px] font-bold uppercase tracking-wider bg-slate-950 text-slate-400 px-1.5 py-0.5 rounded shrink-0">{partner.type}</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-1.5 text-slate-400 text-xs mb-2">
+                                                        <Icon name="MapPin" size={12} className="shrink-0" /> 
+                                                        <span className="truncate" title={partner.address + ', ' + partner.location}>{partner.address}, {partner.location}</span>
+                                                    </div>
+                                                </div>
+                                                <div className="flex flex-wrap gap-1 mt-auto overflow-hidden h-5">
+                                                    {partner.features.slice(0, 2).map((f, i) => (
+                                                        <span key={i} className="text-[9px] bg-amber-500/10 text-amber-500 border border-amber-500/20 px-1.5 py-0.5 rounded whitespace-nowrap">{f}</span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
 
-                            {/* Mapa (Fondo en móvil / Columna derecha en desktop) */}
-                            <div className="absolute inset-0 lg:static lg:w-1/2 h-full bg-slate-800 rounded-2xl overflow-hidden border border-slate-700 shadow-2xl z-0">
-                                <div ref={mapContainerRef} className="w-full h-full z-0" style={{isolation: 'isolate'}}></div>
+                            {/* Mapa (Visible por defecto en móvil gracias a flex-1, ocupa el espacio restante) */}
+                            <div className="flex-1 w-full h-full rounded-2xl overflow-hidden border border-slate-700 shadow-2xl z-0 relative">
+                                <div ref={mapContainerRef} className="w-full h-full" style={{isolation: 'isolate'}}></div>
                             </div>
                         </div>
                     </div>
