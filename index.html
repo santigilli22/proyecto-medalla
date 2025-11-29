@@ -551,17 +551,14 @@
         };
 
         const AgeGate = ({ onVerify }) => {
-            const [visible, setVisible] = useState(true);
-            
-            // Check localStorage on mount if handled by parent, but duplicate check here safe
-            useEffect(() => {
-                const verified = window.localStorage.getItem('medalla_age_verified');
-                if (verified === 'true') {
-                    setVisible(false);
-                    onVerify(); // Trigger parent state update
+            const [visible, setVisible] = useState(() => {
+                try {
+                    return window.localStorage.getItem('medalla_age_verified') !== 'true';
+                } catch (e) {
+                    return true;
                 }
-            }, []);
-
+            });
+            
             const handleVerify = () => {
                 window.localStorage.setItem('medalla_age_verified', 'true');
                 setVisible(false);
@@ -569,9 +566,11 @@
             };
 
             if (!visible) return null;
+            
             return (
                 <div className="fixed inset-0 z-[200] flex items-center justify-center bg-slate-950">
                     <div className="absolute inset-0 bg-black/80"></div>
+                    
                     <div className="relative z-10 max-w-md w-full p-8 text-center">
                         <div className="mb-8">
                             <img src={logoUrl} alt="Logo Medalla" className="w-40 h-40 mx-auto object-contain drop-shadow-[0_0_25px_rgba(251,191,36,0.4)]" />
@@ -716,8 +715,7 @@
             // Ajuste: min-h-[100dvh] para móviles con py-24 para dar aire arriba y abajo.
             // En escritorio (md) se fuerza h-screen y se quita el padding extra para un centrado puro.
             <section id="home" className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden content-section reveal active scroll-mt-28 py-24 md:h-screen md:py-0"> 
-                <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 z-0"></div>
-                <div className="absolute inset-0 opacity-20" style={{backgroundImage: 'radial-gradient(circle, #fbbf24 1px, transparent 1px)', backgroundSize: '30px 30px'}}></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-black to-slate-950 z-0"></div>
                 
                 {/* Contenedor centrado (sin pt-20 forzado para dejar que flexbox centre) */}
                 <div className="relative z-10 text-center px-4 w-full flex flex-col items-center justify-center h-full">
@@ -729,19 +727,19 @@
                         </div>
                     </div>
 
-                    {/* Texto Ajustado: Tamaños reducidos para evitar deformación */}
-                    <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-3 md:mb-5 tracking-tighter">
-                        SABOR DE <span className="gold-text">VICTORIA</span>
+                    {/* Texto Ajustado: 1 línea en Desktop (lg+), 2 líneas en Mobile/Tablet (con colapso controlado) */}
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-8 md:mb-12 tracking-tighter mx-auto max-w-lg md:max-w-2xl lg:max-w-none lg:whitespace-nowrap">
+                        Una <span className="gold-text">Medalla</span> como reconocimiento al valor
                     </h1>
                     
-                    <p className="text-base sm:text-lg md:text-xl text-slate-300 max-w-2xl mx-auto mb-8 md:mb-10 font-light px-2">
-                        Artesanía pura. Ingredientes seleccionados. Una medalla en cada sorbo.
-                    </p>
-                    
-                    {/* Botones Ajustados */}
-                    <div className="flex flex-col sm:flex-row gap-3 md:gap-5 justify-center w-full sm:w-auto px-6 sm:px-0">
-                        <a href="#beers" className="px-6 py-3 md:px-8 md:py-3 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-sm transition-all tracking-widest uppercase cursor-pointer text-sm md:text-base shadow-lg shadow-amber-900/20 hover:-translate-y-1">Ver Catálogo</a>
-                        <a href="#locator" className="px-6 py-3 md:px-8 md:py-3 border border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-white font-bold rounded-sm transition-all tracking-widest uppercase cursor-pointer text-sm md:text-base hover:-translate-y-1">Donde encontrarnos</a>
+                    {/* Botones Ajustados: Side-by-side en móvil y textos responsivos */}
+                    <div className="flex flex-row gap-3 md:gap-5 justify-center w-full sm:w-auto px-2 sm:px-0">
+                        <a href="#beers" className="flex-1 sm:flex-none px-4 py-3 md:px-8 md:py-3 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-sm transition-all tracking-widest uppercase cursor-pointer text-xs sm:text-sm md:text-base shadow-lg shadow-amber-900/20 hover:-translate-y-1 text-center whitespace-nowrap">
+                            Cervezas
+                        </a>
+                        <a href="#locator" className="flex-1 sm:flex-none px-4 py-3 md:px-8 md:py-3 border border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-white font-bold rounded-sm transition-all tracking-widest uppercase cursor-pointer text-xs sm:text-sm md:text-base hover:-translate-y-1 text-center whitespace-nowrap">
+                            Encontranos
+                        </a>
                     </div>
                 </div>
             </section>
@@ -1600,7 +1598,14 @@
 
         // --- MAIN APP ---
         const App = () => {
-            const [ageVerified, setAgeVerified] = useState(false);
+            // Inicialización Lazy del estado verificada para evitar desenfoque en refresh
+            const [ageVerified, setAgeVerified] = useState(() => {
+                try {
+                    return window.localStorage.getItem('medalla_age_verified') === 'true';
+                } catch (e) {
+                    return false;
+                }
+            });
             const [toasts, setToasts] = useState([]);
             // Carrito persistente
             const [cart, setCart] = useLocalStorage('medalla_cart', []);
@@ -1689,7 +1694,8 @@
                         total={total}
                         addToCart={addToCart} // Pasamos la función addToCart al Drawer
                     />
-                    <div className={ageVerified ? "" : "blur-xl pointer-events-none h-screen overflow-hidden"}>
+                    {/* Aplicamos la clase blur-transition y controlamos el blur dinámicamente */}
+                    <div className={`blur-transition ${ageVerified ? "filter-none" : "blur-xl pointer-events-none h-screen overflow-hidden"}`}>
                         <ScrollProgress />
                         <Navbar cartCount={cartItemCount} onOpenCart={() => setIsCartOpen(true)} />
                         <Hero />
