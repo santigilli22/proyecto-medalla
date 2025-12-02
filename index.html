@@ -343,6 +343,212 @@
             );
         };
 
+        // --- COMPONENT: SOMMELIER IA MODAL ---
+        const SommelierModal = ({ isOpen, onClose }) => {
+            const [step, setStep] = useState(0);
+            const [answers, setAnswers] = useState({});
+            const [result, setResult] = useState(null);
+
+            // Sommelier Data: 4 Preguntas para afinar el resultado
+            const questions = [ 
+                { 
+                    id: 'intensity', 
+                    text: "¿Qué buscas en tu cerveza hoy?", 
+                    options: [{label: "Suave y Refrescante", val: 'light'}, {label: "Con Cuerpo y Carácter", val: 'heavy'}] 
+                },
+                { 
+                    id: 'bitterness', 
+                    text: "¿Qué tal te llevas con el amargor?", 
+                    options: [{label: "Prefiero poco amargor", val: 'low'}, {label: "¡Amo el lúpulo amargo!", val: 'high'}] 
+                }, 
+                { 
+                    id: 'sweetness', 
+                    text: "¿Te gustan los toques dulces?", 
+                    options: [{label: "Sí, me gusta lo dulce", val: 'sweet'}, {label: "No, prefiero seco/tostado", val: 'dry'}] 
+                },
+                {
+                    id: 'color',
+                    text: "¿Qué color te atrae más visualmente?",
+                    options: [{label: "Doradas y Rubias", val: 'blonde'}, {label: "Rojas y Negras", val: 'dark'}]
+                }
+            ];
+
+            const handleAnswer = (key, val) => {
+                const newAnswers = { ...answers, [key]: val };
+                setAnswers(newAnswers);
+                
+                if (step < questions.length - 1) { 
+                    setStep(step + 1); 
+                } else { 
+                    // Lógica de Decisión para las 6 Variedades
+                    let matchId = 1; // Default Golden
+
+                    // 1. IPAs (Alto Amargor)
+                    if (newAnswers.bitterness === 'high') {
+                        if (newAnswers.color === 'dark' || newAnswers.intensity === 'heavy') {
+                            matchId = 3; // RED IPA
+                        } else {
+                            matchId = 4; // ROCK IPA
+                        }
+                    } 
+                    // 2. Bajas en Amargor
+                    else {
+                        if (newAnswers.color === 'blonde') {
+                            if (newAnswers.sweetness === 'sweet') {
+                                matchId = 2; // HONEY
+                            } else {
+                                matchId = 1; // GOLDEN
+                            }
+                        } else {
+                            // Color Oscuro
+                            if (newAnswers.sweetness === 'sweet' || newAnswers.intensity === 'heavy' && newAnswers.sweetness !== 'dry') {
+                                matchId = 5; // SCOTTISH (Maltosa/Dulzona)
+                            } else {
+                                matchId = 6; // STOUT (Tostada/Seca)
+                            }
+                        }
+                    }
+                    
+                    setResult(beersData.find(b => b.id === matchId) || beersData[0]); 
+                }
+            };
+            
+            const reset = () => { setStep(0); setAnswers({}); setResult(null); };
+
+            if (!isOpen) return null;
+
+            return (
+                <ModalPortal>
+                    <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md animate-fadeIn" onClick={onClose}>
+                        {/* Modal Container - Generous size on desktop */}
+                        <div className="relative bg-slate-900 w-full h-full md:w-[90%] md:h-[80%] lg:w-[80vw] lg:h-[80vh] xl:max-w-6xl rounded-3xl overflow-hidden shadow-2xl border border-slate-700 flex flex-col md:flex-row" onClick={e => e.stopPropagation()}>
+                            <button onClick={onClose} className="absolute top-6 right-6 z-50 p-2 bg-black/50 hover:bg-amber-600 rounded-full text-white transition-colors cursor-pointer"><Icon name="X" size={24} /></button>
+                            
+                            {/* Left Side: Image/Visual (Hidden on Mobile) */}
+                            <div className="hidden md:flex md:w-1/2 bg-slate-800 relative items-center justify-center overflow-hidden">
+                                <div className="absolute inset-0 opacity-40 bg-[url('https://image.pollinations.ai/prompt/elegant%20beer%20sommelier%20dark%20cinematic%20lighting?width=800&height=1200&nologo=true')] bg-cover bg-center"></div>
+                                <div className="absolute inset-0 bg-gradient-to-r from-transparent to-slate-900"></div>
+                                <div className="relative z-10 text-center p-10">
+                                    <div className="inline-block p-4 rounded-full bg-amber-500/20 mb-6 backdrop-blur-sm border border-amber-500/30"><Icon name="BrainCircuit" size={48} className="text-amber-400" /></div>
+                                    <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4 brand-font">SOMMELIER <span className="gold-text">IA</span></h2>
+                                    <p className="text-slate-300 text-lg">Descubre tu variedad ideal con nuestra inteligencia artificial cervecera.</p>
+                                </div>
+                            </div>
+
+                            {/* Right Side: Quiz (Full width on Mobile) */}
+                            <div className="w-full md:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col justify-center bg-slate-900 relative">
+                                
+                                {/* Mobile Header */}
+                                <div className="md:hidden text-center mb-8">
+                                    <h2 className="text-3xl font-bold text-white mb-2 brand-font">SOMMELIER IA</h2>
+                                    <p className="text-slate-400 text-sm">Encuentra tu cerveza perfecta.</p>
+                                </div>
+
+                                {!result ? (
+                                    <div className="animate-fadeIn">
+                                        <h3 className="text-2xl lg:text-3xl mb-8 font-light text-white text-center">{questions[step].text}</h3>
+                                        <div className="flex flex-col gap-4">
+                                            {questions[step].options.map((opt, idx) => (
+                                                <button key={idx} onClick={() => handleAnswer(questions[step].id, opt.val)} className="w-full px-6 py-4 bg-slate-800 hover:bg-amber-600 border border-slate-700 hover:border-amber-500 rounded-xl transition-all transform hover:-translate-y-1 shadow-lg cursor-pointer text-white font-bold text-lg">
+                                                    {opt.label}
+                                                </button>
+                                            ))}
+                                        </div>
+                                        <div className="mt-8 flex justify-center gap-2">
+                                            {questions.map((_, i) => (
+                                                <span key={i} className={`h-2 w-2 rounded-full transition-colors ${step >= i ? 'bg-amber-500' : 'bg-slate-700'}`}></span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="animate-fadeIn bg-slate-900/80 p-8 rounded-2xl border border-amber-500/30 backdrop-blur-sm text-center">
+                                        <p className="text-amber-500 uppercase tracking-widest text-sm mb-4 font-bold">Tu Match Perfecto:</p>
+                                        <div className="mb-6 relative w-32 h-32 mx-auto">
+                                            <div className="absolute inset-0 bg-amber-500/20 rounded-full blur-xl animate-pulse"></div>
+                                            <img src={result.titleImg} alt={result.name} className="relative w-full h-full object-contain" />
+                                        </div>
+                                        <h3 className="text-4xl font-bold text-white mb-6 brand-font">{result.name}</h3>
+                                        <p className="text-slate-400 mb-8">{result.tags.join(" • ")}</p>
+                                        <div className="flex flex-col gap-4">
+                                            <button onClick={() => { onClose(); window.location.href='#beers'; }} className="bg-amber-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-amber-500 cursor-pointer transition-colors uppercase tracking-wider">
+                                                Ver en Catálogo
+                                            </button>
+                                            <button onClick={reset} className="text-slate-400 hover:text-white underline cursor-pointer text-sm">
+                                                Volver a intentar
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </ModalPortal>
+            );
+        };
+
+        // --- COMPONENT: EVENT GALLERY MODAL ---
+        const EventGalleryModal = ({ isOpen, onClose, event }) => {
+            const [selectedImage, setSelectedImage] = useState(0);
+
+            // Generar imágenes simuladas si el evento existe
+            const galleryImages = useMemo(() => {
+                if (!event) return [];
+                // Usamos la imagen principal y generamos 3 variaciones basadas en prompts similares para simular un álbum
+                return [
+                    event.img,
+                    `https://image.pollinations.ai/prompt/party%20crowd%20having%20fun%20beer%20${event.title.split(' ')[0]}?width=800&height=600&nologo=true`,
+                    `https://image.pollinations.ai/prompt/beer%20glasses%20cheers%20bar%20night%20${event.title.split(' ')[0]}?width=800&height=600&nologo=true`,
+                    `https://image.pollinations.ai/prompt/people%20laughing%20drinking%20beer%20bar%20${event.title.split(' ')[0]}?width=800&height=600&nologo=true`
+                ];
+            }, [event]);
+
+            // Resetear imagen seleccionada al abrir nuevo evento
+            useEffect(() => {
+                if (isOpen) setSelectedImage(0);
+            }, [isOpen]);
+
+            if (!isOpen || !event) return null;
+
+            return (
+                <ModalPortal>
+                    <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/95 backdrop-blur-xl animate-fadeIn" onClick={onClose}>
+                        <div className="relative w-full h-full max-w-7xl flex flex-col lg:flex-row gap-4 lg:gap-8 p-4" onClick={e => e.stopPropagation()}>
+                            
+                            <button onClick={onClose} className="absolute top-0 right-0 z-50 p-2 text-slate-400 hover:text-white transition-colors cursor-pointer"><Icon name="X" size={32} /></button>
+
+                            {/* Main Image Viewer (Top on Mobile, Left on Desktop) */}
+                            <div className="flex-1 relative rounded-2xl overflow-hidden bg-black flex items-center justify-center border border-slate-800 shadow-2xl order-1 lg:order-1 h-[50vh] lg:h-auto">
+                                <img 
+                                    src={galleryImages[selectedImage]} 
+                                    alt={`Galería ${event.title} ${selectedImage + 1}`} 
+                                    className="max-w-full max-h-full object-contain animate-fadeIn"
+                                    key={selectedImage} // Force re-render for animation
+                                />
+                                <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-6">
+                                    <h3 className="text-2xl font-bold text-white brand-font">{event.title}</h3>
+                                    <p className="text-amber-500 font-mono text-sm">{event.date} • Foto {selectedImage + 1} de {galleryImages.length}</p>
+                                </div>
+                            </div>
+
+                            {/* Thumbnails List (Bottom on Mobile, Right on Desktop) */}
+                            <div className="lg:w-80 flex flex-row lg:flex-col gap-3 overflow-x-auto lg:overflow-y-auto custom-scrollbar order-2 lg:order-2 shrink-0 h-auto lg:h-full">
+                                {galleryImages.map((img, idx) => (
+                                    <div 
+                                        key={idx} 
+                                        onClick={() => setSelectedImage(idx)}
+                                        className={`relative cursor-pointer rounded-lg overflow-hidden shrink-0 w-24 h-24 lg:w-full lg:h-48 transition-all duration-300 border-2 ${selectedImage === idx ? 'border-amber-500 opacity-100 scale-105' : 'border-transparent opacity-60 hover:opacity-100'}`}
+                                    >
+                                        <img src={img} alt={`Thumb ${idx}`} className="w-full h-full object-cover" />
+                                    </div>
+                                ))}
+                            </div>
+
+                        </div>
+                    </div>
+                </ModalPortal>
+            );
+        };
+
         // --- STANDARD COMPONENTS ---
         const Icon = ({ name, size = 24, className }) => {
             const icons = {
@@ -630,7 +836,7 @@
             );
         };
 
-        const Navbar = ({ cartCount, onOpenCart }) => {
+        const Navbar = ({ cartCount, onOpenCart, onOpenSommelier }) => {
             const [isOpen, setIsOpen] = useState(false);
             const [scrolled, setScrolled] = useState(false);
 
@@ -646,20 +852,25 @@
                 { name: 'EL RITUAL', id: '#process' },
                 { name: 'BARRILES', id: '#kegs' },
                 { name: 'DÓNDE', id: '#locator' },
-                { name: 'EVENTOS', id: '#events' }, // Intercambiado: Eventos primero
-                { name: 'INFO', id: '#info' },      // Intercambiado: Info después
+                { name: 'EVENTOS', id: '#events' }, 
+                { name: 'FAQ', id: '#info' },      
             ];
 
             return (
-                <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-slate-900/95 shadow-lg py-2' : 'bg-transparent py-4'}`}>
+                <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled || isOpen ? 'bg-slate-900/95 shadow-lg py-2' : 'bg-transparent py-4'}`}>
                     <div className="w-full px-4 md:px-8 lg:px-12 flex justify-between items-center gap-4">
-                        <a href="#home" className={`text-xl md:text-2xl font-bold flex items-center gap-2 md:gap-3 brand-font text-amber-500 hover:opacity-90 transition-all duration-500 whitespace-nowrap ${scrolled ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10 pointer-events-none'}`}>
+                        {/* Logo con acción de cierre de menú */}
+                        <a 
+                            href="#home" 
+                            onClick={() => setIsOpen(false)} 
+                            className={`text-xl md:text-2xl font-bold flex items-center gap-2 md:gap-3 brand-font text-amber-500 hover:opacity-90 transition-all duration-500 whitespace-nowrap ${scrolled ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10 pointer-events-none'}`}
+                        >
                             <img src={logoUrl} alt="Logo" className="h-8 w-8 md:h-10 md:w-10 object-contain" />
                             MEDALLA
                         </a>
                         
                         {/* Desktop Menu */}
-                        <div className="hidden md:flex gap-6 lg:gap-8 font-medium text-sm tracking-widest flex-shrink-0">
+                        <div className="hidden md:flex gap-6 lg:gap-8 font-medium text-sm tracking-widest flex-shrink-0 items-center">
                             {navLinks.map(link => (
                                 <a 
                                     key={link.name} 
@@ -669,6 +880,13 @@
                                     {link.name}
                                 </a>
                             ))}
+                            {/* Sommelier Link Special Treatment */}
+                            <button 
+                                onClick={onOpenSommelier}
+                                className="text-amber-500 hover:text-white transition-colors cursor-pointer font-bold border border-amber-500/50 hover:bg-amber-500/10 px-3 py-1 rounded-full text-xs"
+                            >
+                                SOMMELIER IA
+                            </button>
                         </div>
                         
                         <div className="flex items-center gap-4 flex-shrink-0">
@@ -693,8 +911,8 @@
                     </div>
                     
                     {/* Mobile Menu */}
-                    <div className={`md:hidden absolute w-full bg-slate-900 transition-all duration-300 overflow-hidden ${isOpen ? 'max-h-screen' : 'max-h-0'}`}>
-                         <div className="flex flex-col items-center py-4 gap-4 border-t border-slate-800 text-sm tracking-widest">
+                    <div className={`md:hidden absolute top-full left-0 w-full bg-slate-900 transition-all duration-300 overflow-hidden ${isOpen ? 'max-h-screen border-t border-slate-800 shadow-2xl' : 'max-h-0'}`}>
+                         <div className="flex flex-col items-center py-4 gap-4 text-sm tracking-widest">
                             {navLinks.map(link => (
                                 <a 
                                     key={link.name} 
@@ -705,6 +923,15 @@
                                     {link.name}
                                 </a>
                             ))}
+                            <button 
+                                onClick={() => {
+                                    setIsOpen(false);
+                                    onOpenSommelier();
+                                }}
+                                className="text-amber-500 font-bold mt-2 border border-amber-500 px-4 py-2 rounded-full hover:bg-amber-500 hover:text-slate-900 transition-colors"
+                            >
+                                SOMMELIER IA
+                            </button>
                         </div>
                     </div>
                 </nav>
@@ -803,52 +1030,67 @@
             };
 
             return (
-                <section id="beers" className="bg-slate-900 content-section reveal pt-24 md:pt-28 pb-8">
-                    <div className="container mx-auto px-6 2xl:w-full 2xl:max-w-[98%] 2xl:px-10 transition-all duration-500">
-                        <div className="flex items-center gap-4 mb-8">
+                // SECCIÓN ADAPTADA AL ALTO DEL DISPOSITIVO
+                // h-screen: Ocupa todo el alto de la ventana.
+                // pt-24 md:pt-28: Descuenta el espacio de la barra de navegación.
+                // flex flex-col: Permite distribuir el espacio verticalmente.
+                <section id="beers" className="bg-slate-900 content-section reveal h-screen md:min-h-screen md:h-auto 2xl:h-screen flex flex-col pt-24 md:pt-28 pb-4 overflow-hidden md:overflow-visible 2xl:overflow-hidden">
+                    <div className="container mx-auto px-6 2xl:w-full 2xl:max-w-[98%] 2xl:px-10 transition-all duration-500 flex-1 flex flex-col min-h-0">
+                        
+                        {/* TÍTULO POSICIONADO ARRIBA CON ESPACIADO */}
+                        <div className="flex items-center gap-4 mt-2 mb-4 shrink-0">
                             <div className="h-1 w-12 bg-amber-500 shrink-0"></div>
                             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white whitespace-nowrap">NUESTRAS CREACIONES</h2>
                         </div>
                         
-                        <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-6 gap-6 2xl:gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 -mx-6 px-6 md:mx-0 md:px-0 no-scrollbar h-[60vh] lg:h-[70vh]">
+                        {/* CONTENEDOR DE TARJETAS - Ocupa el espacio restante (flex-1) */}
+                        <div className="flex-1 min-h-0 flex md:grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-6 gap-6 2xl:gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-2 -mx-6 px-6 md:mx-0 md:px-0 no-scrollbar items-stretch h-[60vh] md:h-auto 2xl:h-full">
                             {beersData.map((beer) => (
-                                <div key={beer.id} className="min-w-[85vw] sm:min-w-[350px] md:min-w-0 snap-center beer-card glass rounded-xl overflow-hidden flex flex-col h-full group hover:border-amber-500/30 relative">
+                                <div key={beer.id} className="min-w-[85vw] sm:min-w-[350px] md:min-w-0 snap-center rounded-xl overflow-hidden flex flex-col h-full md:h-auto 2xl:h-full group relative transition-transform duration-500 lg:hover:scale-[1.02] bg-transparent border border-transparent hover:border-amber-500/10">
                                     
-                                    {/* Imagen de la lata - Fondo y borde eliminados, tamaño y escala aumentados */}
-                                    <div className="h-full relative flex items-center justify-center overflow-hidden">
-                                        <img src={beer.img} alt={beer.name} width="200" height="250" className="h-full w-auto object-contain p-4 lg:p-0 transition-transform duration-500 z-10 relative" loading="lazy" onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }} />
-                                        <div className="absolute inset-0 hidden flex items-center justify-center bg-black/20"><Icon name="Beer" size={64} className="text-white/50" /></div>
+                                    {/* Imagen de la lata - Ajustado: max-h reducido en md/lg para estabilidad, 105% en móvil/2xl */}
+                                    <div className="flex-1 relative flex items-center justify-center overflow-hidden min-h-0 md:h-80 lg:h-96 2xl:h-auto">
+                                        <div className="absolute inset-0 flex items-center justify-center md:static md:flex md:w-full md:h-full">
+                                            <img 
+                                                src={beer.img} 
+                                                alt={beer.name} 
+                                                className="max-h-[105%] md:max-h-[75%] 2xl:max-h-[105%] w-auto object-contain p-0 z-0 relative transition-transform duration-500 mx-auto" 
+                                                loading="lazy" 
+                                                onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }} 
+                                            />
+                                            <div className="absolute inset-0 hidden flex items-center justify-center bg-black/20"><Icon name="Beer" size={64} className="text-white/50" /></div>
+                                        </div>
                                     </div>
 
-                                    <div className="p-6 flex-1 flex flex-col justify-between relative z-10 bg-slate-900/50">
+                                    <div className="p-4 shrink-0 flex flex-col justify-end relative z-10">
                                         
-                                        <div className="flex flex-col gap-4 mb-6">
-                                            {/* 1. Información (Métricas) por ENCIMA en una fila */}
-                                            <div className="flex justify-center items-center gap-2 border-b border-slate-700/50 pb-4">
-                                                <div className="px-2 py-1 text-center cursor-help group/metric" title={TOOLTIPS.ABV}>
-                                                    <span className="block text-slate-500 text-xs font-bold uppercase tracking-wider group-hover/metric:text-amber-500 transition-colors">ABV</span>
-                                                    <span className="text-base font-bold text-white">{beer.abv}</span>
+                                        <div className="flex flex-col gap-3 mb-4">
+                                            {/* 1. Información (Métricas) */}
+                                            <div className="flex justify-center items-center gap-2 border-b border-slate-700/50 pb-3">
+                                                <div className="px-2 text-center cursor-help group/metric" title={TOOLTIPS.ABV}>
+                                                    <span className="block text-slate-500 text-[10px] font-bold uppercase tracking-wider group-hover/metric:text-amber-500 transition-colors">ABV</span>
+                                                    <span className="text-sm font-bold text-white">{beer.abv}</span>
                                                 </div>
-                                                <div className="w-px h-8 bg-slate-700/50"></div>
-                                                <div className="px-2 py-1 text-center cursor-help group/metric" title={TOOLTIPS.IBU}>
-                                                    <span className="block text-slate-500 text-xs font-bold uppercase tracking-wider group-hover/metric:text-amber-500 transition-colors">IBU</span>
-                                                    <span className="text-base font-bold text-white">{beer.ibu}</span>
+                                                <div className="w-px h-6 bg-slate-700/50"></div>
+                                                <div className="px-2 text-center cursor-help group/metric" title={TOOLTIPS.IBU}>
+                                                    <span className="block text-slate-500 text-[10px] font-bold uppercase tracking-wider group-hover/metric:text-amber-500 transition-colors">IBU</span>
+                                                    <span className="text-sm font-bold text-white">{beer.ibu}</span>
                                                 </div>
-                                                <div className="w-px h-8 bg-slate-700/50"></div>
-                                                <div className="px-2 py-1 text-center cursor-help group/metric" title={TOOLTIPS.SRM}>
-                                                    <span className="block text-slate-500 text-xs font-bold uppercase tracking-wider group-hover/metric:text-amber-500 transition-colors">SRM</span>
-                                                    <span className="text-base font-bold text-white">{beer.srm}</span>
+                                                <div className="w-px h-6 bg-slate-700/50"></div>
+                                                <div className="px-2 text-center cursor-help group/metric" title={TOOLTIPS.SRM}>
+                                                    <span className="block text-slate-500 text-[10px] font-bold uppercase tracking-wider group-hover/metric:text-amber-500 transition-colors">SRM</span>
+                                                    <span className="text-sm font-bold text-white">{beer.srm}</span>
                                                 </div>
                                             </div>
 
-                                            {/* 2. Imagen del Título CENTRADA */}
-                                            <div className="flex justify-center items-center h-16">
-                                                <img src={beer.titleImg} alt={beer.name} className="h-12 w-auto object-contain drop-shadow-lg transition-transform group-hover:scale-105" />
+                                            {/* 2. Imagen del Título */}
+                                            <div className="flex justify-center items-center h-10">
+                                                <img src={beer.titleImg} alt={beer.name} className="h-full w-auto object-contain drop-shadow-lg transition-transform group-hover:scale-105" />
                                             </div>
                                         </div>
                                         
                                         {/* Botón */}
-                                        <button onClick={() => setSelected(beer)} className="w-full py-3 border border-slate-600 hover:bg-amber-500 hover:border-amber-500 hover:text-slate-900 rounded transition-all text-sm uppercase tracking-wider font-bold mt-auto cursor-pointer">Ver Detalles</button>
+                                        <button onClick={() => setSelected(beer)} className="w-full py-3 border border-slate-600 hover:bg-amber-500 hover:border-amber-500 hover:text-slate-900 rounded transition-all text-xs uppercase tracking-wider font-bold cursor-pointer">Ver Detalles</button>
                                     </div>
                                 </div>
                             ))}
@@ -962,12 +1204,15 @@
                     <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-slate-900 to-slate-950"></div>
                     <div className="container mx-auto px-6 relative z-10 h-full flex flex-col justify-center">
                         
-                        <div className="text-center mb-8 shrink-0">
-                            <div className="inline-block p-4 rounded-full bg-slate-800/50 mb-4 border border-slate-700 backdrop-blur-sm animate-float">
+                        {/* Header Ajustado: Centrado y con Icono al inicio */}
+                        <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-8 shrink-0 text-center md:text-left">
+                            <div className="p-4 rounded-full bg-slate-800/50 border border-slate-700 backdrop-blur-sm animate-float shrink-0">
                                 <Icon name="FlaskConical" size={40} className="text-amber-500" />
                             </div>
-                            <h2 className="text-5xl font-bold text-white mb-2">LA <span className="gold-text">ALQUIMIA</span></h2>
-                            <p className="text-slate-400 text-xl font-light">Del grano a la copa.</p>
+                            <div>
+                                <h2 className="text-5xl font-bold text-white mb-2">LA <span className="gold-text">ALQUIMIA</span></h2>
+                                <p className="text-slate-400 text-xl font-light">Del grano a la copa.</p>
+                            </div>
                         </div>
 
                         <div className="flex flex-col lg:h-[70vh]">
@@ -1147,9 +1392,11 @@
                 <section id="locator" className="h-[100dvh] flex flex-col justify-center bg-slate-900 content-section reveal pt-24 md:pt-28 pb-4 lg:pb-8">
                     <div className="container mx-auto px-6 flex flex-col h-full">
                         
-                        {/* Header: Título */}
-                        <div className="text-center mb-4 lg:mb-6 shrink-0">
-                            <div className="inline-block p-2 rounded-full bg-slate-800 mb-2 border border-slate-700"><Icon name="Map" size={24} className="text-amber-500" /></div>
+                        {/* Header Ajustado: Centrado y con Icono al inicio */}
+                        <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-4 lg:mb-6 shrink-0 text-center md:text-left">
+                            <div className="p-2 rounded-full bg-slate-800 border border-slate-700 shrink-0">
+                                <Icon name="Map" size={24} className="text-amber-500" />
+                            </div>
                             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white whitespace-nowrap">PUNTOS DE <span className="gold-text">ENCUENTRO</span></h2>
                         </div>
                         
@@ -1292,38 +1539,9 @@
         };
 
         const InfoSection = () => {
-            // --- SOMMELIER STATE ---
-            const [step, setStep] = useState(0);
-            const [answers, setAnswers] = useState({});
-            const [result, setResult] = useState(null);
-            
             // --- FAQ STATE ---
             const [openIndex, setOpenIndex] = useState(null);
 
-            // Sommelier Data: 4 Preguntas para afinar el resultado
-            const questions = [ 
-                { 
-                    id: 'intensity', 
-                    text: "¿Qué buscas en tu cerveza hoy?", 
-                    options: [{label: "Suave y Refrescante", val: 'light'}, {label: "Con Cuerpo y Carácter", val: 'heavy'}] 
-                },
-                { 
-                    id: 'bitterness', 
-                    text: "¿Qué tal te llevas con el amargor?", 
-                    options: [{label: "Prefiero poco amargor", val: 'low'}, {label: "¡Amo el lúpulo amargo!", val: 'high'}] 
-                }, 
-                { 
-                    id: 'sweetness', 
-                    text: "¿Te gustan los toques dulces?", 
-                    options: [{label: "Sí, me gusta lo dulce", val: 'sweet'}, {label: "No, prefiero seco/tostado", val: 'dry'}] 
-                },
-                {
-                    id: 'color',
-                    text: "¿Qué color te atrae más visualmente?",
-                    options: [{label: "Doradas y Rubias", val: 'blonde'}, {label: "Rojas y Negras", val: 'dark'}]
-                }
-            ];
-            
             // FAQ Data: Agregadas 2 nuevas preguntas
             const faqs = [ 
                 { q: "¿Son Pet Friendly?", a: "¡Absolutamente! En nuestro patio exterior las mascotas son bienvenidas." }, 
@@ -1333,110 +1551,41 @@
                 { q: "¿Hacen envíos a domicilio?", a: "Realizamos envíos de latas y packs a todo el país a través de nuestra tienda online oficial." }
             ];
 
-            // Sommelier Handlers
-            const handleAnswer = (key, val) => {
-                const newAnswers = { ...answers, [key]: val };
-                setAnswers(newAnswers);
-                
-                if (step < questions.length - 1) { 
-                    setStep(step + 1); 
-                } else { 
-                    // Lógica de Decisión para las 6 Variedades
-                    let matchId = 1; // Default Golden
-
-                    // 1. IPAs (Alto Amargor)
-                    if (newAnswers.bitterness === 'high') {
-                        if (newAnswers.color === 'dark' || newAnswers.intensity === 'heavy') {
-                            matchId = 3; // RED IPA
-                        } else {
-                            matchId = 4; // ROCK IPA
-                        }
-                    } 
-                    // 2. Bajas en Amargor
-                    else {
-                        if (newAnswers.color === 'blonde') {
-                            if (newAnswers.sweetness === 'sweet') {
-                                matchId = 2; // HONEY
-                            } else {
-                                matchId = 1; // GOLDEN
-                            }
-                        } else {
-                            // Color Oscuro
-                            if (newAnswers.sweetness === 'sweet' || newAnswers.intensity === 'heavy' && newAnswers.sweetness !== 'dry') {
-                                matchId = 5; // SCOTTISH (Maltosa/Dulzona)
-                            } else {
-                                matchId = 6; // STOUT (Tostada/Seca)
-                            }
-                        }
-                    }
-                    
-                    setResult(beersData.find(b => b.id === matchId) || beersData[0]); 
-                }
-            };
-            
-            const reset = () => { setStep(0); setAnswers({}); setResult(null); };
-
             return (
                 // Sección Unificada con ID #info y fondo compartido
                 // pt-24 en móvil y md:pt-28 en escritorio
-                <section id="info" className="flex flex-col lg:flex-row relative overflow-hidden content-section reveal scroll-mt-28 pt-24 md:pt-28">
+                // Ajuste: min-h-screen y flex-col justify-start (antes center) con padding-top (pt-32)
+                <section id="info" className="relative overflow-hidden content-section reveal scroll-mt-28 pt-32 md:pt-36 pb-16 min-h-screen flex flex-col justify-start">
                     
                     {/* Fondo Compartido para toda la sección */}
                     <div className="absolute inset-0 bg-amber-900/20 z-0"></div>
                     <div className="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-transparent to-slate-900/50 z-0"></div>
 
-                    {/* COLUMNA 1: SOMMELIER */}
-                    <div className="w-full lg:w-1/2 min-h-[50dvh] lg:h-auto relative flex flex-col justify-center p-8 lg:p-16 border-b lg:border-b-0 lg:border-r border-slate-700/50 z-10">
-                         <div className="max-w-lg mx-auto text-center w-full">
-                            <div className="inline-block p-3 rounded-full bg-amber-500/20 mb-4"><Icon name="BrainCircuit" size={32} className="text-amber-400" /></div>
-                            <h2 className="text-3xl font-bold mb-2 text-white">MEDALLA SOMMELIER IA</h2>
-                            <p className="text-slate-400 mb-8">Descubre tu variedad ideal en segundos.</p>
-                            
-                            {!result ? (
-                                <div className="animate-fadeIn">
-                                    <h3 className="text-2xl mb-8 font-light text-white">{questions[step].text}</h3>
-                                    <div className="flex flex-col sm:flex-row justify-center gap-4">
-                                        {questions[step].options.map((opt, idx) => (
-                                            <button key={idx} onClick={() => handleAnswer(questions[step].id, opt.val)} className="px-6 py-3 bg-slate-800 hover:bg-amber-600 border border-slate-700 hover:border-amber-500 rounded-lg transition-all transform hover:-translate-y-1 shadow-lg cursor-pointer text-white font-bold">
-                                                {opt.label}
-                                            </button>
-                                        ))}
-                                    </div>
-                                    <div className="mt-8 flex justify-center gap-2">
-                                        {questions.map((_, i) => (
-                                            <span key={i} className={`h-2 w-2 rounded-full transition-colors ${step >= i ? 'bg-amber-500' : 'bg-slate-700'}`}></span>
-                                        ))}
-                                    </div>
+                    {/* CONTENEDOR FAQ CENTRADO */}
+                    <div className="relative z-10 container mx-auto px-6">
+                        <div className="max-w-3xl mx-auto w-full">
+                            {/* Header Ajustado: Centrado y con Icono al inicio */}
+                            <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-10 text-center md:text-left">
+                                <div className="p-3 rounded-full bg-amber-500/20 shrink-0">
+                                    <Icon name="HelpCircle" size={32} className="text-amber-400" />
                                 </div>
-                            ) : (
-                                <div className="animate-fadeIn bg-slate-900/80 p-6 rounded-xl border border-amber-500/30 backdrop-blur-sm">
-                                    <p className="text-amber-500 uppercase tracking-widest text-xs mb-2 font-bold">Tu Match:</p>
-                                    <h3 className="text-3xl font-bold text-white mb-4">{result.name}</h3>
-                                    <div className="flex justify-center gap-4">
-                                        <a href="#beers" className="bg-amber-600 text-white px-6 py-2 rounded font-bold hover:bg-amber-500 cursor-pointer transition-colors">Ver en Catálogo</a>
-                                        <button onClick={reset} className="text-slate-400 hover:text-white underline cursor-pointer text-sm">Reiniciar</button>
-                                    </div>
+                                <div>
+                                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-2 brand-font">PREGUNTAS FRECUENTES</h2>
+                                    <p className="text-slate-400">Todo lo que necesitas saber antes de venir.</p>
                                 </div>
-                            )}
-                         </div>
-                    </div>
-
-                    {/* COLUMNA 2: FAQ */}
-                    <div className="w-full lg:w-1/2 min-h-[50dvh] lg:h-auto flex flex-col justify-center p-8 lg:p-16 z-10">
-                        <div className="max-w-lg mx-auto w-full">
-                            <div className="text-center mb-10">
-                                <div className="inline-block p-3 rounded-full bg-amber-500/20 mb-4"><Icon name="HelpCircle" size={32} className="text-amber-400" /></div>
-                                <h2 className="text-3xl font-bold text-white">PREGUNTAS FRECUENTES</h2>
                             </div>
+
                             <div className="space-y-4">
                                 {faqs.map((item, idx) => (
                                     <div key={idx} className="border border-slate-700 rounded-lg overflow-hidden bg-slate-900/60 hover:bg-slate-900/80 transition-colors backdrop-blur-sm">
                                         <button onClick={() => setOpenIndex(openIndex === idx ? null : idx)} className="w-full flex justify-between items-center p-5 text-left cursor-pointer">
-                                            <span className="font-bold text-white text-sm pr-4">{item.q}</span>
-                                            <span className="text-amber-500 shrink-0">{openIndex === idx ? <Icon name="Minus" size={18} /> : <Icon name="Plus" size={18} />}</span>
+                                            <span className="font-bold text-white text-base pr-4">{item.q}</span>
+                                            <span className="text-amber-500 shrink-0 transition-transform duration-300 transform" style={{ transform: openIndex === idx ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+                                                {openIndex === idx ? <Icon name="Minus" size={20} /> : <Icon name="Plus" size={20} />}
+                                            </span>
                                         </button>
                                         <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openIndex === idx ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
-                                            <p className="p-5 pt-0 text-slate-400 text-sm leading-relaxed border-t border-slate-700/50 mt-0">{item.a}</p>
+                                            <p className="p-5 pt-0 text-slate-300 text-sm leading-relaxed border-t border-slate-700/50 mt-0">{item.a}</p>
                                         </div>
                                     </div>
                                 ))}
@@ -1448,71 +1597,124 @@
         };
 
         const EventsSchedule = () => {
-            const events = [
-                { date: "15 NOV", title: "Noche de Jazz & Stout", desc: "Saxofón en vivo acompañado de nuestra Noche Eterna.", icon: "Music" },
-                { date: "22 NOV", title: "Cata de IPAs", desc: "Descubre los secretos del lúpulo con nuestro maestro cervecero.", icon: "Beer" },
-                { date: "10 DIC", title: "Aniversario Medalla", desc: "¡Cumplimos 5 años! Banda sorpresa y cerveza dorada ilimitada.", icon: "Award" }
-            ];
-            return (
-                // pt-24 en móvil y md:pt-28 en escritorio
-                <section id="events" className="bg-slate-900/50 content-section reveal py-12 pt-24 md:pt-28 pb-8">
-                    <div className="container mx-auto px-6">
-                        <div className="flex items-center justify-between mb-12"><div className="flex items-center gap-4"><div className="h-1 w-12 bg-amber-500"></div><h2 className="text-4xl font-bold text-white">AGENDA MEDALLA</h2></div></div>
-                        <div className="flex md:grid md:grid-cols-3 gap-6 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-8 -mx-6 px-6 md:mx-0 md:px-0 no-scrollbar items-center">
-                            {events.map((evt, idx) => (
-                                <div key={idx} className="min-w-[80vw] sm:min-w-[350px] md:min-w-0 snap-center glass p-8 rounded-xl border-l-4 border-amber-500 hover:bg-slate-800/50 transition-colors group cursor-pointer">
-                                    <div className="flex justify-between items-start mb-6">
-                                        <div className="bg-slate-900 px-4 py-2 rounded text-center border border-slate-700"><span className="block text-amber-500 font-bold text-xl brand-font">{evt.date.split(' ')[0]}</span><span className="block text-slate-400 text-xs uppercase">{evt.date.split(' ')[1]}</span></div>
-                                        <div className="p-2 bg-amber-500/10 rounded-full text-amber-500 group-hover:bg-amber-500 group-hover:text-white transition-colors"><Icon name={evt.icon} size={24} /></div>
-                                    </div>
-                                    <h3 className="text-2xl font-bold text-white mb-3 whitespace-nowrap">{evt.title}</h3>
-                                    <p className="text-slate-400 text-sm">{evt.desc}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            );
-        };
+            const [activeIndex, setActiveIndex] = useState(0);
+            const [selectedGalleryEvent, setSelectedGalleryEvent] = useState(null); // Nuevo estado para el modal de galería
 
-        const ImageGallery = () => {
-            const [selectedImage, setSelectedImage] = useState(null);
-            const images = [
-                { src: "https://image.pollinations.ai/prompt/oktoberfest%20beer%20party%20night%20crowd?width=800&height=600&nologo=true", title: "Oktoberfest 2024", desc: "La fiesta más grande del año en nuestro patio cervecero." },
-                { src: "https://image.pollinations.ai/prompt/st%20patricks%20day%20pub%20green%20lighting?width=600&height=600&nologo=true", title: "San Patricio", desc: "Todo se tiñó de verde y buena suerte." },
-                { src: "https://image.pollinations.ai/prompt/brewery%20stainless%20steel%20tanks%20industrial?width=800&height=600&nologo=true", title: "Visita Fábrica", desc: "Donde nace la magia: tour exclusivo para socios." },
-                { src: "https://image.pollinations.ai/prompt/beer%20tasting%20flight%20glasses%20wood%20table?width=600&height=600&nologo=true", title: "Torneo de Cata", desc: "Buscando el paladar más fino de la ciudad." }
+            const upcomingEvents = [
+                { date: "15 NOV", title: "Noche de Jazz & Stout", desc: "Saxofón en vivo acompañado de nuestra Noche Eterna.", icon: "Music", img: "https://image.pollinations.ai/prompt/jazz%20band%20bar%20night%20dark%20atmosphere?width=800&height=600&nologo=true" },
+                { date: "22 NOV", title: "Cata de IPAs", desc: "Descubre los secretos del lúpulo con nuestro maestro cervecero.", icon: "Beer", img: "https://image.pollinations.ai/prompt/craft%20beer%20tasting%20flight%20hops?width=800&height=600&nologo=true" },
+                { date: "10 DIC", title: "Aniversario Medalla", desc: "¡Cumplimos 5 años! Banda sorpresa y cerveza dorada ilimitada.", icon: "Award", img: "https://image.pollinations.ai/prompt/brewery%20anniversary%20party%20night?width=800&height=600&nologo=true" }
             ];
+
+            const pastEvents = [
+                { date: "31 OCT", title: "Halloween Spooky Night", img: "https://image.pollinations.ai/prompt/halloween%20party%20bar%20costumes%20dark?width=300&height=300&nologo=true" },
+                { date: "21 SEP", title: "Fiesta de la Primavera", img: "https://image.pollinations.ai/prompt/spring%20beer%20garden%20sunny%20people?width=300&height=300&nologo=true" },
+                { date: "20 JUL", title: "Día del Amigo", img: "https://image.pollinations.ai/prompt/friends%20toasting%20beer%20bar%20night?width=300&height=300&nologo=true" }
+            ];
+
             return (
-                // pt-24 en móvil y md:pt-28 en escritorio
-                <section id="gallery" className="bg-black relative content-section reveal py-12 pt-24 md:pt-28 pb-8">
-                    <div className="absolute inset-0 opacity-10" style={{backgroundImage: 'radial-gradient(#fbbf24 1px, transparent 1px)', backgroundSize: '20px 20px'}}></div>
-                    <div className="container mx-auto px-6 relative z-10">
-                        <div className="text-center mb-16"><div className="inline-block p-3 rounded-full bg-slate-800 mb-4 border border-slate-700"><Icon name="Camera" size={32} className="text-amber-500" /></div><h2 className="text-4xl md:text-5xl font-bold mb-4 whitespace-nowrap">MOMENTOS DE <span className="gold-text">ORO</span></h2><p className="text-slate-400">Revive las mejores noches en Medalla.</p></div>
-                        <div className="flex md:grid md:grid-cols-4 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-8 -mx-6 px-6 md:mx-0 md:px-0 no-scrollbar md:auto-rows-[200px]">
-                            {images.map((img, idx) => (
-                                <div key={idx} onClick={() => setSelectedImage(img)} className={`min-w-[80vw] sm:min-w-[350px] md:min-w-0 snap-center relative group overflow-hidden rounded-xl cursor-pointer border border-slate-800 hover:border-amber-500/50 transition-colors ${idx === 0 ? 'md:col-span-2 md:row-span-2 h-64 md:h-auto' : 'md:col-span-1 md:row-span-1 h-64'}`}>
-                                    <img src={img.src} alt={img.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4"><h3 className="text-sm font-bold text-white">{img.title}</h3></div>
-                                </div>
-                            ))}
+                <section id="events" className="bg-slate-900 content-section reveal py-12 pt-24 md:pt-28 pb-12">
+                    <div className="container mx-auto px-6">
+                        
+                        {/* Título Principal - Agenda Medalla */}
+                        <div className="flex items-center gap-4 mb-8 md:mb-12">
+                            <div className="h-1 w-12 bg-amber-500"></div>
+                            <h2 className="text-4xl font-bold text-white brand-font">AGENDA MEDALLA</h2>
                         </div>
-                    </div>
-                    {selectedImage && (
-                        <ModalPortal>
-                            <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md animate-fadeIn" onClick={() => setSelectedImage(null)}>
-                                <div className="relative max-w-4xl w-full bg-slate-900 rounded-2xl overflow-hidden shadow-2xl border border-slate-700 max-h-[90dvh] flex flex-col" onClick={e => e.stopPropagation()}>
-                                    <button onClick={() => setSelectedImage(null)} className="absolute top-4 right-4 z-10 p-2 bg-black/50 hover:bg-amber-600 rounded-full text-white transition-colors cursor-pointer"><Icon name="X" size={24} /></button>
-                                    <div className="grid md:grid-cols-2 h-full overflow-y-auto md:overflow-hidden">
-                                        <div className="h-64 md:h-full min-h-[300px] bg-black flex items-center justify-center"><img src={selectedImage.src} alt={selectedImage.title} className="w-full h-full object-contain" /></div>
-                                        <div className="p-8 flex flex-col justify-center bg-slate-900">
-                                            <div className="text-amber-500 mb-2 text-sm tracking-widest uppercase font-bold">Recuerdo Destacado</div><h3 className="text-4xl font-bold text-white mb-4 brand-font">{selectedImage.title}</h3><p className="text-slate-300 leading-relaxed mb-8">{selectedImage.desc}</p>
+
+                        {/* Contenedor Dividido en Desktop */}
+                        <div className="flex flex-col lg:flex-row gap-8 lg:h-[500px]">
+                            
+                            {/* IZQUIERDA: CARRUSEL PRÓXIMOS EVENTOS (65% ancho en desktop) */}
+                            <div className="lg:w-[65%] relative group h-96 lg:h-auto rounded-3xl overflow-hidden shadow-2xl border border-slate-700 bg-slate-800">
+                                
+                                {/* Badge Flotante */}
+                                <div className="absolute top-6 left-6 z-30 bg-amber-500 text-slate-900 text-xs font-bold px-3 py-1.5 rounded uppercase tracking-widest shadow-lg">
+                                    Próxima Fecha
+                                </div>
+
+                                {/* Slides */}
+                                {upcomingEvents.map((evt, idx) => (
+                                    <div key={idx} className={`absolute inset-0 transition-all duration-700 ease-in-out ${idx === activeIndex ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-105 z-0'}`}>
+                                        {/* Imagen de Fondo con Overlay */}
+                                        <img src={evt.img} alt={evt.title} className="w-full h-full object-cover" />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent"></div>
+                                        
+                                        {/* Contenido del Evento */}
+                                        <div className="absolute bottom-0 left-0 w-full p-8 md:p-10">
+                                            <div className="flex items-center gap-3 mb-3 text-amber-400">
+                                                <Icon name={evt.icon} className="animate-bounce" />
+                                                <span className="font-mono text-lg font-bold tracking-tighter">{evt.date}</span>
+                                            </div>
+                                            <h3 className="text-3xl md:text-5xl font-bold text-white mb-3 brand-font leading-none">{evt.title}</h3>
+                                            <p className="text-slate-300 text-sm md:text-lg max-w-lg line-clamp-2 md:line-clamp-none">{evt.desc}</p>
                                         </div>
                                     </div>
+                                ))}
+
+                                {/* Controles del Carrusel - Ajustado: Arriba en móvil, Abajo en Desktop */}
+                                <div className="absolute top-6 right-6 md:top-auto md:bottom-8 md:right-8 z-30 flex gap-3">
+                                    <button 
+                                        onClick={() => setActiveIndex(prev => prev > 0 ? prev - 1 : upcomingEvents.length - 1)} 
+                                        className="p-3 bg-black/30 hover:bg-amber-500 text-white hover:text-slate-900 rounded-full backdrop-blur-md border border-white/10 transition-all cursor-pointer"
+                                    >
+                                        <Icon name="ChevronRight" className="rotate-180" size={20} />
+                                    </button>
+                                    <button 
+                                        onClick={() => setActiveIndex(prev => prev < upcomingEvents.length - 1 ? prev + 1 : 0)} 
+                                        className="p-3 bg-black/30 hover:bg-amber-500 text-white hover:text-slate-900 rounded-full backdrop-blur-md border border-white/10 transition-all cursor-pointer"
+                                    >
+                                        <Icon name="ChevronRight" size={20} />
+                                    </button>
                                 </div>
                             </div>
-                        </ModalPortal>
-                    )}
+
+                            {/* DERECHA: EVENTOS PASADOS (35% ancho en desktop) */}
+                            <div className="lg:w-[35%] flex flex-col min-h-[300px]">
+                                {/* Título Secundario - Separado visualmente */}
+                                <div className="mb-4 flex items-center justify-between pb-2 border-b border-slate-800">
+                                    <span className="text-slate-500 font-bold uppercase tracking-widest text-xs">Bitácora de Noches</span>
+                                    <span className="text-slate-600 text-[10px] font-mono">ARCHIVO 2024</span>
+                                </div>
+                                
+                                {/* Lista Creativa Vertical */}
+                                <div className="flex-1 flex flex-col gap-3 overflow-y-auto custom-scrollbar pr-2">
+                                    {pastEvents.map((evt, idx) => (
+                                        <div 
+                                            key={idx} 
+                                            onClick={() => setSelectedGalleryEvent(evt)} // Abrir modal al hacer clic
+                                            className="flex items-center gap-4 p-3 rounded-xl bg-slate-800/40 hover:bg-slate-800 border border-slate-700/30 hover:border-amber-500/30 transition-all group cursor-pointer"
+                                        >
+                                            {/* Thumbnail tipo Polaroid */}
+                                            <div className="w-16 h-16 md:w-20 md:h-20 shrink-0 relative rotate-2 group-hover:rotate-0 transition-transform duration-300 bg-slate-200 p-1 rounded-sm shadow-lg">
+                                                <img src={evt.img} alt={evt.title} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all" />
+                                            </div>
+                                            
+                                            <div className="flex flex-col">
+                                                <span className="text-[10px] font-bold text-amber-600 bg-amber-900/10 px-2 py-0.5 rounded w-fit mb-1">{evt.date}</span>
+                                                <h4 className="text-white font-bold text-sm md:text-base leading-tight group-hover:text-amber-500 transition-colors">{evt.title}</h4>
+                                                <div className="flex items-center gap-1 text-[10px] text-slate-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                    <Icon name="Camera" size={10} /> Ver Galería
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                    {/* Botón ver más */}
+                                    <button className="mt-auto w-full py-3 text-xs uppercase tracking-widest text-slate-500 hover:text-white border border-dashed border-slate-700 hover:border-slate-500 rounded-xl transition-colors">
+                                        Ver Archivo Completo
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    {/* Modal de Galería de Eventos */}
+                    <EventGalleryModal 
+                        isOpen={!!selectedGalleryEvent} 
+                        onClose={() => setSelectedGalleryEvent(null)} 
+                        event={selectedGalleryEvent} 
+                    />
                 </section>
             );
         };
@@ -1528,17 +1730,20 @@
                         {/* Grid Container: Contenido Principal */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 items-start w-full">
                             
-                            {/* 1. Marca (Izquierda) */}
-                            <div className="flex flex-col items-center md:items-start">
-                                {/* Logo y Texto lado a lado en todas las pantallas, ajustando tamaños */}
-                                <div className="flex flex-row items-center gap-4 text-amber-500 transition-all mb-4">
-                                    <img src={logoUrl} alt="Logo Footer" className="h-16 w-16 md:h-28 md:w-28 object-contain transition-all" />
-                                    <span className="font-bold tracking-[0.2em] brand-font text-3xl md:text-5xl text-white transition-all">MEDALLA</span>
+                            {/* 1. Comunidad (Ahora Primero - Izquierda) */}
+                            <div className="flex flex-col items-center md:items-start w-full">
+                                <h4 className="text-white font-bold uppercase tracking-widest mb-6 text-sm md:text-base border-b-2 border-amber-500/20 pb-2 inline-block text-center md:text-left">Comunidad</h4>
+                                <div className="flex justify-center md:justify-start gap-6 w-full">
+                                    <a href="#" className="bg-slate-800 p-4 rounded-full hover:bg-amber-500 hover:text-slate-900 transition-all hover:scale-110 shadow-lg group">
+                                        <Icon name="Facebook" size={24} className="group-hover:scale-110 transition-transform" />
+                                    </a>
+                                    <a href="#" className="bg-slate-800 p-4 rounded-full hover:bg-amber-500 hover:text-slate-900 transition-all hover:scale-110 shadow-lg group">
+                                        <Icon name="Instagram" size={24} className="group-hover:scale-110 transition-transform" />
+                                    </a>
+                                    <a href="#" className="bg-slate-800 p-4 rounded-full hover:bg-amber-500 hover:text-slate-900 transition-all hover:scale-110 shadow-lg group">
+                                        <Icon name="Twitter" size={24} className="group-hover:scale-110 transition-transform" />
+                                    </a>
                                 </div>
-                                {/* Derechos Reservados justo debajo: Más grande y visible en desktop */}
-                                <p className="text-xs md:text-sm text-slate-600 md:text-slate-400 font-light tracking-wide whitespace-nowrap transition-colors">
-                                    &copy; {new Date().getFullYear()} Cervecería Medalla. Todos los derechos reservados.
-                                </p>
                             </div>
 
                             {/* 2. Contacto (Centro) */}
@@ -1566,20 +1771,17 @@
                                 </ul>
                             </div>
 
-                            {/* 3. Comunidad (Derecha - Alineación corregida) */}
-                            <div className="flex flex-col items-center md:items-end w-full">
-                                <h4 className="text-white font-bold uppercase tracking-widest mb-6 text-sm md:text-base border-b-2 border-amber-500/20 pb-2 inline-block text-center md:text-right">Comunidad</h4>
-                                <div className="flex justify-center md:justify-end gap-6 w-full">
-                                    <a href="#" className="bg-slate-800 p-4 rounded-full hover:bg-amber-500 hover:text-slate-900 transition-all hover:scale-110 shadow-lg group">
-                                        <Icon name="Facebook" size={24} className="group-hover:scale-110 transition-transform" />
-                                    </a>
-                                    <a href="#" className="bg-slate-800 p-4 rounded-full hover:bg-amber-500 hover:text-slate-900 transition-all hover:scale-110 shadow-lg group">
-                                        <Icon name="Instagram" size={24} className="group-hover:scale-110 transition-transform" />
-                                    </a>
-                                    <a href="#" className="bg-slate-800 p-4 rounded-full hover:bg-amber-500 hover:text-slate-900 transition-all hover:scale-110 shadow-lg group">
-                                        <Icon name="Twitter" size={24} className="group-hover:scale-110 transition-transform" />
-                                    </a>
+                            {/* 3. Marca (Ahora Último - Derecha) */}
+                            <div className="flex flex-col items-center md:items-end">
+                                {/* Logo y Texto lado a lado en todas las pantallas, ajustando tamaños */}
+                                <div className="flex flex-row items-center gap-4 text-amber-500 transition-all mb-4">
+                                    <img src={logoUrl} alt="Logo Footer" className="h-16 w-16 md:h-28 md:w-28 object-contain transition-all" />
+                                    <span className="font-bold tracking-[0.2em] brand-font text-3xl md:text-5xl text-white transition-all">MEDALLA</span>
                                 </div>
+                                {/* Derechos Reservados justo debajo: Más grande y visible en desktop */}
+                                <p className="text-xs md:text-sm text-slate-600 md:text-slate-400 font-light tracking-wide whitespace-nowrap transition-colors text-center md:text-right">
+                                    &copy; {new Date().getFullYear()} Cervecería Medalla. Todos los derechos reservados.
+                                </p>
                             </div>
 
                         </div>
@@ -1610,6 +1812,7 @@
             // Carrito persistente
             const [cart, setCart] = useLocalStorage('medalla_cart', []);
             const [isCartOpen, setIsCartOpen] = useState(false);
+            const [isSommelierOpen, setIsSommelierOpen] = useState(false); // Estado para el modal de Sommelier
             const [confirmation, setConfirmation] = useState({ type: null, isOpen: false });
 
             useScrollReveal();
@@ -1683,6 +1886,11 @@
                         isDestructive={confirmation.type === 'clear'}
                     />
 
+                    <SommelierModal 
+                        isOpen={isSommelierOpen}
+                        onClose={() => setIsSommelierOpen(false)}
+                    />
+
                     <CartDrawer 
                         isOpen={isCartOpen} 
                         onClose={() => setIsCartOpen(false)} 
@@ -1697,7 +1905,11 @@
                     {/* Aplicamos la clase blur-transition y controlamos el blur dinámicamente */}
                     <div className={`blur-transition ${ageVerified ? "filter-none" : "blur-xl pointer-events-none h-screen overflow-hidden"}`}>
                         <ScrollProgress />
-                        <Navbar cartCount={cartItemCount} onOpenCart={() => setIsCartOpen(true)} />
+                        <Navbar 
+                            cartCount={cartItemCount} 
+                            onOpenCart={() => setIsCartOpen(true)} 
+                            onOpenSommelier={() => setIsSommelierOpen(true)}
+                        />
                         <Hero />
                         <AboutUs />
                         <BeerCatalog />
@@ -1708,7 +1920,6 @@
                         {/* <FoodMenu /> ELIMINADO DEL FLUJO */}
                         {/* <LoyaltyClub /> ELIMINADO DEL FLUJO */}
                         <EventsSchedule />
-                        <ImageGallery />
                         <InfoSection />
                         {/* <Testimonials /> ELIMINADO DEL FLUJO */}
                         {/* <FAQ /> ELIMINADO DEL FLUJO - UNIDO EN INFOSECTION */}
