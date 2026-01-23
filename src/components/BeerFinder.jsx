@@ -12,7 +12,7 @@ const BeerFinder = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     // Fallback logo genérico si no tiene uno específico
-    const getLogo = (partner) => partner.logo || "/logo_medalla.png";
+    const getLogo = (partner) => partner.logo || `${import.meta.env.BASE_URL}assets/img/ui/logo_medalla.webp`;
 
     const filteredPartners = useMemo(() => {
         return partnersData.filter(p => {
@@ -180,7 +180,7 @@ const BeerFinder = () => {
 
                             {/* Left: Info & Branding - Scrollable on mobile */}
                             <div className="lg:w-1/2 p-6 md:p-8 flex flex-col relative overflow-y-auto flex-1 bg-slate-900/50">
-                                <div className="absolute inset-0 bg-[url('/pattern_dot.png')] opacity-5 pointer-events-none"></div>
+                                <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #fbbf24 1px, transparent 1px)', backgroundSize: '16px 16px' }}></div>
 
                                 {/* Header */}
                                 <div className="flex items-center gap-6 mb-8 shrink-0">

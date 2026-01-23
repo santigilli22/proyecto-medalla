@@ -2,14 +2,14 @@ import Icon from './Icon';
 
 const Footer = () => {
     const BASE = import.meta.env.BASE_URL;
-    const logoUrl = `${BASE}logo_medalla.png`;
+    const logoUrl = `${BASE}assets/img/ui/logo_medalla.webp`;
 
     return (
         <footer id="footer" className="bg-black text-slate-400 font-light border-t border-amber-900/40 relative overflow-hidden flex items-center justify-center">
             {/* Background Texture */}
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900/30 via-black to-black pointer-events-none"></div>
 
-            <div className="container mx-auto px-6 relative z-10 w-full py-12 lg:py-16">
+            <div className="container mx-auto px-6 relative z-10 w-full py-12 lg:py-8">
 
                 {/* Simplified Bottom Bar */}
                 <div className="flex flex-col lg:flex-row items-center justify-around gap-8 lg:gap-0">

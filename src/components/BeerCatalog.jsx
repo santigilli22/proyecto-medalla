@@ -55,7 +55,6 @@ const BeerCatalog = () => {
                                 {/* IMAGEN LATA */}
                                 <div className="relative w-full flex-1 min-h-0 flex items-end justify-center mb-0 pointer-events-none px-4 lg:px-0 transition-transform duration-500 lg:group-hover:scale-105">
                                     <picture className="h-full w-full flex justify-center items-end relative z-10">
-                                        <source srcSet={beer.img.replace('/png/', '/webp/').replace('.png', '.webp')} type="image/webp" />
                                         <img
                                             src={beer.img}
                                             alt={beer.name}
@@ -87,7 +86,6 @@ const BeerCatalog = () => {
                                     <Icon name="X" size={24} />
                                 </button>
                                 <picture className="contents">
-                                    <source srcSet={selected.detailImg.replace('/png/', '/webp/').replace('.png', '.webp')} type="image/webp" />
                                     <img
                                         src={selected.detailImg}
                                         alt={`Detalle ${selected.name}`}

@@ -8,7 +8,7 @@ export const kegsData = [
         price: "Consultar",
         iconSize: 48,
         stock: 100,
-        img: `${BASE}assets/img/png/keg_10l_celebration.png`,
+        img: `${BASE}assets/img/kegs/keg_10l_celebration.webp`,
         description: "Ideal para una cena con amigos cercanos o una previa antes de salir. La medida justa para disfrutar de una buena cerveza tirada sin excesos."
     },
     {
@@ -18,7 +18,7 @@ export const kegsData = [
         price: "Consultar",
         iconSize: 56,
         stock: 50,
-        img: `${BASE}assets/img/png/keg_20l_celebration.png`,
+        img: `${BASE}assets/img/kegs/keg_20l_celebration.webp`,
         description: "El clásico de los fines de semana. Perfecto para cumpleaños en casa, asados familiares o esas juntadas que se extienden hasta tarde."
     },
     {
@@ -28,7 +28,7 @@ export const kegsData = [
         price: "Consultar",
         iconSize: 60,
         stock: 35,
-        img: `${BASE}assets/img/png/keg_30l_celebration.png`,
+        img: `${BASE}assets/img/kegs/keg_30l_celebration.webp`,
         description: "Cuando la convocatoria supera lo habitual. Excelente para despedidas, recibidas o reuniones donde la sed es protagonista y nadie quiere quedarse corto."
     },
     {
@@ -38,7 +38,7 @@ export const kegsData = [
         price: "Consultar",
         iconSize: 64,
         stock: 20,
-        img: `${BASE}assets/img/png/keg_50l_celebration.png`,
+        img: `${BASE}assets/img/kegs/keg_50l_celebration.webp`,
         description: "Pensado para casamientos, fiestas corporativas o festivales. La solución definitiva para abastecer a una multitud y asegurar el éxito del evento."
     }
 ];

@@ -67,55 +67,55 @@ export const pastAlbums = [
         title: "FIN DE AÑO 2024",
         date: "31 DIC 2024",
         location: "Medalla Bar",
-        cover: `${BASE}event_newyear.png`,
-        gallery: generateAlbumPhotos(`${BASE}event_newyear.png`, 10)
+        cover: `${BASE}assets/img/events/event_newyear.webp`,
+        gallery: generateAlbumPhotos(`${BASE}assets/img/events/event_newyear.webp`, 10)
     },
     {
         id: "P2",
         title: "HALLOWEEN FEST",
         date: "31 OCT 2024",
         location: "Fábrica Medalla",
-        cover: `${BASE}event_halloween.png`,
-        gallery: generateAlbumPhotos(`${BASE}event_halloween.png`, 12)
+        cover: `${BASE}assets/img/events/event_halloween.webp`,
+        gallery: generateAlbumPhotos(`${BASE}assets/img/events/event_halloween.webp`, 12)
     },
     {
         id: "P3",
         title: "SAN PATRICIO",
         date: "17 MAR 2024",
         location: "Medalla Bar",
-        cover: `${BASE}event_stpatrick.png`,
-        gallery: generateAlbumPhotos(`${BASE}event_stpatrick.png`, 10)
+        cover: `${BASE}assets/img/events/event_stpatrick.webp`,
+        gallery: generateAlbumPhotos(`${BASE}assets/img/events/event_stpatrick.webp`, 10)
     },
     {
         id: "P4",
         title: "FESTIVAL VERANO",
         date: "ENE 2024",
         location: "Plaza Central",
-        cover: `${BASE}event_festival.png`,
-        gallery: generateAlbumPhotos(`${BASE}event_festival.png`, 15)
+        cover: `${BASE}assets/img/events/event_festival.webp`,
+        gallery: generateAlbumPhotos(`${BASE}assets/img/events/event_festival.webp`, 15)
     },
     {
         id: "P5",
         title: "OKTOBERFEST",
         date: "OCT 2023",
         location: "Predio Ferial",
-        cover: `${BASE}event_festival.png`,
-        gallery: generateAlbumPhotos(`${BASE}event_festival.png`, 20)
+        cover: `${BASE}assets/img/events/event_festival.webp`,
+        gallery: generateAlbumPhotos(`${BASE}assets/img/events/event_festival.webp`, 20)
     },
     {
         id: "P6",
         title: "ANIVERSARIO #5",
         date: "AGO 2023",
         location: "Fábrica Medalla",
-        cover: `${BASE}event_newyear.png`,
-        gallery: generateAlbumPhotos(`${BASE}event_newyear.png`, 8)
+        cover: `${BASE}assets/img/events/event_newyear.webp`,
+        gallery: generateAlbumPhotos(`${BASE}assets/img/events/event_newyear.webp`, 8)
     },
     {
         id: "P7",
         title: "NOCHE DE BURGERS",
         date: "JUL 2023",
         location: "Medalla Bar Sur",
-        cover: `${BASE}event_halloween.png`,
-        gallery: generateAlbumPhotos(`${BASE}event_halloween.png`, 5)
+        cover: `${BASE}assets/img/events/event_halloween.webp`,
+        gallery: generateAlbumPhotos(`${BASE}assets/img/events/event_halloween.webp`, 5)
     }
 ];

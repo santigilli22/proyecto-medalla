@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 import Icon from "./Icon";
-import logoMedalla from '/logo_medalla.png';
+import logoMedalla from '/assets/img/ui/logo_medalla.webp';
 
 const Hero = () => {
 
@@ -37,7 +37,7 @@ const Hero = () => {
 
             <div
                 className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-overlay z-0"
-                style={{ backgroundImage: `url(${import.meta.env.BASE_URL}bg_2.png)` }}
+                style={{ backgroundImage: `url(${import.meta.env.BASE_URL}assets/img/backgrounds/bg_2.webp)` }}
             ></div>
             <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-transparent to-slate-900 z-10"></div>
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(15,23,42,0.9)_100%)] z-10"></div>

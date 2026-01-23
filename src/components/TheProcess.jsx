@@ -105,42 +105,42 @@ const TheProcess = () => {
             icon: "Wheat",
             desc: "Nuestra jornada comienza seleccionando las mejores maltas. En el molino, rompemos el grano con precisión milimétrica: buscamos exponer el almidón sin destrozar la cáscara, que será nuestro filtro natural más adelante.",
             secret: "Punto justo de ruptura para un filtrado cristalino.",
-            image: `${import.meta.env.BASE_URL}process/molienda.png`
+            image: `${import.meta.env.BASE_URL}assets/img/process/molienda.webp`
         },
         {
             title: "Maceración",
             icon: "Thermometer",
             desc: "En el macerador, mezclamos la malta molida con agua caliente tratada. Aquí activamos las enzimas naturales que convierten los almidones en azúcares fermentables. Es un proceso de paciencia y temperatura controlada.",
             secret: "Control de temperatura escalonado para cuerpo y sabor.",
-            image: `${import.meta.env.BASE_URL}process/maceracion.png`
+            image: `${import.meta.env.BASE_URL}assets/img/process/maceracion.webp`
         },
         {
             title: "Hervor y Lupulado",
             icon: "Flame",
             desc: "Llevamos el mosto a ebullición vigorosa. Este es el momento donde definimos el carácter: agregamos lúpulos en diferentes tiempos para aportar amargor, sabor y esos aromas únicos que distinguen a cada estilo Medalla.",
             secret: "Adiciones tardías para una explosión aromática.",
-            image: `${import.meta.env.BASE_URL}process/hervor.png`
+            image: `${import.meta.env.BASE_URL}assets/img/process/hervor.webp`
         },
         {
             title: "Fermentación",
             icon: "FlaskConical",
             desc: "Enfriamos el mosto rápidamente y lo pasamos a los fermentadores. Sembramos nuestra levadura, que trabajará incansablemente transformando azúcares en alcohol y CO2, creando el perfil sensorial definitivo.",
             secret: "Levaduras sanas y temperaturas precisas.",
-            image: `${import.meta.env.BASE_URL}process/fermentacion.png`
+            image: `${import.meta.env.BASE_URL}assets/img/process/fermentacion.webp`
         },
         {
             title: "Maduración en Frío",
             icon: "Clock",
             desc: "Una vez fermentada, bajamos la temperatura drásticamente. La cerveza descansa, madura y se clarifica naturalmente. Los sabores se redondean y se integran, eliminando cualquier arista no deseada.",
             secret: "Tiempo y paciencia, sin acelerar procesos.",
-            image: `${import.meta.env.BASE_URL}process/maduracion.png`
+            image: `${import.meta.env.BASE_URL}assets/img/process/maduracion.webp`
         },
         {
             title: "Embarrilado",
             icon: "Package",
             desc: "Finalmente, filtramos (o no, según el estilo) y envasamos en barriles y latas bajo condiciones estrictas para evitar el oxígeno. Así aseguramos que la frescura de la fábrica llegue intacta a tu mano.",
             secret: "Cadena de frío y purga de CO2 constante.",
-            image: `${import.meta.env.BASE_URL}process/embarrilado.png`
+            image: `${import.meta.env.BASE_URL}assets/img/process/embarrilado.webp`
         }
     ];
 

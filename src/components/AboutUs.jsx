@@ -32,7 +32,7 @@ const AboutUs = () => {
                         <div className="relative group overflow-hidden rounded-tr-[4rem] rounded-bl-[4rem] border border-slate-800 shadow-2xl h-[45vh] lg:h-[50vh]">
                             <div className="absolute inset-0 bg-amber-500/10 group-hover:bg-transparent transition-colors z-10"></div>
                             <img
-                                src={`${import.meta.env.BASE_URL}assets/img/png/team.png`}
+                                src={`${import.meta.env.BASE_URL}assets/img/ui/team.webp`}
                                 alt="Equipo Medalla"
                                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 transform group-hover:scale-105"
                             />
