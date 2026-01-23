@@ -1,7 +1,7 @@
 import Icon from './Icon';
 
-const SommelierButton = ({ onOpen }) => (
-    <div className="fixed bottom-6 right-6 z-[90] flex items-center justify-center group">
+const SommelierButton = ({ onOpen, hidden }) => (
+    <div className={`fixed bottom-6 right-6 z-[90] flex items-center justify-center group transition-opacity duration-300 ${hidden ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
 
         {/* Tooltip */}
         <span className="absolute right-full mr-4 bg-slate-900 text-white text-xs font-bold px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap border border-slate-700 pointer-events-none">

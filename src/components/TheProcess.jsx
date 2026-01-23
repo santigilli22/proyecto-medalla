@@ -5,7 +5,7 @@ const ProcessStep = ({ step, index, isActive, toggleStep }) => {
     const isEven = index % 2 === 0;
 
     return (
-        <div className={`relative flex flex-col w-full mb-4 lg:mb-32 lg:flex-row lg:items-center lg:justify-between lg:gap-0 ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}>
+        <div id={`process-step-${index}`} className={`relative flex flex-col w-full mb-4 lg:mb-32 lg:flex-row lg:items-center lg:justify-between lg:gap-0 ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}>
 
             {/* MOBILE HEADER (Always Visible on Mobile) */}
             <button
@@ -96,7 +96,23 @@ const TheProcess = () => {
     const [activeStepMobile, setActiveStepMobile] = useState(null);
 
     const toggleStep = (index) => {
-        setActiveStepMobile(prev => prev === index ? null : index);
+        if (activeStepMobile === index) {
+            setActiveStepMobile(null);
+        } else {
+            setActiveStepMobile(index);
+            // Wait for state update and DOM expansion
+            setTimeout(() => {
+                const element = document.getElementById(`process-step-${index}`);
+                if (element) {
+                    const navbarHeight = 80;
+                    const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+                    window.scrollTo({
+                        top: elementPosition - navbarHeight,
+                        behavior: 'smooth'
+                    });
+                }
+            }, 300);
+        }
     };
 
     const steps = [

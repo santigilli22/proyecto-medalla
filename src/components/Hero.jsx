@@ -61,10 +61,14 @@ const Hero = () => {
                         </span>
 
                         <p className="text-2xl md:text-4xl lg:text-5xl text-slate-200 mb-10 font-light leading-relaxed animate-slideUp">
-                            Elaborada con paciencia, <br /> servida con <span className="text-amber-500 font-bold brand-font">orgullo</span>.
+                            Una Medalla como <br /> reconocimiento al <span className="text-amber-500 font-bold brand-font">Valor</span>.
                         </p>
 
-                        <div className="flex flex-col sm:flex-row gap-6 animate-slideUp w-full sm:w-auto" style={{ animationDelay: '0.2s' }}>
+                        <p className="text-l md:text-2xl lg:text-2xl text-slate-200 mb-10 font-light leading-relaxed animate-slideUp">
+                            Por esas travesías que demuestran <br /> que si puede el que lo intenta.
+                        </p>
+
+                        <div className="flex flex-col sm:flex-row gap-6 animate-slideUp w-full sm:w-auto items-center justify-center lg:justify-start" style={{ animationDelay: '0.2s' }}>
                             <a href="#beers" className="px-8 py-4 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold rounded-full transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(245,158,11,0.4)] flex items-center justify-center gap-2 uppercase tracking-widest text-sm">
                                 <Icon name="Beer" size={20} /> Descubrir Estilos
                             </a>

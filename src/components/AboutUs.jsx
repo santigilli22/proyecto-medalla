@@ -34,7 +34,7 @@ const AboutUs = () => {
                             <img
                                 src={`${import.meta.env.BASE_URL}assets/img/ui/team.webp`}
                                 alt="Equipo Medalla"
-                                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 transform group-hover:scale-105"
+                                className="w-full h-full object-cover"
                             />
                             <div className="absolute bottom-0 left-0 bg-slate-950/90 p-4 border-t border-r border-amber-500/30 backdrop-blur-md rounded-tr-2xl">
                                 <p className="text-white font-bold brand-font text-lg">EQUIPO MEDALLA</p>

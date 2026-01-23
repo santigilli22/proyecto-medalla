@@ -46,7 +46,7 @@ const BeerCatalog = () => {
                                 key={beer.id}
                                 className="
                                     snap-center shrink-0 flex flex-col h-full relative group items-center justify-end
-                                    min-w-full sm:min-w-[50%] lg:min-w-0 lg:w-auto
+                                    min-w-full md:min-w-[50%] lg:min-w-0 lg:w-auto
                                     lg:cursor-pointer
                                 "
                                 onClick={() => setSelected(beer)}

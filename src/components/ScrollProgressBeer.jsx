@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Icon from "./Icon";
 
-const ScrollProgressBeer = () => {
+const ScrollProgressBeer = ({ hidden }) => {
     const [scrollPercentage, setScrollPercentage] = useState(0);
     const [isFull, setIsFull] = useState(false);
 
@@ -24,7 +24,7 @@ const ScrollProgressBeer = () => {
     }, []);
 
     return (
-        <div className={`fixed bottom-6 left-6 z-40 transition-opacity duration-500 ${scrollPercentage > 5 ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+        <div className={`fixed bottom-6 left-6 z-40 transition-opacity duration-500 ${scrollPercentage > 5 && !hidden ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
 
             {/* Container / Tooltip Wrapper */}
             <div className="relative group cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>

@@ -171,7 +171,7 @@ const BeerFinder = () => {
                 <ModalPortal>
                     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn" onClick={() => setSelectedLocation(null)}>
                         {/* Modal Container: h-[90vh] on mobile/tablet, auto on desktop */}
-                        <div className="bg-slate-950 border border-slate-800 rounded-3xl w-full max-w-2xl lg:max-w-5xl h-[90vh] lg:h-auto lg:min-h-[500px] relative shadow-2xl overflow-hidden flex flex-col lg:flex-row animate-scaleIn" onClick={e => e.stopPropagation()}>
+                        <div className="bg-slate-950 border border-slate-800 rounded-3xl w-full max-w-2xl lg:max-w-5xl max-h-[90vh] lg:h-auto lg:min-h-[500px] relative shadow-2xl overflow-hidden flex flex-col lg:flex-row animate-scaleIn" onClick={e => e.stopPropagation()}>
 
                             {/* Close Button */}
                             <button onClick={() => setSelectedLocation(null)} className="absolute top-4 right-4 z-50 bg-black/50 text-white p-2 rounded-full hover:bg-rose-600 transition-colors pointer-events-auto">
@@ -210,24 +210,50 @@ const BeerFinder = () => {
                                     {/* Socials */}
                                     <div className="pt-2">
                                         <p className="text-white font-bold flex items-center gap-2 mb-3"><Icon name="Share2" size={16} className="text-amber-500" /> Redes Sociales</p>
-                                        <div className="flex flex-wrap gap-3 pl-6">
+                                        <div className="flex flex-wrap gap-3">
+                                            {selectedLocation.phone && (
+                                                <a
+                                                    href={`https://wa.me/${selectedLocation.phone.replace(/[^0-9]/g, '')}`}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                    className="w-10 h-10 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center text-slate-300 hover:bg-[#25D366] hover:border-[#25D366] hover:text-white transition-all shadow-lg hover:shadow-green-900/50"
+                                                    title="WhatsApp"
+                                                >
+                                                    <Icon name="MessageCircle" size={20} />
+                                                </a>
+                                            )}
                                             {selectedLocation.instagram && (
-                                                <a href={`https://instagram.com/${selectedLocation.instagram.replace('@', '')}`} target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-slate-900 border border-slate-700 py-2 px-4 rounded-lg text-xs font-bold text-slate-300 hover:text-white hover:border-pink-500/50 hover:bg-pink-500/10 transition-all">
-                                                    <Icon name="Instagram" size={16} /> Instagram
+                                                <a
+                                                    href={`https://instagram.com/${selectedLocation.instagram.replace('@', '')}`}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                    className="w-10 h-10 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center text-slate-300 hover:bg-[#E1306C] hover:border-[#E1306C] hover:text-white transition-all shadow-lg hover:shadow-pink-900/50"
+                                                    title="Instagram"
+                                                >
+                                                    <Icon name="Instagram" size={20} />
                                                 </a>
                                             )}
                                             {selectedLocation.facebook && (
-                                                <a href={`https://facebook.com/${selectedLocation.facebook}`} target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-slate-900 border border-slate-700 py-2 px-4 rounded-lg text-xs font-bold text-slate-300 hover:text-white hover:border-blue-500/50 hover:bg-blue-500/10 transition-all">
-                                                    <Icon name="Facebook" size={16} /> Facebook
+                                                <a
+                                                    href={`https://facebook.com/${selectedLocation.facebook}`}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                    className="w-10 h-10 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center text-slate-300 hover:bg-[#1877F2] hover:border-[#1877F2] hover:text-white transition-all shadow-lg hover:shadow-blue-900/50"
+                                                    title="Facebook"
+                                                >
+                                                    <Icon name="Facebook" size={20} />
                                                 </a>
                                             )}
                                             {selectedLocation.web && (
-                                                <a href={selectedLocation.web} target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-slate-900 border border-slate-700 py-2 px-4 rounded-lg text-xs font-bold text-slate-300 hover:text-white hover:border-emerald-500/50 hover:bg-emerald-500/10 transition-all">
-                                                    <Icon name="Globe" size={16} /> Web
+                                                <a
+                                                    href={selectedLocation.web}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                    className="w-10 h-10 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center text-slate-300 hover:bg-emerald-500 hover:border-emerald-500 hover:text-white transition-all shadow-lg hover:shadow-emerald-900/50"
+                                                    title="Sitio Web"
+                                                >
+                                                    <Icon name="Globe" size={20} />
                                                 </a>
-                                            )}
-                                            {(!selectedLocation.instagram && !selectedLocation.facebook && !selectedLocation.web) && (
-                                                <span className="text-slate-600 italic">No disponible</span>
                                             )}
                                         </div>
                                     </div>
@@ -245,7 +271,7 @@ const BeerFinder = () => {
                             </div>
 
                             {/* Right: Map Embed Image - Fixed height on mobile */}
-                            <div className="lg:w-1/2 bg-slate-900 relative h-64 lg:h-auto lg:min-h-full shrink-0">
+                            <div className="lg:w-1/2 bg-slate-900 relative h-40 md:h-56 lg:h-auto lg:min-h-full shrink-0">
                                 <div className="absolute inset-0 z-0">
                                     <iframe
                                         width="100%"

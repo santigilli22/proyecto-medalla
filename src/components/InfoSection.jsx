@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Icon from './Icon';
 
 const InfoSection = () => {
-    const [openIndex, setOpenIndex] = useState(0); // Primero abierto por dfecto para mejor UX
+    const [openIndex, setOpenIndex] = useState(null);
 
     const faqs = [
         { q: "¿Tienen opciones sin alcohol?", a: "Por el momento, todas nuestras cervezas contienen alcohol. Sin embargo, ofrecemos agua mineral gratuita para conductores designados." },

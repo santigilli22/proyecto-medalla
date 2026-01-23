@@ -1,4 +1,4 @@
-import { useState, Suspense, lazy } from 'react';
+import { useState, useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useScrollReveal } from './hooks/useScrollReveal';
 
@@ -46,6 +46,17 @@ function App() {
     };
 
     const [isSommelierOpen, setIsSommelierOpen] = useState(false);
+    const [hideFloating, setHideFloating] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            // Hide detects if we are near bottom (Footer area)
+            const scrolledToBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 500; // 500px threshold for Footer
+            setHideFloating(scrolledToBottom);
+        };
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     useScrollReveal();
 
@@ -57,7 +68,7 @@ function App() {
 
                     {!ageVerified && <AgeGate onVerify={handleVerify} />}
 
-                    {ageVerified && <SommelierButton onOpen={() => setIsSommelierOpen(true)} />}
+                    {ageVerified && <SommelierButton onOpen={() => setIsSommelierOpen(true)} hidden={hideFloating} />}
 
                     <SommelierModal
                         isOpen={isSommelierOpen}
@@ -66,7 +77,7 @@ function App() {
 
                     <div className={`blur-transition transition-all duration-500 ${ageVerified ? "filter-none" : "blur-xl pointer-events-none h-screen overflow-hidden"}`}>
                         <BubbleCursor />
-                        <ScrollProgressBeer />
+                        <ScrollProgressBeer hidden={hideFloating} />
 
                         <Suspense fallback={<PageLoader />}>
                             <Routes>

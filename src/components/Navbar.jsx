@@ -48,7 +48,7 @@ const Navbar = () => {
         <>
             {/* MAIN NAVBAR */}
             {/* MAIN NAVBAR */}
-            <nav className={`fixed w-full z-[1100] transition-all duration-500 ease-in-out ${scrolled || isOpen ? 'translate-y-0 opacity-100 bg-slate-900/95 shadow-lg py-4 backdrop-blur-md' : '-translate-y-full opacity-0 pointer-events-none py-6'}`}>
+            <nav className={`fixed w-full z-[1100] transition-all duration-500 ease-in-out ${scrolled || isOpen ? 'translate-y-0 opacity-100 bg-slate-900/95 shadow-lg py-3 md:py-4 backdrop-blur-md' : '-translate-y-full opacity-0 pointer-events-none py-4 md:py-6'}`}>
                 <div className="w-full px-8 md:px-12 lg:px-24 flex items-center relative">
                     {/* Desktop Menu */}
                     <div className="hidden lg:flex w-full justify-between items-center font-medium text-xs xl:text-sm tracking-[0.2em]">

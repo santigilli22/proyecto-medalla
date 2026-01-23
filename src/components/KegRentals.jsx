@@ -3,14 +3,14 @@ import Icon from './Icon';
 import { kegsData } from '../data/kegs';
 
 const KegRentals = () => {
-    const [openIndex, setOpenIndex] = useState(0);
+    const [openIndex, setOpenIndex] = useState(-1);
 
     const toggleAccordion = (index) => {
         setOpenIndex(openIndex === index ? -1 : index);
     };
 
     return (
-        <section id="kegs" className="h-[100dvh] min-h-[700px] flex flex-col justify-center relative overflow-hidden bg-slate-950 border-t border-slate-900 content-section reveal pt-[88px] pb-4">
+        <section id="kegs" className="min-h-[100dvh] lg:h-[100dvh] flex flex-col justify-center relative overflow-hidden bg-slate-950 border-t border-slate-900 content-section reveal pt-[88px] pb-4 lg:pb-0">
             {/* Background Ambient Lighting */}
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-[100px] pointer-events-none"></div>
             <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-amber-600/5 rounded-full blur-[100px] pointer-events-none"></div>
@@ -35,24 +35,30 @@ const KegRentals = () => {
                         return (
                             <div
                                 key={idx}
-                                onClick={() => setOpenIndex(idx)}
+                                onClick={() => window.innerWidth < 1024 ? toggleAccordion(idx) : setOpenIndex(idx)}
+                                onMouseEnter={() => window.innerWidth >= 1024 && setOpenIndex(idx)}
+                                onMouseLeave={() => window.innerWidth >= 1024 && setOpenIndex(-1)}
                                 className={`
-                                    group relative bg-slate-800/20 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)]
+                                    group relative bg-slate-800/20 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden transition-all duration-500 ease-out will-change-[flex-grow]
                                     lg:cursor-pointer
                                     ${isOpen
                                         ? 'lg:flex-[3] lg:bg-slate-800/60 lg:shadow-2xl lg:shadow-amber-900/20 border-amber-500/30'
-                                        : 'lg:flex-[1] lg:hover:flex-[1.2] lg:opacity-80 lg:hover:opacity-100 lg:hover:bg-slate-800/40'
+                                        : 'lg:flex-[1] lg:opacity-80'
                                     }
-                                    ${window.innerWidth < 1024 && isOpen ? 'bg-slate-800/40 border-amber-500/20 shadow-lg' : ''}
+                                    ${isOpen ? 'bg-slate-800/40 border-amber-500/20 shadow-lg' : ''}
                                 `}
                             >
                                 {/* Glow Effect (Desktop Only) */}
                                 <div className={`hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-amber-500/20 rounded-full blur-3xl transition-opacity duration-700 ${isOpen ? 'opacity-100' : 'opacity-0'}`}></div>
 
-                                {/* Background Image for Deck (Visible when compressed, or blurred in background) */}
-                                <div className="hidden lg:block absolute inset-0 z-0">
-                                    <img src={keg.img} alt="" className={`w-full h-full object-cover transition-all duration-700 ${isOpen ? 'opacity-20 scale-110 blur-sm' : 'opacity-60 scale-100 grayscale hover:grayscale-0'}`} />
-                                    <div className="absolute inset-0 bg-slate-950/40 group-hover:bg-slate-950/20 transition-colors"></div>
+                                {/* Background Image for Deck (Visible) */}
+                                <div className="absolute inset-0 z-0 overflow-hidden">
+                                    <img
+                                        src={keg.img}
+                                        alt=""
+                                        className={`w-full h-full object-cover lg:w-auto lg:max-w-none lg:min-w-full lg:absolute lg:left-1/2 lg:-translate-x-1/2 transition-opacity duration-700 ${isOpen ? 'opacity-10 lg:opacity-20 blur-sm' : 'opacity-40 lg:opacity-60 grayscale hover:grayscale-0'}`}
+                                    />
+                                    <div className="absolute inset-0 bg-slate-950/60 lg:bg-slate-950/40 group-hover:bg-slate-950/20 transition-colors"></div>
                                 </div>
 
                                 {/* Accordion Header (Visible on Mobile/Tablet) */}
@@ -74,7 +80,7 @@ const KegRentals = () => {
                                 <div className={`
                                     relative z-10 w-full h-full flex flex-col
                                     lg:px-8 lg:py-10
-                                    ${window.innerWidth < 1024 ? (isOpen ? 'block px-6 pb-6 animate-fadeIn' : 'hidden') : ''}
+                                    ${isOpen ? 'px-6 pb-6 animate-fadeIn lg:animate-none' : 'hidden lg:flex'}
                                 `}>
 
                                     {/* Desktop: Compressed State Title (Vertical) */}
@@ -92,6 +98,7 @@ const KegRentals = () => {
                                             </div>
                                             <div>
                                                 <h3 className="text-4xl font-bold text-white brand-font tracking-wide">{keg.size}</h3>
+                                                <p className="text-slate-400 text-lg font-medium">{keg.serves}</p>
                                             </div>
                                         </div>
 
@@ -108,27 +115,13 @@ const KegRentals = () => {
                                                     <p className="text-slate-400 text-sm md:text-base xl:text-lg leading-relaxed max-w-xl mx-auto px-4">{keg.description}</p>
                                                 </div>
 
-                                                <div className="flex flex-col gap-3 mt-6 xl:mt-8 w-full max-w-sm mb-4">
-                                                    <button className="w-full py-4 xl:py-5 rounded-2xl bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-white font-bold text-lg xl:text-xl transition-all shadow-xl hover:shadow-amber-500/25 border border-white/10 flex items-center justify-center gap-3 group/btn transform hover:-translate-y-0.5">
-                                                        <span>Consultar Ahora</span>
-                                                        <Icon name="ArrowRight" size={24} className="group-hover/btn:translate-x-1 transition-transform" />
-                                                    </button>
-                                                    {keg.stock > 0 && (
-                                                        <div className="flex items-center justify-center gap-2 text-green-400 text-xs xl:text-sm bg-green-900/40 backdrop-blur-md py-2 rounded-lg border border-green-500/20 shadow-inner">
-                                                            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse box-shadow-green"></div>
-                                                            <span className="font-medium tracking-wide">Stock disponible para este finde</span>
-                                                        </div>
-                                                    )}
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     {/* Mobile Content (Simplified) */}
                                     <div className="lg:hidden">
-                                        <div className="relative z-10 w-full mb-6 flex items-center justify-center">
-                                            <img src={keg.img} alt={`Barril ${keg.size}`} className="h-48 w-auto object-contain drop-shadow-2xl" />
-                                        </div>
+
                                         <p className="text-slate-400 text-sm mb-6 text-center">Ideal para <span className="text-slate-200 font-semibold">{keg.ideal}</span></p>
                                         <div className="w-full pt-6 border-t border-white/5 flex flex-col gap-3">
                                             <button className="w-full py-3 rounded-xl bg-slate-700/50 hover:bg-slate-700 text-white font-bold text-sm transition-colors border border-white/5 flex items-center justify-center gap-2">
@@ -143,7 +136,7 @@ const KegRentals = () => {
                     })}
                 </div>
             </div>
-        </section>
+        </section >
     );
 };
 
