@@ -38,8 +38,11 @@ const ProcessStep = ({ step, index, isActive, toggleStep }) => {
                 <div className={`relative group z-10 ${isEven ? 'lg:text-left' : 'lg:text-right'}`}>
                     <div className="absolute inset-0 bg-amber-500/10 rounded-2xl blur-xl group-hover:bg-amber-500/20 transition-all opacity-0 group-hover:opacity-100 duration-500 hidden lg:block"></div>
                     <div className="relative bg-slate-900/40 backdrop-blur-md p-6 lg:p-8 rounded-2xl border border-slate-700 lg:hover:border-amber-500/50 transition-all lg:hover:transform lg:hover:-translate-y-1 lg:hover:shadow-2xl">
-                        {/* Desktop Number */}
-                        <span className="hidden lg:block text-6xl md:text-8xl font-bold text-white/5 absolute -top-10 -right-4 font-mono select-none pointer-events-none">0{index + 1}</span>
+
+                        {/* Desktop Number - Inside card, corner towards timeline */}
+                        <span className={`hidden lg:block text-5xl font-bold font-mono absolute top-8 select-none pointer-events-none text-amber-500 opacity-90 z-20 ${isEven ? 'right-8' : 'left-8'}`}>
+                            0{index + 1}
+                        </span>
 
                         {/* Desktop Icon */}
                         <div className={`hidden lg:inline-flex mb-4 p-3 rounded-xl bg-slate-800/50 border border-slate-600 text-amber-500 shadow-inner ${isEven ? '' : 'lg:ml-auto'}`}>
@@ -102,42 +105,42 @@ const TheProcess = () => {
             icon: "Wheat",
             desc: "Nuestra jornada comienza seleccionando las mejores maltas. En el molino, rompemos el grano con precisión milimétrica: buscamos exponer el almidón sin destrozar la cáscara, que será nuestro filtro natural más adelante.",
             secret: "Punto justo de ruptura para un filtrado cristalino.",
-            image: "/process/molienda.png"
+            image: `${import.meta.env.BASE_URL}process/molienda.png`
         },
         {
             title: "Maceración",
             icon: "Thermometer",
             desc: "En el macerador, mezclamos la malta molida con agua caliente tratada. Aquí activamos las enzimas naturales que convierten los almidones en azúcares fermentables. Es un proceso de paciencia y temperatura controlada.",
             secret: "Control de temperatura escalonado para cuerpo y sabor.",
-            image: "/process/maceracion.png"
+            image: `${import.meta.env.BASE_URL}process/maceracion.png`
         },
         {
             title: "Hervor y Lupulado",
             icon: "Flame",
             desc: "Llevamos el mosto a ebullición vigorosa. Este es el momento donde definimos el carácter: agregamos lúpulos en diferentes tiempos para aportar amargor, sabor y esos aromas únicos que distinguen a cada estilo Medalla.",
             secret: "Adiciones tardías para una explosión aromática.",
-            image: "/process/hervor.png"
+            image: `${import.meta.env.BASE_URL}process/hervor.png`
         },
         {
             title: "Fermentación",
             icon: "FlaskConical",
             desc: "Enfriamos el mosto rápidamente y lo pasamos a los fermentadores. Sembramos nuestra levadura, que trabajará incansablemente transformando azúcares en alcohol y CO2, creando el perfil sensorial definitivo.",
             secret: "Levaduras sanas y temperaturas precisas.",
-            image: "/process/fermentacion.png"
+            image: `${import.meta.env.BASE_URL}process/fermentacion.png`
         },
         {
             title: "Maduración en Frío",
             icon: "Clock",
             desc: "Una vez fermentada, bajamos la temperatura drásticamente. La cerveza descansa, madura y se clarifica naturalmente. Los sabores se redondean y se integran, eliminando cualquier arista no deseada.",
             secret: "Tiempo y paciencia, sin acelerar procesos.",
-            image: "/process/maduracion.png"
+            image: `${import.meta.env.BASE_URL}process/maduracion.png`
         },
         {
             title: "Embarrilado",
             icon: "Package",
             desc: "Finalmente, filtramos (o no, según el estilo) y envasamos en barriles y latas bajo condiciones estrictas para evitar el oxígeno. Así aseguramos que la frescura de la fábrica llegue intacta a tu mano.",
             secret: "Cadena de frío y purga de CO2 constante.",
-            image: "/process/embarrilado.png"
+            image: `${import.meta.env.BASE_URL}process/embarrilado.png`
         }
     ];
 

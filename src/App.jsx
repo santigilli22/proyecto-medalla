@@ -50,7 +50,7 @@ function App() {
     useScrollReveal();
 
     return (
-        <Router>
+        <Router basename={import.meta.env.BASE_URL}>
             <ErrorBoundary>
                 <div className="min-h-screen flex flex-col relative bg-slate-900 text-white">
                     <OfflineNotice />

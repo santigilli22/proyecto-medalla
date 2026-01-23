@@ -25,7 +25,7 @@ const EventsSchedule = () => {
     }
 
     return (
-        <section id="events" className="relative bg-[#0B0F19] text-white h-screen w-full flex flex-col lg:flex-row overflow-hidden content-section reveal">
+        <section id="events" className="relative bg-[#0B0F19] text-white h-screen w-full flex flex-col lg:flex-row overflow-hidden content-section reveal pt-[88px]">
 
             {/* Background Effects */}
             <div className="absolute inset-0 z-0">
@@ -35,45 +35,47 @@ const EventsSchedule = () => {
             </div>
 
             {/* COLUMNA IZQUIERDA: Header + Próximos Eventos */}
-            <div className="w-full lg:w-5/12 xl:w-4/12 flex flex-col bg-slate-950/30 backdrop-blur-sm border-r border-white/5 relative z-10">
+            <div className="w-full lg:w-5/12 xl:w-4/12 flex flex-col bg-slate-950/30 backdrop-blur-sm border-r border-white/5 relative z-10 h-[50%] lg:h-full border-b lg:border-b-0 lg:border-r border-white/5">
 
                 {/* Header Fijo */}
-                <div className="p-8 pb-4 flex-none">
+                <div className="p-6 lg:p-8 pb-4 flex-none">
                     <h4 className="text-amber-500 font-bold tracking-[0.2em] uppercase mb-2 text-xs animate-pulse">Comunidad & Cultura</h4>
-                    <h2 className="text-4xl lg:text-5xl font-bold brand-font text-white mb-4">AGENDA <span className="text-amber-500">MEDALLA</span></h2>
-                    <p className="text-slate-300 text-sm leading-relaxed max-w-md">
+                    <h2 className="text-3xl lg:text-5xl font-bold brand-font text-white mb-2 lg:mb-4">AGENDA <span className="text-amber-500">MEDALLA</span></h2>
+                    <p className="text-slate-300 text-xs lg:text-sm leading-relaxed max-w-md hidden lg:block">
                         No somos solo cerveza, somos el punto de encuentro. <br />
                         Enterate de lo que se viene y sumate.
                     </p>
                 </div>
 
-                {/* Lista Scrollable */}
-                <div className="flex-1 overflow-y-auto px-8 pb-8 custom-scrollbar space-y-4">
+                {/* Lista Scrollable - Max 3 items visible aprox on desktop */}
+                <div className="flex-1 overflow-y-auto px-6 lg:px-8 pb-8 custom-scrollbar space-y-3 lg:space-y-4">
                     <div className="flex items-center gap-3 mb-4 sticky top-0 bg-slate-900/95 p-3 -mx-3 backdrop-blur-sm z-20 border-b border-white/10">
                         <Icon name="Calendar" className="text-amber-500" size={20} />
-                        <h3 className="text-lg font-bold brand-font tracking-wide">PRÓXIMOS EVENTOS</h3>
+                        <h3 className="text-base lg:text-lg font-bold brand-font tracking-wide">PRÓXIMOS EVENTOS</h3>
                     </div>
 
-                    {upcomingEvents.map(ev => (
-                        <div key={ev.id} onClick={() => setSelectedUpcoming(ev)} className="group relative bg-slate-800/40 hover:bg-slate-800 border border-white/10 hover:border-amber-500/50 rounded-xl p-4 transition-all duration-300 hover:translate-x-1 shadow-sm hover:shadow-md flex gap-4 items-center shrink-0 cursor-pointer">
-                            {/* Fecha */}
-                            <div className="flex-none flex flex-col items-center justify-center bg-slate-950 border border-slate-700/50 rounded-lg w-14 h-14 group-hover:border-amber-500 transition-colors">
-                                <span className="text-xl font-bold text-white leading-none">{ev.day}</span>
-                                <span className="text-[9px] font-bold text-amber-500 uppercase tracking-widest mt-0.5">{ev.month}</span>
-                            </div>
+                    <div className="flex flex-col gap-3">
+                        {upcomingEvents.map(ev => (
+                            <div key={ev.id} onClick={() => setSelectedUpcoming(ev)} className="group relative bg-slate-800/40 hover:bg-slate-800 border border-white/10 hover:border-amber-500/50 rounded-xl p-3 lg:p-4 transition-all duration-300 hover:translate-x-1 shadow-sm hover:shadow-md flex gap-4 items-center shrink-0 cursor-pointer">
+                                {/* Fecha */}
+                                <div className="flex-none flex flex-col items-center justify-center bg-slate-950 border border-slate-700/50 rounded-lg w-12 h-12 lg:w-14 lg:h-14 group-hover:border-amber-500 transition-colors">
+                                    <span className="text-lg lg:text-xl font-bold text-white leading-none">{ev.day}</span>
+                                    <span className="text-[8px] lg:text-[9px] font-bold text-amber-500 uppercase tracking-widest mt-0.5">{ev.month}</span>
+                                </div>
 
-                            {/* Detalles */}
-                            <div className="flex-1 min-w-0">
-                                <h4 className="text-base font-bold text-white mb-0.5 group-hover:text-amber-400 transition-colors truncate">{ev.title}</h4>
-                                <div className="flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-slate-300 mb-1">
-                                    <span className="flex items-center gap-1"><Icon name="MapPin" size={10} className="text-amber-500" /> {ev.location}</span>
-                                    <span className="flex items-center gap-1"><Icon name="Clock" size={10} className="text-amber-500" /> {ev.time}</span>
+                                {/* Detalles */}
+                                <div className="flex-1 min-w-0">
+                                    <h4 className="text-sm lg:text-base font-bold text-white mb-0.5 group-hover:text-amber-400 transition-colors truncate">{ev.title}</h4>
+                                    <div className="flex flex-wrap gap-x-3 gap-y-1 text-[10px] lg:text-[11px] text-slate-300 mb-1">
+                                        <span className="flex items-center gap-1"><Icon name="MapPin" size={10} className="text-amber-500" /> {ev.location}</span>
+                                        <span className="flex items-center gap-1"><Icon name="Clock" size={10} className="text-amber-500" /> {ev.time}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
 
-                    <div className="p-4 rounded-xl border border-dashed border-slate-700 text-center bg-slate-900/30 mt-4">
+                    <div className="p-3 lg:p-4 rounded-xl border border-dashed border-slate-700 text-center bg-slate-900/30 mt-4">
                         <p className="text-slate-400 italic text-xs">¿Querés organizar tu evento?</p>
                         <button className="text-amber-500 font-bold uppercase text-[10px] tracking-widest mt-1 hover:text-amber-400 underline underline-offset-4">Contáctanos</button>
                     </div>
@@ -81,21 +83,21 @@ const EventsSchedule = () => {
             </div>
 
             {/* COLUMNA DERECHA: Galería de Recuerdos */}
-            <div className="w-full lg:w-7/12 xl:w-8/12 flex flex-col relative z-10">
+            <div className="w-full lg:w-7/12 xl:w-8/12 flex flex-col relative z-10 h-[50%] lg:h-full">
                 {/* Header Fijo */}
-                <div className="p-8 pb-4 flex-none border-b border-white/5 bg-transparent z-10 flex justify-between items-end">
+                <div className="p-6 lg:p-8 pb-4 flex-none border-b border-white/5 bg-transparent z-10 flex justify-between items-end">
                     <div>
                         <h4 className="text-amber-500/60 font-bold tracking-widest uppercase mb-1 text-xs">Nuestra Historia</h4>
                         <div className="flex items-center gap-3">
                             <Icon name="Image" className="text-amber-500" size={24} />
-                            <h3 className="text-2xl lg:text-3xl font-bold brand-font tracking-wide text-white">GALERÍA DE RECUERDOS</h3>
+                            <h3 className="text-xl lg:text-3xl font-bold brand-font tracking-wide text-white">GALERÍA DE RECUERDOS</h3>
                         </div>
                     </div>
                 </div>
 
-                {/* Grid Scrollable */}
-                <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* Grid Scrollable - Max 6 items visible aprox on desktop */}
+                <div className="flex-1 overflow-y-auto p-6 lg:p-8 custom-scrollbar">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 pb-20 lg:pb-0">
                         {pastAlbums.map(album => (
                             <div key={album.id} className="group cursor-pointer relative" onClick={() => setSelectedAlbum(album)}>
                                 <div className="relative overflow-hidden rounded-xl aspect-[4/3] mb-3 shadow-lg border border-white/5">
@@ -115,8 +117,8 @@ const EventsSchedule = () => {
                                     </div>
                                 </div>
 
-                                <h4 className="text-base font-bold text-white uppercase tracking-wide group-hover:text-amber-500 transition-colors truncate">{album.title}</h4>
-                                <p className="text-slate-400 text-xs font-medium">{album.date}</p>
+                                <h4 className="text-sm lg:text-base font-bold text-white uppercase tracking-wide group-hover:text-amber-500 transition-colors truncate">{album.title}</h4>
+                                <p className="text-slate-400 text-[10px] lg:text-xs font-medium">{album.date}</p>
                             </div>
                         ))}
                     </div>

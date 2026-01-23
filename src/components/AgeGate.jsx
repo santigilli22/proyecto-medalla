@@ -5,7 +5,7 @@ const AgeGate = ({ onVerify }) => {
         window.location.href = "https://www.google.com";
     };
 
-    const logoUrl = "/logo_medalla.png";
+    const logoUrl = `${import.meta.env.BASE_URL}logo_medalla.png`;
 
     return (
         <div className="fixed inset-0 z-[200] flex items-center justify-center bg-slate-950">

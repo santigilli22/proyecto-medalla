@@ -11,7 +11,7 @@ const MobileMenuPortal = ({ children }) => {
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
-    const logoUrl = "/logo_medalla.png";
+
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -47,31 +47,23 @@ const Navbar = () => {
     return (
         <>
             {/* MAIN NAVBAR */}
-            <nav className={`fixed w-full z-[1100] transition-all duration-300 ${scrolled || isOpen ? 'bg-slate-900/95 shadow-lg py-2 backdrop-blur-md' : 'bg-transparent py-4'}`}>
-                <div className="w-full px-6 flex justify-between items-center gap-4 relative">
-                    <a
-                        href="#home"
-                        onClick={() => setIsOpen(false)}
-                        className={`text-xl md:text-2xl font-bold flex items-center gap-2 md:gap-3 brand-font text-amber-500 hover:opacity-90 transition-all duration-500 whitespace-nowrap ${scrolled || isOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 -translate-y-4 invisible pointer-events-none'}`}
-                    >
-                        <img src={logoUrl} alt="Logo" className="h-8 w-8 md:h-10 md:w-10 object-contain" />
-                        MEDALLA
-                    </a>
-
+            {/* MAIN NAVBAR */}
+            <nav className={`fixed w-full z-[1100] transition-all duration-500 ease-in-out ${scrolled || isOpen ? 'translate-y-0 opacity-100 bg-slate-900/95 shadow-lg py-4 backdrop-blur-md' : '-translate-y-full opacity-0 pointer-events-none py-6'}`}>
+                <div className="w-full px-8 md:px-12 lg:px-24 flex items-center relative">
                     {/* Desktop Menu */}
-                    <div className="hidden lg:flex gap-4 xl:gap-8 font-medium text-xs xl:text-sm tracking-widest flex-shrink-0 items-center">
+                    <div className="hidden lg:flex w-full justify-between items-center font-medium text-xs xl:text-sm tracking-[0.2em]">
                         {navLinks.map(link => (
                             <a
                                 key={link.name}
                                 href={link.id}
-                                className="hover:text-amber-500 transition-colors cursor-pointer whitespace-nowrap text-white"
+                                className="hover:text-amber-500 transition-colors cursor-pointer whitespace-nowrap text-white py-2"
                             >
                                 {link.name}
                             </a>
                         ))}
                     </div>
 
-                    <div className="flex items-center gap-4 flex-shrink-0">
+                    <div className="flex items-center gap-4 flex-shrink-0 ml-auto lg:hidden">
                         <button
                             className="lg:hidden text-white cursor-pointer p-2 z-[1100] relative"
                             aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}

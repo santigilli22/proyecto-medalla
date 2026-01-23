@@ -1,5 +1,6 @@
 import { useRef, useEffect } from "react";
 import Icon from "./Icon";
+import logoMedalla from '/logo_medalla.png';
 
 const Hero = () => {
 
@@ -34,7 +35,10 @@ const Hero = () => {
                 ))}
             </div>
 
-            <div className="absolute inset-0 bg-[url('/bg_2.png')] bg-cover bg-center opacity-40 mix-blend-overlay z-0"></div>
+            <div
+                className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-overlay z-0"
+                style={{ backgroundImage: `url(${import.meta.env.BASE_URL}bg_2.png)` }}
+            ></div>
             <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-transparent to-slate-900 z-10"></div>
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(15,23,42,0.9)_100%)] z-10"></div>
 
@@ -44,7 +48,7 @@ const Hero = () => {
                     {/* Left: Logo (Centered on Desktop) */}
                     <div className="flex justify-center lg:justify-center animate-fadeIn order-1">
                         <img
-                            src="/logo_medalla.png"
+                            src={logoMedalla}
                             alt="Medalla Brewing"
                             className="w-48 md:w-64 lg:w-[450px] object-contain drop-shadow-[0_0_30px_rgba(245,158,11,0.2)] hover:scale-105 transition-transform duration-700 filter brightness-110"
                         />

@@ -1,3 +1,5 @@
+const BASE = import.meta.env.BASE_URL;
+
 export const partnersData = [
     // --- OFICIALES ---
     {
@@ -10,7 +12,7 @@ export const partnersData = [
         lat: -31.166778,
         lng: -62.101083,
         isOfficial: true,
-        logo: "/logo_medalla.png",
+        logo: `${BASE}logo_medalla.png`,
         phone: "+54 9 3564 661416",
         instagram: "@medallabrewing",
         facebook: "Medalla Brewing",
@@ -27,7 +29,7 @@ export const partnersData = [
         varieties: ["Consultar Stock"],
         lat: -30.5367,
         lng: -61.6967,
-        logo: "/logo_sms.png",
+        logo: `${BASE}logo_sms.png`,
         phone: "+54 9 3562 123456",
         instagram: "@hotelsms",
         facebook: "Hotel SMS"
@@ -43,7 +45,7 @@ export const partnersData = [
         varieties: ["Todas las Variedades"],
         lat: -31.4279,
         lng: -62.0827,
-        logo: "/logo_sf.png",
+        logo: `${BASE}logo_sf.png`,
         phone: "3564 336555",
         instagram: "@medalla.sf"
     },
@@ -56,7 +58,7 @@ export const partnersData = [
         varieties: ["Pack Degustación"],
         lat: -31.0134,
         lng: -62.0658,
-        logo: "/logo_portena.png",
+        logo: `${BASE}logo_portena.png`,
         phone: "3564 416471",
         instagram: "@medalla.portena"
     },
@@ -69,7 +71,7 @@ export const partnersData = [
         varieties: ["Consultar Stock"],
         lat: -30.8653,
         lng: -62.0389,
-        logo: "/logo_brinkmann.png",
+        logo: `${BASE}logo_brinkmann.png`,
         phone: "3562 523828",
         instagram: "@medalla.brinkmann"
     },
@@ -82,7 +84,7 @@ export const partnersData = [
         varieties: ["Consultar Stock"],
         lat: -30.7118,
         lng: -62.0033,
-        logo: "/logo_morteros.png",
+        logo: `${BASE}logo_morteros.png`,
         phone: "3562 454991",
         instagram: "@medalla.morteros"
     },
@@ -95,7 +97,7 @@ export const partnersData = [
         varieties: ["Consultar Stock"],
         lat: -31.4045,
         lng: -62.3046,
-        logo: "/logo_devoto.png",
+        logo: `${BASE}logo_devoto.png`,
         instagram: "@medalla.devoto"
     }
 ];

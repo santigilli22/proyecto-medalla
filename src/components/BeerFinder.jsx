@@ -12,7 +12,7 @@ const BeerFinder = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     // Fallback logo genérico si no tiene uno específico
-    const getLogo = (partner) => partner.isOfficial ? "/logo_medalla.png" : "/logo_medalla.png";
+    const getLogo = (partner) => partner.logo || "/logo_medalla.png";
 
     const filteredPartners = useMemo(() => {
         return partnersData.filter(p => {

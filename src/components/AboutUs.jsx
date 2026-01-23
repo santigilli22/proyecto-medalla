@@ -19,7 +19,7 @@ const AboutUs = () => {
                         </h2>
                     </div>
                     <div className="text-right hidden md:block">
-                        <p className="text-6xl font-mono font-bold text-slate-800/50">2018</p>
+                        <p className="text-6xl font-mono font-bold text-amber-500">2018</p>
                         <p className="text-slate-500 text-xs tracking-widest uppercase -mt-2">Año de Fundación</p>
                     </div>
                 </div>
@@ -32,13 +32,13 @@ const AboutUs = () => {
                         <div className="relative group overflow-hidden rounded-tr-[4rem] rounded-bl-[4rem] border border-slate-800 shadow-2xl h-[45vh] lg:h-[50vh]">
                             <div className="absolute inset-0 bg-amber-500/10 group-hover:bg-transparent transition-colors z-10"></div>
                             <img
-                                src="./assets/img/png/team.png"
+                                src={`${import.meta.env.BASE_URL}assets/img/png/team.png`}
                                 alt="Equipo Medalla"
                                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 transform group-hover:scale-105"
                             />
                             <div className="absolute bottom-0 left-0 bg-slate-950/90 p-4 border-t border-r border-amber-500/30 backdrop-blur-md rounded-tr-2xl">
                                 <p className="text-white font-bold brand-font text-lg">EQUIPO MEDALLA</p>
-                                <p className="text-amber-500 text-[10px] tracking-widest uppercase">Freyre, Córdoba</p>
+                                <p className="text-amber-500 text-[10px] text-right tracking-widest uppercase">Freyre, Córdoba</p>
                             </div>
                         </div>
                         <p className="text-slate-400 text-sm italic font-serif leading-relaxed pl-4 border-l-2 border-amber-900/50">
@@ -63,11 +63,11 @@ const AboutUs = () => {
                         {/* Stats Grid Minimalista */}
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-6 border-y border-slate-800/50">
                             <div className="text-center md:text-left">
-                                <p className="text-2xl font-bold text-white mb-1">12+</p>
+                                <p className="text-2xl font-bold text-white mb-1">6 +</p>
                                 <p className="text-xs text-amber-500 uppercase tracking-wider">Estilos</p>
                             </div>
                             <div className="text-center md:text-left">
-                                <p className="text-2xl font-bold text-white mb-1">50k</p>
+                                <p className="text-2xl font-bold text-white mb-1">50 k</p>
                                 <p className="text-xs text-amber-500 uppercase tracking-wider">Litros/Mes</p>
                             </div>
                             <div className="text-center md:text-left">
