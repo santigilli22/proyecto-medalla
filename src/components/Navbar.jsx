@@ -35,8 +35,8 @@ const Navbar = () => {
     }, [isOpen]);
 
     const navLinks = [
-        { name: 'NOSOTROS', id: '#about' },
         { name: 'CERVEZAS', id: '#beers' },
+        { name: 'NOSOTROS', id: '#about' },
         { name: 'EL PROCESO', id: '#process' },
         { name: 'BARRILES', id: '#kegs' },
         { name: 'DÓNDE', id: '#locator' },

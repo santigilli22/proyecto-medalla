@@ -25,11 +25,12 @@ const Home = () => {
         <main>
             <Navbar />
             <Hero />
-            <AboutUs />
 
             <Suspense fallback={<SectionLoader />}>
                 <BeerCatalog />
             </Suspense>
+
+            <AboutUs />
 
             <Suspense fallback={<SectionLoader />}>
                 <TheProcess />

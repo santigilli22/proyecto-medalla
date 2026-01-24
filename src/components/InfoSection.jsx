@@ -27,11 +27,11 @@ const InfoSection = () => {
                     {/* Columna Izquierda: Título Sticky */}
                     <div className="md:w-1/3 shrink-0">
                         <div className="sticky top-32 flex flex-col gap-6 text-center md:text-left">
-                            <div className="inline-flex self-center md:self-start p-4 rounded-2xl bg-gradient-to-br from-amber-500/20 to-transparent border border-amber-500/30 shadow-lg shadow-amber-900/20 animate-float">
+                            <div className="inline-flex self-center md:self-start p-2 rounded-xl bg-gradient-to-br from-amber-500/20 to-transparent border border-amber-500/30 shadow-lg shadow-amber-900/20 animate-float">
                                 <Icon name="HelpCircle" size={40} className="text-amber-400" />
                             </div>
                             <div>
-                                <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4 brand-font tracking-wide leading-tight">
+                                <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4 brand-font tracking-wide leading-tight">
                                     PREGUNTAS <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">FRECUENTES</span>
                                 </h2>
                                 <p className="text-slate-400 text-base lg:text-lg leading-relaxed mb-8">
