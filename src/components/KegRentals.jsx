@@ -58,20 +58,20 @@ const KegRentals = () => {
                                         alt=""
                                         className={`w-full h-full object-cover lg:w-auto lg:max-w-none lg:min-w-full lg:absolute lg:left-1/2 lg:-translate-x-1/2 transition-opacity duration-700 ${isOpen ? 'opacity-10 lg:opacity-20 blur-sm' : 'opacity-40 lg:opacity-60 grayscale hover:grayscale-0'}`}
                                     />
-                                    <div className="absolute inset-0 bg-slate-950/60 lg:bg-slate-950/40 group-hover:bg-slate-950/20 transition-colors"></div>
+                                    <div className="absolute inset-0"></div>
                                 </div>
 
                                 {/* Accordion Header (Visible on Mobile/Tablet) */}
                                 <div className="flex items-center justify-between p-6 lg:hidden" onClick={(e) => { e.stopPropagation(); toggleAccordion(idx); }}>
                                     <div className="flex items-center gap-4">
-                                        <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors ${isOpen ? 'bg-amber-500/20 text-amber-500' : 'bg-slate-800 text-slate-400'}`}>
+                                        <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors ${isOpen ? 'bg-amber-500/20 text-amber-500' : 'bg-slate-800 text-amber-500'}`}>
                                             <Icon name="Package" size={24} />
                                         </div>
                                         <div className="text-left">
-                                            <h3 className={`text-xl font-bold brand-font tracking-wide ${isOpen ? 'text-white' : 'text-slate-300'}`}>{keg.size}</h3>
+                                            <h3 className={`text-xl font-bold brand-font tracking-wide ${isOpen ? 'text-amber-500' : 'text-amber-500'}`}>{keg.size}</h3>
                                         </div>
                                     </div>
-                                    <div className={`transition-transform duration-300 ${isOpen ? 'rotate-180 text-amber-500' : 'text-slate-500'}`}>
+                                    <div className={`transition-transform duration-300 ${isOpen ? 'rotate-180 text-amber-500' : 'text-amber-500'}`}>
                                         <Icon name="ChevronDown" size={20} />
                                     </div>
                                 </div>
@@ -85,7 +85,7 @@ const KegRentals = () => {
 
                                     {/* Desktop: Compressed State Title (Vertical) */}
                                     <div className={`hidden lg:flex absolute inset-0 items-center justify-center transition-all duration-500 ${isOpen ? 'opacity-0 invisible delay-0' : 'opacity-100 visible delay-300'}`}>
-                                        <h3 className="text-3xl font-bold text-white brand-font tracking-widest [writing-mode:vertical-rl] rotate-180 drop-shadow-lg">{keg.size}</h3>
+                                        <h3 className="text-3xl font-bold text-amber-500 brand-font tracking-widest [writing-mode:vertical-rl] rotate-180 drop-shadow-lg">{keg.size}</h3>
                                     </div>
 
                                     {/* Expanded Content (Desktop) */}

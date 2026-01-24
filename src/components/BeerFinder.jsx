@@ -97,7 +97,7 @@ const BeerFinder = () => {
                                         <div
                                             key={idx}
                                             onClick={() => setSelectedLocation(partner)}
-                                            className="group relative bg-slate-800/30 backdrop-blur-md border border-slate-700/50 hover:border-amber-500/50 rounded-2xl p-6 pb-14 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl flex flex-col items-center text-center gap-4 overflow-hidden h-full sm:min-w-[300px] max-w-[350px]"
+                                            className="group relative bg-slate-800/30 backdrop-blur-md border border-slate-700/50 lg:bg-transparent lg:backdrop-blur-none lg:border-0 hover:border-amber-500/50 rounded-2xl p-6 pb-14 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl flex flex-col items-center text-center gap-4 overflow-hidden h-full sm:min-w-[300px] max-w-[350px]"
                                         >
                                             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-slate-900/50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
 
@@ -132,7 +132,7 @@ const BeerFinder = () => {
                                         <div
                                             key={`loop-${idx}`}
                                             onClick={() => setSelectedLocation(partner)}
-                                            className="group relative bg-slate-800/30 backdrop-blur-md border border-slate-700/50 hover:border-amber-500/50 rounded-2xl p-6 pb-14 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl flex flex-col items-center text-center gap-4 overflow-hidden h-full min-w-[300px] max-w-[350px]"
+                                            className="group relative bg-slate-800/30 backdrop-blur-md border border-slate-700/50 lg:bg-transparent lg:backdrop-blur-none lg:border-0 hover:border-amber-500/50 rounded-2xl p-6 pb-14 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl flex flex-col items-center text-center gap-4 overflow-hidden h-full min-w-[300px] max-w-[350px]"
                                         >
                                             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-slate-900/50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
 

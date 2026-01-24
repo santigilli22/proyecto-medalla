@@ -120,7 +120,7 @@ const EventsSchedule = () => {
 
                     <div
                         ref={galleryRef}
-                        className="flex gap-4 overflow-x-auto no-scrollbar pb-4 snap-x snap-mandatory"
+                        className="flex gap-4 overflow-x-auto no-scrollbar pb-4 snap-x snap-mandatory lg:grid lg:grid-cols-3 lg:overflow-x-hidden lg:overflow-y-auto lg:snap-none lg:max-h-[600px] lg:content-start custom-scrollbar"
                         style={{ scrollBehavior: 'smooth' }}
                     >
                         {pastAlbums.map(album => (
