@@ -84,11 +84,11 @@ const EventsSchedule = () => {
                         className="flex gap-4 overflow-x-auto no-scrollbar pb-4 snap-x snap-mandatory"
                         style={{ scrollBehavior: 'smooth' }}
                     >
-                        {upcomingEvents.map(ev => (
+                        {upcomingEvents.map((ev) => (
                             <div
                                 key={ev.id}
                                 onClick={() => setSelectedUpcoming(ev)}
-                                className="snap-center shrink-0 min-w-[280px] md:min-w-[320px] bg-slate-800/40 hover:bg-slate-800 border border-white/10 hover:border-amber-500/50 rounded-2xl p-4 transition-all duration-300 hover:-translate-y-1 shadow-sm hover:shadow-lg cursor-pointer flex flex-col gap-4 group"
+                                className="snap-center shrink-0 min-w-[260px] md:min-w-[280px] lg:min-w-[280px] bg-slate-800/40 hover:bg-slate-800 border border-white/10 hover:border-amber-500/50 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 shadow-sm hover:shadow-lg cursor-pointer flex flex-col gap-4 group"
                             >
                                 <div className="flex items-center gap-4">
                                     <div className="flex-none flex flex-col items-center justify-center bg-slate-950 border border-slate-700/50 rounded-xl w-14 h-14 group-hover:border-amber-500 transition-colors">

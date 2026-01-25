@@ -35,28 +35,28 @@ const Navbar = () => {
     }, [isOpen]);
 
     const navLinks = [
-        { name: 'CERVEZAS', id: '#beers' },
-        { name: 'NOSOTROS', id: '#about' },
-        { name: 'EL PROCESO', id: '#process' },
-        { name: 'BARRILES', id: '#kegs' },
-        { name: 'DÓNDE', id: '#locator' },
-        { name: 'EVENTOS', id: '#events' },
-        { name: 'FAQ', id: '#faq' },
+        { name: 'CERVEZAS', id: '#beers', hoverColor: 'hover:bg-yellow-500' },
+        { name: 'NOSOTROS', id: '#about', hoverColor: 'hover:bg-orange-500' },
+        { name: 'EL PROCESO', id: '#process', hoverColor: 'hover:bg-red-600' },
+        { name: 'BARRILES', id: '#kegs', hoverColor: 'hover:bg-emerald-600' },
+        { name: 'DÓNDE', id: '#locator', hoverColor: 'hover:bg-purple-600' },
+        { name: 'EVENTOS', id: '#events', hoverColor: 'hover:bg-[#e07a5f]' },
+        { name: 'FAQ', id: '#faq', hoverColor: 'hover:bg-slate-900' },
     ];
 
     return (
         <>
             {/* MAIN NAVBAR */}
             {/* MAIN NAVBAR */}
-            <nav className={`fixed w-full z-[1100] transition-all duration-500 ease-in-out ${scrolled || isOpen ? 'translate-y-0 opacity-100 bg-slate-900/95 shadow-lg py-3 md:py-4 backdrop-blur-md' : '-translate-y-full opacity-0 pointer-events-none py-4 md:py-6'}`}>
+            <nav className={`fixed w-full z-[1100] transition-all duration-500 ease-in-out ${scrolled || isOpen ? 'translate-y-0 opacity-100 bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-500 shadow-xl py-2 md:py-3 backdrop-blur-md' : '-translate-y-full opacity-0 pointer-events-none py-4 md:py-6'}`}>
                 <div className="w-full px-8 md:px-12 lg:px-24 flex items-center relative">
                     {/* Desktop Menu */}
-                    <div className="hidden lg:flex w-full justify-between items-center font-medium text-xs xl:text-sm tracking-[0.2em]">
+                    <div className="hidden lg:flex w-full justify-between items-center font-bold text-xs xl:text-sm tracking-[0.2em]">
                         {navLinks.map(link => (
                             <a
                                 key={link.name}
                                 href={link.id}
-                                className="hover:text-amber-500 transition-colors cursor-pointer whitespace-nowrap text-white py-2"
+                                className={`text-slate-900 hover:text-white ${link.hoverColor} px-5 py-2 transition-all duration-300 cursor-pointer whitespace-nowrap rounded-tr-2xl rounded-bl-2xl hover:scale-105 shadow-sm hover:shadow-md`}
                             >
                                 {link.name}
                             </a>
@@ -65,11 +65,11 @@ const Navbar = () => {
 
                     <div className="flex items-center gap-4 flex-shrink-0 ml-auto lg:hidden">
                         <button
-                            className="lg:hidden text-white cursor-pointer p-2 z-[1100] relative"
+                            className="lg:hidden text-slate-900 cursor-pointer p-2 z-[1100] relative"
                             aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
                             onClick={() => setIsOpen(!isOpen)}
                         >
-                            <Icon name={isOpen ? "X" : "Menu"} size={32} className={`transition-transform duration-300 ${isOpen ? 'rotate-90 text-amber-500' : ''}`} />
+                            <Icon name={isOpen ? "X" : "Menu"} size={32} className={`transition-transform duration-300 ${isOpen ? 'rotate-90 text-slate-900' : ''}`} />
                         </button>
                     </div>
                 </div>

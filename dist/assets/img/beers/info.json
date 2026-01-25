@@ -1,0 +1,97 @@
+[
+    {
+        "id": 1,
+        "name": "GOLDEN",
+        "titleImg": "assets/img/beers/webp/golden.webp",
+        "persona": "AMELIA",
+        "category": "Rubias",
+        "style": "Golden Ale",
+        "abv": "4.5%",
+        "ibu": 14,
+        "srm": 5,
+        "color": "bg-yellow-500",
+        "img": "assets/img/beers/webp/lata_golden.webp",
+        "detailImg": "assets/img/beers/webp/info_golden.webp",
+        "tags": [
+            "Refrescante",
+            "Suave",
+            "Balanceada"
+        ]
+    },
+    {
+        "id": 2,
+        "name": "HONEY",
+        "titleImg": "assets/img/beers/webp/honey.webp",
+        "persona": "MARY",
+        "category": "Rubias",
+        "style": "Honey Beer",
+        "abv": "5.5%",
+        "ibu": 12,
+        "srm": 7,
+        "color": "bg-orange-500",
+        "img": "assets/img/beers/webp/lata_honey.webp",
+        "detailImg": "assets/img/beers/webp/info_honey.webp",
+        "tags": [
+            "Dulce",
+            "Miel Orgánica",
+            "Suave"
+        ]
+    },
+    {
+        "id": 3,
+        "name": "RED IPA",
+        "titleImg": "assets/img/beers/webp/red_ipa.webp",
+        "persona": "VALENTINA",
+        "category": "IPAs",
+        "style": "Red India Pale Ale",
+        "abv": "6.0%",
+        "ibu": 48,
+        "srm": 14,
+        "color": "bg-red-600",
+        "img": "assets/img/beers/webp/lata_red_ipa.webp",
+        "detailImg": "assets/img/beers/webp/info_red_ipa.webp",
+        "tags": [
+            "Amarga",
+            "Frutal",
+            "Caramelo"
+        ]
+    },
+    {
+        "id": 4,
+        "name": "ROCK IPA",
+        "titleImg": "assets/img/beers/webp/rock_ipa.webp",
+        "persona": "MARÍA TERESA",
+        "category": "IPAs",
+        "style": "American IPA",
+        "abv": "6.2%",
+        "ibu": 50,
+        "srm: 6, "color": "bg-emerald-600", "img": "assets/img/beers/webp/lata_rock_ipa.webp", "detailImg": "assets/img/beers/webp/info_rock_ipa.webp", "tags": ["Cítrica", "Resinosa", "Intensa"] },{"id": 5,
+        "name": "SCOTTISH",
+        "titleImg": "assets/img/beers/webp/scottish.webp",
+        "persona": "MARIE",
+        "category": "Rojas",
+        "style": "Scottish Ale",
+        "abv": "5.0%",
+        "ibu": 20,
+        "srm": 15,
+        "color": "bg-purple-600",
+        "img": "assets/img/beers/webp/lata_scottish.webp",
+        "detailImg": "assets/img/beers/webp/info_scottish.webp",
+        "tags": [
+            "Maltosa",
+            "Caramelo",
+            "Cobriza"
+        ]
+    },
+    {
+        "id": 6,
+        "name": "STOUT",
+        "titleImg": "assets/img/beers/webp/stout.webp",
+        "persona": "AURA",
+        "category": "Negras",
+        "style": "Stout",
+        "abv": "6.0%",
+        "ibu": 25,
+        "srm: 32, "color": "bg-[#e07a5f
+        ]", "img": "assets/img/beers/webp/lata_stout.webp", "detailImg": "assets/img/beers/webp/info_stout.webp", "tags": ["Robusta", "Café", "Avena"] }
+    ]
