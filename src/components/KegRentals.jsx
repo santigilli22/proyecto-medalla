@@ -10,7 +10,7 @@ const KegRentals = () => {
     };
 
     return (
-        <section id="kegs" className="min-h-[100dvh] lg:h-[100dvh] flex flex-col justify-center relative overflow-hidden bg-slate-950 border-t border-slate-900 content-section reveal pt-[88px] pb-4 lg:pb-0">
+        <section id="kegs" className="min-h-[100dvh] lg:h-[100dvh] flex flex-col justify-center relative overflow-hidden bg-slate-950 border-t border-slate-900 content-section reveal pb-4 lg:pb-0">
             {/* Background Ambient Lighting */}
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-[100px] pointer-events-none"></div>
             <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-amber-600/5 rounded-full blur-[100px] pointer-events-none"></div>
@@ -43,7 +43,7 @@ const KegRentals = () => {
                                     lg:cursor-pointer
                                     ${isOpen
                                         ? 'lg:flex-[3] lg:bg-slate-800/60 lg:shadow-2xl lg:shadow-amber-900/20 border-amber-500/30'
-                                        : 'lg:flex-[1] lg:opacity-80'
+                                        : 'lg:flex-[1] lg:opacity-50'
                                     }
                                     ${isOpen ? 'bg-slate-800/40 border-amber-500/20 shadow-lg' : ''}
                                 `}

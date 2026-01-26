@@ -50,9 +50,11 @@ function App() {
 
     useEffect(() => {
         const handleScroll = () => {
-            // Hide detects if we are near bottom (Footer area)
-            const scrolledToBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 500; // 500px threshold for Footer
-            setHideFloating(scrolledToBottom);
+            // Hide if at top (Inicio/Hero) OR near bottom (Footer)
+            const isAtTop = window.scrollY < window.innerHeight * 0.5;
+            const scrolledToBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 500;
+
+            setHideFloating(isAtTop || scrolledToBottom);
         };
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
