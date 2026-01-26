@@ -1,6 +1,6 @@
-# Cervecería MEDALLA 🍺
-
-![Medalla Logo](public/assets/img/ui/logo_medalla.webp)
+<div align="center">
+  <img src="public/assets/img/ui/logo_medalla.webp" alt="Medalla Logo" width="300" />
+</div>
 
 Sitio web oficial de **Cervecería Medalla**, una fábrica de cerveza artesanal premium ubicada en Freyre, Córdoba. Este proyecto es una Single Page Application (SPA) moderna, rápida y responsiva diseñada para mostrar nuestras variedades, historia y puntos de venta.
 
@@ -16,12 +16,14 @@ Este proyecto está construido con un stack moderno enfocado en performance y ex
 
 ## ✨ Características Principales
 
+-   **Sommelier IA**: Asistente virtual flotante con lógica inteligente de visibilidad (se oculta en el inicio y footer).
 -   **Verificación de Edad**: Modal inicial para asegurar el cumplimiento legal (Age Gate).
 -   **Catálogo Interactivo**: Carrusel dinámico con nuestras variedades (Golden, Honey, Red IPA, Rock IPA, Scottish, Stout).
 -   **Localizador de Puntos de Venta**: Mapa integrado mostrando bares y comercios donde encontrar Medalla.
 -   **Agenda de Eventos**: Sección para próximos eventos y festivales.
 -   **Sección Educativa**: Información sobre el proceso de elaboración y alquiler de barriles.
 -   **Diseño Responsive**: Totalmente optimizado para móviles, tablets y escritorio.
+-   **Performance Optimizada**: Estrategias de Lazy Loading, Code Splitting y optimización de LCP para carga instantánea.
 -   **Activos Optimizados**: Imágenes servidas en formatos modernos (WebP) organizadas eficientemente.
 
 ## 📂 Estructura del Proyecto

@@ -50,6 +50,7 @@ const Hero = () => {
                         <img
                             src={logoMedalla}
                             alt="Medalla Brewing"
+                            fetchpriority="high"
                             className="w-48 md:w-64 lg:w-[450px] object-contain drop-shadow-[0_0_30px_rgba(245,158,11,0.2)] hover:scale-105 transition-transform duration-700 filter brightness-110"
                         />
                     </div>
