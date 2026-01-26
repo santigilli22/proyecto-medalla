@@ -1,6 +1,6 @@
 # Cervecería MEDALLA 🍺
 
-![Medalla Logo](public/assets/img//ui/logo_medalla.webp)
+![Medalla Logo](public/assets/img/ui/logo_medalla.webp)
 
 Sitio web oficial de **Cervecería Medalla**, una fábrica de cerveza artesanal premium ubicada en Freyre, Córdoba. Este proyecto es una Single Page Application (SPA) moderna, rápida y responsiva diseñada para mostrar nuestras variedades, historia y puntos de venta.
 
