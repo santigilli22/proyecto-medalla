@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import Icon from './Icon';
 import ModalPortal from './ui/ModalPortal';
-import { upcomingEvents, pastAlbums } from '../data/events';
+import { pastAlbums } from '../data/events';
+import { getEvents } from '../services/api';
 
 const EventsSchedule = () => {
 
+    const [upcomingEvents, setUpcomingEvents] = useState([]);
     const [selectedAlbum, setSelectedAlbum] = useState(null);
     const [selectedPhoto, setSelectedPhoto] = useState(null);
     const [selectedUpcoming, setSelectedUpcoming] = useState(null);
@@ -12,6 +14,30 @@ const EventsSchedule = () => {
     // Refs for carousels
     const upcomingRef = useRef(null);
     const galleryRef = useRef(null);
+
+    useEffect(() => {
+        getEvents().then(data => {
+            // Transform API events to UI format
+            const formatted = data.map(e => {
+                const dateObj = new Date(e.date);
+                const months = ["ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC"];
+                return {
+                    id: e._id, // Use Mongo ID
+                    day: dateObj.getDate(),
+                    month: months[dateObj.getMonth()],
+                    title: e.title,
+                    location: e.location?.name || '',
+                    time: dateObj.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }) + ' HS',
+                    description: e.description,
+                    link: e.calendarLink
+                };
+            });
+            setUpcomingEvents(formatted);
+        });
+    }, []);
+
+    // Refs for carousels
+    // (Already declared above)
 
     // Auto-scroll logic (Generic)
     useEffect(() => {

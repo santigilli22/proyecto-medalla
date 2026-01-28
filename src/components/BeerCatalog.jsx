@@ -1,11 +1,26 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Icon from './Icon';
 import ModalPortal from './ui/ModalPortal';
-import { beersData } from '../data/beers';
+import { getBeers } from '../services/api';
 
 const BeerCatalog = () => {
+    const [beers, setBeers] = useState([]);
     const [selected, setSelected] = useState(null);
     const [isClosing, setIsClosing] = useState(false);
+
+    useEffect(() => {
+        getBeers().then(data => {
+            // FIX: Add BASE_URL to images like in static files
+            const BASE = import.meta.env.BASE_URL;
+            const normalized = data.map(b => ({
+                ...b,
+                img: b.images?.main ? (b.images.main.startsWith('http') ? b.images.main : `${BASE}${b.images.main}`) : '',
+                detailImg: b.images?.detail ? (b.images.detail.startsWith('http') ? b.images.detail : `${BASE}${b.images.detail}`) : '',
+                titleImg: b.titleImg ? (b.titleImg.startsWith('http') ? b.titleImg : `${BASE}${b.titleImg}`) : ''
+            }));
+            setBeers(normalized);
+        });
+    }, []);
 
     const handleClose = () => {
         setIsClosing(true);
@@ -41,7 +56,7 @@ const BeerCatalog = () => {
                     */}
                     <div className="absolute inset-0 flex overflow-x-auto snap-x snap-mandatory items-stretch no-scrollbar lg:relative lg:grid lg:grid-cols-6 lg:overflow-visible lg:snap-none">
 
-                        {beersData.map((beer) => (
+                        {beers.map((beer) => (
                             <div
                                 key={beer.id}
                                 className="

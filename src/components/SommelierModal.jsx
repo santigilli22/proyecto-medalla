@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import Icon from './Icon';
 import ModalPortal from './ui/ModalPortal';
-import { beersData } from '../data/beers';
+import { recommendBeer } from '../services/api';
 
 const SommelierModal = ({ isOpen, onClose }) => {
     const [step, setStep] = useState(0);
     const [answers, setAnswers] = useState({});
     const [result, setResult] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const questions = [
         {
@@ -47,31 +48,17 @@ const SommelierModal = ({ isOpen, onClose }) => {
         }
     ];
 
-    const handleAnswer = (key, val) => {
+    const handleAnswer = async (key, val) => {
         const newAnswers = { ...answers, [key]: val };
         setAnswers(newAnswers);
 
         if (step < questions.length - 1) {
             setStep(step + 1);
         } else {
-            // Lógica de recomendación simple
-            let matchId = 1;
-            // ... (Lógica igual que antes, simplificada visualmente)
-            if (newAnswers.bitterness === 'high') {
-                if (newAnswers.color === 'dark' || newAnswers.intensity === 'heavy') matchId = 3; // Red IPA / Rock IPA logic approx
-                else matchId = 4;
-            } else {
-                if (newAnswers.color === 'blonde') {
-                    if (newAnswers.sweetness === 'sweet') matchId = 2; // Honey
-                    else matchId = 1; // Golden
-                } else {
-                    if (newAnswers.sweetness === 'sweet' || newAnswers.intensity === 'heavy') matchId = 5; // Scottish
-                    else matchId = 6; // Stout
-                }
-            }
-            // Mapeo manual rápido para demo o usar lógica real si es compleja
-            // Usamos lógica real aproximada arriba
-            setResult(beersData.find(b => b.id === matchId) || beersData[0]);
+            setLoading(true);
+            const recommendation = await recommendBeer(newAnswers);
+            setResult(recommendation);
+            setLoading(false);
         }
     };
 
@@ -108,29 +95,38 @@ const SommelierModal = ({ isOpen, onClose }) => {
 
                         {!result ? (
                             <div className="animate-slideUp flex flex-col items-center w-full">
-                                {/* Progress Bar */}
-                                <div className="w-full flex gap-2 mb-8 justify-center">
-                                    {questions.map((_, i) => (
-                                        <div key={i} className={`h-1.5 rounded-full flex-1 transition-all duration-500 ${step >= i ? 'bg-amber-500' : 'bg-slate-700'}`}></div>
-                                    ))}
-                                </div>
+                                {loading ? (
+                                    <div className="flex flex-col items-center justify-center p-12">
+                                        <div className="w-16 h-16 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+                                        <p className="text-white text-lg animate-pulse">Analizando tus gustos...</p>
+                                    </div>
+                                ) : (
+                                    <>
+                                        {/* Progress Bar */}
+                                        <div className="w-full flex gap-2 mb-8 justify-center">
+                                            {questions.map((_, i) => (
+                                                <div key={i} className={`h-1.5 rounded-full flex-1 transition-all duration-500 ${step >= i ? 'bg-amber-500' : 'bg-slate-700'}`}></div>
+                                            ))}
+                                        </div>
 
-                                <h3 className="text-2xl font-bold text-white text-center mb-8">{questions[step].text}</h3>
+                                        <h3 className="text-2xl font-bold text-white text-center mb-8">{questions[step].text}</h3>
 
-                                <div className="grid grid-cols-1 gap-4 w-full">
-                                    {questions[step].options.map((opt, idx) => (
-                                        <button
-                                            key={idx}
-                                            onClick={() => handleAnswer(questions[step].id, opt.val)}
-                                            className="group relative flex items-center justify-between p-6 bg-slate-800/50 border border-slate-700 rounded-2xl hover:border-amber-500 hover:bg-slate-800 transition-all hover:shadow-[0_0_20px_rgba(245,158,11,0.1)] active:scale-[0.98]"
-                                        >
-                                            <span className="text-lg font-medium text-slate-200 group-hover:text-white">{opt.label}</span>
-                                            <div className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-slate-500 group-hover:text-amber-500 group-hover:bg-amber-500/10 transition-colors">
-                                                <Icon name="ChevronRight" size={20} />
-                                            </div>
-                                        </button>
-                                    ))}
-                                </div>
+                                        <div className="grid grid-cols-1 gap-4 w-full">
+                                            {questions[step].options.map((opt, idx) => (
+                                                <button
+                                                    key={idx}
+                                                    onClick={() => handleAnswer(questions[step].id, opt.val)}
+                                                    className="group relative flex items-center justify-between p-6 bg-slate-800/50 border border-slate-700 rounded-2xl hover:border-amber-500 hover:bg-slate-800 transition-all hover:shadow-[0_0_20px_rgba(245,158,11,0.1)] active:scale-[0.98]"
+                                                >
+                                                    <span className="text-lg font-medium text-slate-200 group-hover:text-white">{opt.label}</span>
+                                                    <div className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-slate-500 group-hover:text-amber-500 group-hover:bg-amber-500/10 transition-colors">
+                                                        <Icon name="ChevronRight" size={20} />
+                                                    </div>
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         ) : (
                             <div className="animate-zoomIn text-center flex flex-col items-center">

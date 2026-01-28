@@ -14,9 +14,19 @@ L.Icon.Default.mergeOptions({
 });
 
 const PartnersMap = ({ partners, onMarkerClick }) => {
+
+    // Helper to get coordinates regardless of format (API or Legacy)
+    const getCoords = (p) => {
+        if (p.location && p.location.coordinates) {
+            // GeoJSON is [lng, lat]
+            return [p.location.coordinates[1], p.location.coordinates[0]];
+        }
+        return [p.lat, p.lng];
+    };
+
     // Default center (Córdoba region approx) or calculated from first partner
     const defaultCenter = partners.length > 0
-        ? [partners[0].lat, partners[0].lng]
+        ? getCoords(partners[0])
         : [-31.4201, -64.1888];
 
     return (
@@ -48,7 +58,7 @@ const PartnersMap = ({ partners, onMarkerClick }) => {
                     return (
                         <Marker
                             key={idx}
-                            position={[partner.lat, partner.lng]}
+                            position={getCoords(partner)}
                             icon={customIcon}
                             eventHandlers={{
                                 click: () => onMarkerClick && onMarkerClick(partner)

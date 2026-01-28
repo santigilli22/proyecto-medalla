@@ -46,12 +46,12 @@ function App() {
     };
 
     const [isSommelierOpen, setIsSommelierOpen] = useState(false);
-    const [hideFloating, setHideFloating] = useState(false);
+    const [hideFloating, setHideFloating] = useState(true);
 
     useEffect(() => {
         const handleScroll = () => {
             // Hide if at top (Inicio/Hero) OR near bottom (Footer)
-            const isAtTop = window.scrollY < window.innerHeight * 0.5;
+            const isAtTop = window.scrollY < 100;
             const scrolledToBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 500;
 
             setHideFloating(isAtTop || scrolledToBottom);

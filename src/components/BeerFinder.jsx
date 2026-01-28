@@ -1,30 +1,56 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Icon from './Icon';
 import ModalPortal from './ui/ModalPortal';
-import { partnersData } from '../data/partners';
+import { getPartners } from '../services/api';
 
 import PartnersMap from './PartnersMap';
 
 const BeerFinder = () => {
+    const [partners, setPartners] = useState([]);
     const [filter, setFilter] = useState('all');
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedLocation, setSelectedLocation] = useState(null);
     const [currentIndex, setCurrentIndex] = useState(0);
 
+    useEffect(() => {
+        getPartners().then(data => {
+            // Normalize data for UI compatibility
+            const normalized = data.map(p => ({
+                ...p,
+                // Ensure lat/lng exist for Map and Links
+                lat: p.location?.coordinates?.[1] || 0,
+                lng: p.location?.coordinates?.[0] || 0,
+                // UI expects location as a string "City, Province"
+                location: p.locationDetails ? `${p.locationDetails.city}, ${p.locationDetails.province}` : (typeof p.location === 'string' ? p.location : ''),
+                address: p.locationDetails?.address || p.address,
+                // Flatten contact
+                phone: p.contact?.phone || p.phone,
+                instagram: p.contact?.instagram || p.instagram,
+                facebook: p.contact?.website || p.facebook, // Mapping website to facebook slot or generic
+                web: p.contact?.website || p.web
+            }));
+            setPartners(normalized);
+        });
+    }, []);
+
     // Fallback logo genérico si no tiene uno específico
     const getLogo = (partner) => partner.logo || `${import.meta.env.BASE_URL}assets/img/ui/logo_medalla.webp`;
 
     const filteredPartners = useMemo(() => {
-        return partnersData.filter(p => {
+        return partners.filter(p => {
             const typeLower = p.type.toLowerCase();
             const filterLower = filter.toLowerCase();
             const matchesType = filter === 'all' || typeLower.includes(filterLower) || (filter === 'restaurante' && typeLower.includes('resto'));
+            // Check if location is string or object (from API)
+            const locationString = typeof p.location === 'string' ? p.location : (p.locationDetails?.city || '');
+            const addressString = p.locationDetails?.address || p.address || '';
+
             const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                p.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                p.address.toLowerCase().includes(searchTerm.toLowerCase());
+                locationString.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                addressString.toLowerCase().includes(searchTerm.toLowerCase());
             return matchesType && matchesSearch;
         });
-    }, [filter, searchTerm]);
+    }, [partners, filter, searchTerm]);
 
     return (
         <section id="locator" className="bg-[#0B0F19] content-section reveal pt-24 md:pt-28 flex flex-col h-screen overflow-hidden relative">
@@ -45,7 +71,7 @@ const BeerFinder = () => {
                             <Icon name="Map" size={32} className="text-amber-500" />
                         </div>
                         <div>
-                            <h2 className="text-3xl md:text-5xl font-bold text-white brand-font tracking-wide">PUNTOS DE <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">ENCUENTRO</span></h2>
+                            <h2 className="text-3xl md:text-5xl font-bold text-white brand-font tracking-wide">PUNTOS DE <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">VENTA</span></h2>
                             <p className="text-slate-400 text-sm mt-2">Encontrá tu Medalla en nuestra red de partners oficiales.</p>
                         </div>
                     </div>
@@ -166,36 +192,36 @@ const BeerFinder = () => {
                 </div>
             </div>
 
-            {/* Modal Detallado (Preserved) */}
+            {/* Modal Detallado */}
             {selectedLocation && (
                 <ModalPortal>
                     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn" onClick={() => setSelectedLocation(null)}>
-                        {/* Modal Container: h-[90vh] on mobile/tablet, auto on desktop */}
-                        <div className="bg-slate-950 border border-slate-800 rounded-3xl w-full max-w-2xl lg:max-w-5xl max-h-[90vh] lg:h-auto lg:min-h-[500px] relative shadow-2xl overflow-hidden flex flex-col lg:flex-row animate-scaleIn" onClick={e => e.stopPropagation()}>
+                        {/* Modal Container: Adjusted for mobile to be fuller height and flex-col */}
+                        <div className="bg-slate-950 border border-slate-800 rounded-3xl w-full max-w-2xl lg:max-w-5xl h-[85vh] lg:h-auto lg:min-h-[500px] relative shadow-2xl overflow-hidden flex flex-col lg:flex-row animate-scaleIn" onClick={e => e.stopPropagation()}>
 
                             {/* Close Button */}
                             <button onClick={() => setSelectedLocation(null)} className="absolute top-4 right-4 z-50 bg-black/50 text-white p-2 rounded-full hover:bg-rose-600 transition-colors pointer-events-auto">
                                 <Icon name="X" size={20} />
                             </button>
 
-                            {/* Left: Info & Branding - Scrollable on mobile */}
-                            <div className="lg:w-1/2 p-6 md:p-8 flex flex-col relative overflow-y-auto flex-1 bg-slate-900/50">
+                            {/* Left: Info & Branding */}
+                            <div className="lg:w-1/2 p-6 md:p-8 flex flex-col relative shrink-0 bg-slate-900/50">
                                 <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #fbbf24 1px, transparent 1px)', backgroundSize: '16px 16px' }}></div>
 
                                 {/* Header */}
-                                <div className="flex items-center gap-6 mb-8 shrink-0">
-                                    <div className="w-24 h-24 bg-slate-900 rounded-2xl border border-slate-800 flex items-center justify-center shadow-lg shrink-0 p-2">
+                                <div className="flex items-center gap-4 lg:gap-6 mb-4 lg:mb-8 shrink-0">
+                                    <div className="w-16 h-16 lg:w-24 lg:h-24 bg-slate-900 rounded-2xl border border-slate-800 flex items-center justify-center shadow-lg shrink-0 p-2">
                                         <img src={getLogo(selectedLocation)} alt={selectedLocation.name} className="w-full h-full object-contain" />
                                     </div>
                                     <div>
                                         <span className="text-amber-500 text-xs font-bold uppercase tracking-widest block mb-1">{selectedLocation.type}</span>
-                                        <h3 className="text-2xl md:text-3xl font-bold text-white leading-tight brand-font">{selectedLocation.name}</h3>
-                                        <p className="text-slate-400 text-sm">{selectedLocation.location}</p>
+                                        <h3 className="text-xl lg:text-3xl font-bold text-white leading-tight brand-font">{selectedLocation.name}</h3>
+                                        <p className="text-slate-400 text-xs lg:text-sm">{selectedLocation.location}</p>
                                     </div>
                                 </div>
 
-                                {/* Body Info */}
-                                <div className="space-y-6 text-sm text-slate-300 flex-1">
+                                {/* Desktop Information (Text) - Hidden on Mobile */}
+                                <div className="hidden lg:block space-y-6 text-sm text-slate-300 flex-1">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-1">
                                             <p className="text-white font-bold flex items-center gap-2 mb-2"><Icon name="MapPin" size={16} className="text-amber-500" /> Dirección</p>
@@ -207,7 +233,7 @@ const BeerFinder = () => {
                                         </div>
                                     </div>
 
-                                    {/* Socials */}
+                                    {/* Socials Desktop */}
                                     <div className="pt-2">
                                         <p className="text-white font-bold flex items-center gap-2 mb-3"><Icon name="Share2" size={16} className="text-amber-500" /> Redes Sociales</p>
                                         <div className="flex flex-wrap gap-3">
@@ -259,19 +285,90 @@ const BeerFinder = () => {
                                     </div>
                                 </div>
 
-                                {/* Footer: Stock */}
-                                <div className="mt-8 pt-6 border-t border-slate-800 shrink-0">
-                                    <p className="text-xs text-slate-500 mb-3 uppercase tracking-wider font-bold">Disponibilidad / Variedades</p>
-                                    <div className="flex flex-wrap gap-2">
-                                        {selectedLocation.varieties.map((v, i) => (
-                                            <span key={i} className="px-3 py-1.5 bg-slate-950 border border-slate-800 rounded-md text-xs font-bold text-slate-400 hover:text-white hover:border-amber-500/30 transition-colors cursor-default">{v}</span>
-                                        ))}
-                                    </div>
+                                {/* Mobile Icon Action Bar - Hidden on Desktop */}
+                                <div className="lg:hidden flex items-center justify-around gap-2 mt-2 pb-2 border-b border-slate-800/50">
+                                    <button
+                                        onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${selectedLocation.lat},${selectedLocation.lng}`, '_blank')}
+                                        className="flex flex-col items-center gap-1 text-slate-400 hover:text-amber-500 transition-colors"
+                                    >
+                                        <div className="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-amber-500 shadow-lg">
+                                            <Icon name="Navigation" size={24} />
+                                        </div>
+                                        <span className="text-[10px] uppercase font-bold tracking-wider">Ir</span>
+                                    </button>
+
+                                    {selectedLocation.phone && (
+                                        <a
+                                            href={`tel:${selectedLocation.phone}`}
+                                            className="flex flex-col items-center gap-1 text-slate-400 hover:text-white transition-colors"
+                                        >
+                                            <div className="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 shadow-lg">
+                                                <Icon name="Phone" size={24} />
+                                            </div>
+                                            <span className="text-[10px] uppercase font-bold tracking-wider">Llamar</span>
+                                        </a>
+                                    )}
+
+                                    {selectedLocation.phone && (
+                                        <a
+                                            href={`https://wa.me/${selectedLocation.phone.replace(/[^0-9]/g, '')}`}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="flex flex-col items-center gap-1 text-slate-400 hover:text-[#25D366] transition-colors"
+                                        >
+                                            <div className="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:text-[#25D366] shadow-lg">
+                                                <Icon name="MessageCircle" size={24} />
+                                            </div>
+                                            <span className="text-[10px] uppercase font-bold tracking-wider">Wsp</span>
+                                        </a>
+                                    )}
+
+                                    {selectedLocation.instagram && (
+                                        <a
+                                            href={`https://instagram.com/${selectedLocation.instagram.replace('@', '')}`}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="flex flex-col items-center gap-1 text-slate-400 hover:text-[#E1306C] transition-colors"
+                                        >
+                                            <div className="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:text-[#E1306C] shadow-lg">
+                                                <Icon name="Instagram" size={24} />
+                                            </div>
+                                            <span className="text-[10px] uppercase font-bold tracking-wider">Insta</span>
+                                        </a>
+                                    )}
+
+                                    {selectedLocation.facebook && (
+                                        <a
+                                            href={`https://facebook.com/${selectedLocation.facebook}`}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="flex flex-col items-center gap-1 text-slate-400 hover:text-[#1877F2] transition-colors"
+                                        >
+                                            <div className="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:text-[#1877F2] shadow-lg">
+                                                <Icon name="Facebook" size={24} />
+                                            </div>
+                                            <span className="text-[10px] uppercase font-bold tracking-wider">Face</span>
+                                        </a>
+                                    )}
+
+                                    {selectedLocation.web && (
+                                        <a
+                                            href={selectedLocation.web}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="flex flex-col items-center gap-1 text-slate-400 hover:text-emerald-500 transition-colors"
+                                        >
+                                            <div className="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:text-emerald-500 shadow-lg">
+                                                <Icon name="Globe" size={24} />
+                                            </div>
+                                            <span className="text-[10px] uppercase font-bold tracking-wider">Web</span>
+                                        </a>
+                                    )}
                                 </div>
                             </div>
 
-                            {/* Right: Map Embed Image - Fixed height on mobile */}
-                            <div className="lg:w-1/2 bg-slate-900 relative h-40 md:h-56 lg:h-auto lg:min-h-full shrink-0">
+                            {/* Right: Map Embed Image */}
+                            <div className="flex-1 lg:w-1/2 bg-slate-900 relative min-h-0 lg:min-h-full shrink-0">
                                 <div className="absolute inset-0 z-0">
                                     <iframe
                                         width="100%"
@@ -283,7 +380,7 @@ const BeerFinder = () => {
                                     ></iframe>
                                     <div className="absolute inset-0 bg-amber-500/10 pointer-events-none mix-blend-overlay"></div>
                                 </div>
-                                <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent">
+                                <div className="hidden lg:flex absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent">
                                     <button
                                         onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${selectedLocation.lat},${selectedLocation.lng}`, '_blank')}
                                         className="w-full py-4 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold rounded-xl shadow-lg transition-transform hover:-translate-y-1 flex items-center justify-center gap-2 uppercase tracking-widest text-sm"
