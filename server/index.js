@@ -7,6 +7,11 @@ import partnersRoutes from './routes/partners.js';
 import beersRoutes from './routes/beers.js';
 import sommelierRoutes from './routes/sommelier.js';
 import eventsRoutes from './routes/events.js';
+import kegsRoutes from './routes/kegs.js';
+import rentalsRoutes from './routes/rentals.js';
+import authRoutes from './routes/auth.js';
+import customerRoutes from './routes/customers.js'; // CRM Integration
+import analyticsRoutes from './routes/analytics.js';
 
 dotenv.config();
 
@@ -21,6 +26,11 @@ app.use('/api/partners', partnersRoutes);
 app.use('/api/beers', beersRoutes);
 app.use('/api/sommelier', sommelierRoutes);
 app.use('/api/events', eventsRoutes);
+app.use('/api/kegs', kegsRoutes);
+app.use('/api/rentals', rentalsRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/customers', customerRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 // Basic Route
 app.get('/', (req, res) => {

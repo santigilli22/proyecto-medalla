@@ -19,8 +19,9 @@ const PartnerSchema = new mongoose.Schema({
     contact: {
         phone: String,
         instagram: String,
-        website: String,
-        mail: String
+        facebook: String,
+        mail: String,
+        website: String
     },
     features: [String],
     varieties: [String],

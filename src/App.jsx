@@ -1,5 +1,5 @@
 import { useState, useEffect, Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useScrollReveal } from './hooks/useScrollReveal';
 
 // UI & Overlays
@@ -16,6 +16,8 @@ const Home = lazy(() => import('./pages/Home'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const Forbidden = lazy(() => import('./pages/Forbidden'));
 const Maintenance = lazy(() => import('./pages/Maintenance'));
+const AdminLogin = lazy(() => import('./pages/AdminLogin'));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 import ErrorBoundary from './components/ErrorBoundary';
 
 // Loading Fallback Component
@@ -28,7 +30,10 @@ const PageLoader = () => (
     </div>
 );
 
-function App() {
+function AppContent() {
+    const location = useLocation();
+    const isAdmin = location.pathname.startsWith('/admin');
+
     const [ageVerified, setAgeVerified] = useState(() => {
         try {
             const expiry = window.localStorage.getItem('medalla_age_verified_expiry');
@@ -62,36 +67,49 @@ function App() {
 
     useScrollReveal();
 
+    // If admin, treat as verified for blur purposes
+    const isViewVisible = ageVerified || isAdmin;
+
     return (
-        <Router basename={import.meta.env.BASE_URL}>
-            <ErrorBoundary>
-                <div className="min-h-screen flex flex-col relative bg-slate-900 text-white">
-                    <OfflineNotice />
+        <ErrorBoundary>
+            <div className="min-h-screen flex flex-col relative bg-slate-900 text-white">
+                <OfflineNotice />
 
-                    {!ageVerified && <AgeGate onVerify={handleVerify} />}
+                {!isAdmin && !ageVerified && <AgeGate onVerify={handleVerify} />}
 
-                    {ageVerified && <SommelierButton onOpen={() => setIsSommelierOpen(true)} hidden={hideFloating} />}
+                {!isAdmin && ageVerified && <SommelierButton onOpen={() => setIsSommelierOpen(true)} hidden={hideFloating} />}
 
+                {!isAdmin && (
                     <SommelierModal
                         isOpen={isSommelierOpen}
                         onClose={() => setIsSommelierOpen(false)}
                     />
+                )}
 
-                    <div className={`blur-transition transition-all duration-500 ${ageVerified ? "filter-none" : "blur-xl pointer-events-none h-screen overflow-hidden"}`}>
-                        <BubbleCursor />
-                        <ScrollProgressBeer hidden={hideFloating} />
+                <div className={`blur-transition transition-all duration-500 ${isViewVisible ? "filter-none" : "blur-xl pointer-events-none h-screen overflow-hidden"}`}>
+                    <BubbleCursor />
+                    {!isAdmin && <ScrollProgressBeer hidden={hideFloating} />}
 
-                        <Suspense fallback={<PageLoader />}>
-                            <Routes>
-                                <Route path="/" element={<Home />} />
-                                <Route path="/403" element={<Forbidden />} />
-                                <Route path="/503" element={<Maintenance />} />
-                                <Route path="*" element={<NotFound />} />
-                            </Routes>
-                        </Suspense>
-                    </div>
+                    <Suspense fallback={<PageLoader />}>
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/admin" element={<AdminLogin />} />
+                            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                            <Route path="/403" element={<Forbidden />} />
+                            <Route path="/503" element={<Maintenance />} />
+                            <Route path="*" element={<NotFound />} />
+                        </Routes>
+                    </Suspense>
                 </div>
-            </ErrorBoundary>
+            </div>
+        </ErrorBoundary>
+    );
+}
+
+function App() {
+    return (
+        <Router basename={import.meta.env.BASE_URL}>
+            <AppContent />
         </Router>
     );
 }

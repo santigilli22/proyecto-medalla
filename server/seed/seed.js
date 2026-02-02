@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import Partner from '../models/Partner.js';
 import Beer from '../models/Beer.js';
 import Event from '../models/Event.js';
+import Keg from '../models/Keg.js';
 import { partnersData, beersData, eventsData } from './data.js';
 
 dotenv.config();
@@ -97,6 +98,61 @@ const seedDB = async () => {
         }));
         await Event.insertMany(events);
         console.log(`Seeded ${events.length} events.`);
+
+        // Transform and Insert Kegs
+        // We import kegsData dynamically or just copy the structure here since it's static in the frontend file
+        // For simplicity, let's just define the initial data here based on what we saw in the file, 
+        // OR better yet, let's update the import at the top to import kegsData if possible.
+        // Since kegsData.js has 'export const kegsData', we can import it.
+        // NOTE: The previous view of seed.js didn't show importing kegsData.
+        // I will add the import in a separate replace call or just hardcode the initial data here.
+        // Let's hardcode for stability as the frontend file uses import.meta.env which might fail in Node context without tweaking.
+
+        await Keg.deleteMany({});
+        const kegs = [
+            {
+                size: "10 Litros",
+                serves: "~20 Pintas",
+                ideal: "Pequeñas Reuniones",
+                price: "Consultar",
+                iconSize: 48,
+                stock: 100,
+                img: "assets/img/kegs/keg_10l_celebration.webp",
+                description: "Ideal para una cena con amigos cercanos o una previa antes de salir. La medida justa para disfrutar de una buena cerveza tirada sin excesos."
+            },
+            {
+                size: "20 Litros",
+                serves: "~40 Pintas",
+                ideal: "Cumpleaños y Asados",
+                price: "Consultar",
+                iconSize: 56,
+                stock: 50,
+                img: "assets/img/kegs/keg_20l_celebration.webp",
+                description: "El clásico de los fines de semana. Perfecto para cumpleaños en casa, asados familiares o esas juntadas que se extienden hasta tarde."
+            },
+            {
+                size: "30 Litros",
+                serves: "~60 Pintas",
+                ideal: "Eventos Medianos",
+                price: "Consultar",
+                iconSize: 60,
+                stock: 35,
+                img: "assets/img/kegs/keg_30l_celebration.webp",
+                description: "Cuando la convocatoria supera lo habitual. Excelente para despedidas, recibidas o reuniones donde la sed es protagonista y nadie quiere quedarse corto."
+            },
+            {
+                size: "50 Litros",
+                serves: "~100 Pintas",
+                ideal: "Grandes Eventos",
+                price: "Consultar",
+                iconSize: 64,
+                stock: 20,
+                img: "assets/img/kegs/keg_50l_celebration.webp",
+                description: "Pensado para casamientos, fiestas corporativas o festivales. La solución definitiva para abastecer a una multitud y asegurar el éxito del evento."
+            }
+        ];
+        await Keg.insertMany(kegs);
+        console.log(`Seeded ${kegs.length} kegs.`);
 
         mongoose.connection.close();
         console.log('Done!');

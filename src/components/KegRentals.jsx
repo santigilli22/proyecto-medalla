@@ -1,9 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Icon from './Icon';
-import { kegsData } from '../data/kegs';
+import { getKegs } from '../services/api';
 
 const KegRentals = () => {
+    const [kegs, setKegs] = useState([]);
     const [openIndex, setOpenIndex] = useState(-1);
+
+    useEffect(() => {
+        const fetchKegs = async () => {
+            const data = await getKegs();
+            // Ensure data is array and sort by size (approximated by serves for now or just trust backend order)
+            if (Array.isArray(data)) setKegs(data);
+        };
+        fetchKegs();
+    }, []);
 
     const toggleAccordion = (index) => {
         setOpenIndex(openIndex === index ? -1 : index);
@@ -29,12 +39,12 @@ const KegRentals = () => {
 
                 {/* Kegs Container: Flex Column (Mobile/Tablet) | Horizontal Flex Deck (Desktop) */}
                 <div className="flex flex-col lg:flex-row gap-4 lg:gap-4 flex-1 min-h-0 lg:items-stretch lg:justify-center">
-                    {kegsData.map((keg, idx) => {
+                    {kegs.map((keg, idx) => {
                         const isOpen = openIndex === idx;
 
                         return (
                             <div
-                                key={idx}
+                                key={keg._id || idx}
                                 onClick={() => window.innerWidth < 1024 ? toggleAccordion(idx) : setOpenIndex(idx)}
                                 onMouseEnter={() => window.innerWidth >= 1024 && setOpenIndex(idx)}
                                 onMouseLeave={() => window.innerWidth >= 1024 && setOpenIndex(-1)}
@@ -53,11 +63,13 @@ const KegRentals = () => {
 
                                 {/* Background Image for Deck (Visible) */}
                                 <div className="absolute inset-0 z-0 overflow-hidden">
-                                    <img
-                                        src={keg.img}
-                                        alt=""
-                                        className={`w-full h-full object-cover lg:w-auto lg:max-w-none lg:min-w-full lg:absolute lg:left-1/2 lg:-translate-x-1/2 transition-opacity duration-700 ${isOpen ? 'opacity-10 lg:opacity-20 blur-sm' : 'opacity-40 lg:opacity-60 grayscale hover:grayscale-0'}`}
-                                    />
+                                    {keg.img && (
+                                        <img
+                                            src={keg.img.startsWith('http') ? keg.img : `${import.meta.env.BASE_URL}${keg.img.replace(/^\//, '')}`}
+                                            alt={keg.size}
+                                            className={`w-full h-full object-cover lg:w-auto lg:max-w-none lg:min-w-full lg:absolute lg:left-1/2 lg:-translate-x-1/2 transition-opacity duration-700 ${isOpen ? 'opacity-10 lg:opacity-20 blur-sm' : 'opacity-40 lg:opacity-60 grayscale hover:grayscale-0'}`}
+                                        />
+                                    )}
                                     <div className="absolute inset-0"></div>
                                 </div>
 

@@ -35,3 +35,41 @@ export const getPartnersNear = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+
+// Admin Methods
+export const getAllPartnersAdmin = async (req, res) => {
+    try {
+        const partners = await Partner.find({}).sort({ createdAt: -1 });
+        res.json(partners);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+export const createPartner = async (req, res) => {
+    try {
+        const partner = new Partner(req.body);
+        const newPartner = await partner.save();
+        res.status(201).json(newPartner);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+};
+
+export const updatePartner = async (req, res) => {
+    try {
+        const updatedPartner = await Partner.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.json(updatedPartner);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+};
+
+export const deletePartner = async (req, res) => {
+    try {
+        await Partner.findByIdAndDelete(req.params.id);
+        res.json({ message: 'Partner deleted' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
